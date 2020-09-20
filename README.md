@@ -1,2 +1,2 @@
 # Monopoly
-best monopoly ever
+Monopoly project for Software Engineering class Fall 2020
