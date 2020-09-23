@@ -1,18 +1,12 @@
 package team2.board;
 
-public abstract class Assest extends Square {
+public abstract class Asset extends Square {
 	private int purchasePrice;
 	private int rentPrice;
-	final private COLOR color;
 	private Participant owner;
 	
-	public Assest(int position, COLOR color) {
+	public Asset(int position) {
 		super(position);
-		this.color = color;
-	}
-	
-	public Assest(int position) {
-		this(position, null);
 	}
 
 	public int getPurchasePrice() {
@@ -30,7 +24,7 @@ public abstract class Assest extends Square {
 	public void setRentPrice(int rentPrice) {
 		this.rentPrice = rentPrice;
 	}
-
+	
 	public Participant getOwner() {
 		return owner;
 	}
@@ -38,8 +32,5 @@ public abstract class Assest extends Square {
 	public void setOwner(Participant owner) {
 		this.owner = owner;
 	}
-	
-	public COLOR getColor() {
-		return color;
-	}
+
 }

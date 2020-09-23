@@ -11,145 +11,229 @@ public class MonopolyBoard {
 	}
 	
 	private void initializeSquares() {
-		StreetProperty istanbul = new StreetProperty(1, COLOR.RED);
-		istanbul.setName("istanbul");
+		Start start = new Start(0);
+		start.setName("Start");
+		squareCollections.add(start);
+		
+		CityProperty istanbul = new CityProperty(1, COLOR.RED);
+		istanbul.setName("Istanbul");
 		istanbul.setRentPrice(80);
 		istanbul.setPurchasePrice(1500);	
 		squareCollections.add(istanbul);
 		
-		StreetProperty athens = new StreetProperty(3, COLOR.RED);
-		athens.setName("athens");
+		Lottery lottery = new Lottery(2);
+		lottery.setName("Lottery");
+		squareCollections.add(lottery);
+		
+		CityProperty athens = new CityProperty(3, COLOR.RED);
+		athens.setName("Athens");
 		athens.setRentPrice(100);
 		athens.setPurchasePrice(1500);
 		squareCollections.add(athens);
 		
-		StreetProperty rome = new StreetProperty(6, COLOR.ORANGE);
-		rome.setName("rome");
+		Tax local = new Tax(4);
+		local.setName("Local Tax");
+		squareCollections.add(local);
+		
+		Airport fiumicino = new Airport(5);
+		fiumicino.setName("Fiumicino");
+		fiumicino.setRentPrice(600);
+		fiumicino.setPurchasePrice(5000);
+		squareCollections.add(fiumicino);
+		
+		CityProperty rome = new CityProperty(6, COLOR.ORANGE);
+		rome.setName("Rome");
 		rome.setRentPrice(150);
 		rome.setPurchasePrice(2500);
 		squareCollections.add(rome);
 		
-		StreetProperty venice = new StreetProperty(8, COLOR.ORANGE);
-		venice.setName("venice");
+		Casino casino = new Casino(7);
+		casino.setName("Casino");
+		squareCollections.add(casino);
+		
+		CityProperty venice = new CityProperty(8, COLOR.ORANGE);
+		venice.setName("Venice");
 		venice.setRentPrice(150);
 		venice.setPurchasePrice(2500);
 		squareCollections.add(venice);
 		
-		StreetProperty milan = new StreetProperty(9, COLOR.ORANGE);
-		milan.setName("milan");
+		CityProperty milan = new CityProperty(9, COLOR.ORANGE);
+		milan.setName("Milan");
 		milan.setRentPrice(200);
 		milan.setPurchasePrice(3000);
 		squareCollections.add(milan);
 		
-		StreetProperty barcelona = new StreetProperty(11, COLOR.YELLOW);
-		barcelona.setName("barcelona");
+		Utilities mortorway = new Utilities(10);
+		mortorway.setName("Motorway");
+		mortorway.setRentPrice(100);
+		mortorway.setPurchasePrice(4000);
+		squareCollections.add(mortorway);
+		
+		CityProperty barcelona = new CityProperty(11, COLOR.YELLOW);
+		barcelona.setName("Barcelona");
 		barcelona.setRentPrice(250);
 		barcelona.setPurchasePrice(3500);
 		squareCollections.add(barcelona);
 		
-		StreetProperty seville = new StreetProperty(13, COLOR.YELLOW);
-		seville.setName("seville");
+		Jail jail = new Jail(12);
+		jail.setName("Jail");
+		squareCollections.add(jail);
+		
+		CityProperty seville = new CityProperty(13, COLOR.YELLOW);
+		seville.setName("Seville");
 		seville.setRentPrice(250);
 		seville.setPurchasePrice(3500);
 		squareCollections.add(seville);
 		
-		StreetProperty madrid = new StreetProperty(14, COLOR.YELLOW);
-		madrid.setName("madrid");
+		CityProperty madrid = new CityProperty(14, COLOR.YELLOW);
+		madrid.setName("Madrid");
 		madrid.setRentPrice(300);
 		madrid.setPurchasePrice(4000);
 		squareCollections.add(madrid);
 		
-		StreetProperty bordeaux = new StreetProperty(16, COLOR.PINK);
-		bordeaux.setName("bordeaux");
+		Airport barajas = new Airport(15);
+		barajas.setName("Barajas");
+		barajas.setRentPrice(600);
+		barajas.setPurchasePrice(5000);
+		squareCollections.add(barajas);
+		
+		CityProperty bordeaux = new CityProperty(16, COLOR.PINK);
+		bordeaux.setName("Bordeaux");
 		bordeaux.setRentPrice(350);
 		bordeaux.setPurchasePrice(4500);
 		squareCollections.add(bordeaux);
 		
-		StreetProperty lyon = new StreetProperty(18, COLOR.PINK);
-		lyon.setName("lyon");
+		Lottery lottery2 = new Lottery(17);
+		lottery2.setName("Lottery2");
+		squareCollections.add(lottery2);
+		
+		CityProperty lyon = new CityProperty(18, COLOR.PINK);
+		lyon.setName("Lyon");
 		lyon.setRentPrice(350);
 		lyon.setPurchasePrice(4500);
 		squareCollections.add(lyon);
 		
-		StreetProperty paris = new StreetProperty(19, COLOR.PINK);
-		paris.setName("paris");
+		CityProperty paris = new CityProperty(19, COLOR.PINK);
+		paris.setName("Paris");
 		paris.setRentPrice(400);
 		paris.setPurchasePrice(5000);
 		squareCollections.add(paris);
 		
-		StreetProperty london = new StreetProperty(21, COLOR.GREEN);
-		london.setName("london");
+		Vacation vacation = new Vacation(20);
+		vacation.setName("Vacation");
+		squareCollections.add(vacation);
+		
+		CityProperty london = new CityProperty(21, COLOR.GREEN);
+		london.setName("London");
 		london.setRentPrice(450);
 		london.setPurchasePrice(5500);
 		squareCollections.add(london);
 		
-		StreetProperty brussels = new StreetProperty(23, COLOR.GREEN);
-		brussels.setName("brussels");
+		Casino casino2 = new Casino(22);
+		casino2.setName("Casino2");
+		squareCollections.add(casino2);
+		
+		CityProperty brussels = new CityProperty(23, COLOR.GREEN);
+		brussels.setName("Brussels");
 		brussels.setRentPrice(450);
 		brussels.setPurchasePrice(5500);
 		squareCollections.add(brussels);
 		
-		StreetProperty amsterdam = new StreetProperty(24, COLOR.GREEN);
-		amsterdam.setName("amsterdam");
+		CityProperty amsterdam = new CityProperty(24, COLOR.GREEN);
+		amsterdam.setName("Amsterdam");
 		amsterdam.setRentPrice(500);
 		amsterdam.setPurchasePrice(6000);
 		squareCollections.add(amsterdam);
 		
-		StreetProperty oslo = new StreetProperty(26, COLOR.BLUE);
-		oslo.setName("oslo");
+		Airport schiphol = new Airport(25);
+		schiphol.setName("Schiphol");
+		schiphol.setRentPrice(600);
+		schiphol.setPurchasePrice(5000);
+		squareCollections.add(schiphol);
+		
+		CityProperty oslo = new CityProperty(26, COLOR.BLUE);
+		oslo.setName("Oslo");
 		oslo.setRentPrice(550);
 		oslo.setPurchasePrice(6500);
 		squareCollections.add(oslo);
 		
-		StreetProperty stockholm = new StreetProperty(27, COLOR.BLUE);
-		stockholm.setName("stockholm");
+		CityProperty stockholm = new CityProperty(27, COLOR.BLUE);
+		stockholm.setName("Stockholm");
 		stockholm.setRentPrice(550);
 		stockholm.setPurchasePrice(6500);
 		squareCollections.add(stockholm);
 		
-		StreetProperty copenhagen = new StreetProperty(29, COLOR.BLUE);
-		copenhagen.setName("copenhagen");
+		Utilities ferry = new Utilities(28);
+		ferry.setName("Ferry");
+		ferry.setRentPrice(100);
+		ferry.setPurchasePrice(4000);
+		squareCollections.add(ferry);
+		
+		CityProperty copenhagen = new CityProperty(29, COLOR.BLUE);
+		copenhagen.setName("Copenhagen");
 		copenhagen.setRentPrice(600);
 		copenhagen.setPurchasePrice(7000);
 		squareCollections.add(copenhagen);
 		
-		StreetProperty berlin = new StreetProperty(31, COLOR.GRAY);
-		berlin.setName("berlin");
+		Lottery lottery3 = new Lottery(30);
+		lottery3.setName("Lottery3");
+		squareCollections.add(lottery3);
+		
+		CityProperty berlin = new CityProperty(31, COLOR.GRAY);
+		berlin.setName("Berlin");
 		berlin.setRentPrice(650);
 		berlin.setPurchasePrice(7500);
 		squareCollections.add(berlin);
 		
-		StreetProperty frankfurt = new StreetProperty(33, COLOR.GRAY);
-		frankfurt.setName("frankfurt");
+		GoToJail goToJail = new GoToJail(32);
+		goToJail.setName("Go to Jail!");
+		squareCollections.add(goToJail);
+		
+		CityProperty frankfurt = new CityProperty(33, COLOR.GRAY);
+		frankfurt.setName("Frankfurt");
 		frankfurt.setRentPrice(650);
 		frankfurt.setPurchasePrice(7500);
 		squareCollections.add(frankfurt);
 		
-		StreetProperty munich = new StreetProperty(34, COLOR.GRAY);
-		munich.setName("munich");
+		CityProperty munich = new CityProperty(34, COLOR.GRAY);
+		munich.setName("Munich");
 		munich.setRentPrice(700);
 		munich.setPurchasePrice(8000);
 		squareCollections.add(munich);
 		
-		StreetProperty prague = new StreetProperty(37, COLOR.PURPLE);
-		prague.setName("prague");
+		Airport fjStrauss = new Airport(35);
+		fjStrauss.setName("Schiphol");
+		fjStrauss.setRentPrice(600);
+		fjStrauss.setPurchasePrice(5000);
+		squareCollections.add(fjStrauss);
+		
+		Casino casino3 = new Casino(36);
+		casino3.setName("Casino3");
+		squareCollections.add(casino3);
+		
+		CityProperty prague = new CityProperty(37, COLOR.PURPLE);
+		prague.setName("Prague");
 		prague.setRentPrice(900);
 		prague.setPurchasePrice(9000);
 		squareCollections.add(prague);
 		
-		StreetProperty vienna = new StreetProperty(39, COLOR.PURPLE);
-		vienna.setName("vienna");
+		Tax tourist = new Tax(38);
+		tourist.setName("Tourist Tax");
+		squareCollections.add(tourist);
+		
+		CityProperty vienna = new CityProperty(39, COLOR.PURPLE);
+		vienna.setName("Vienna");
 		vienna.setRentPrice(1200);
 		vienna.setPurchasePrice(10000);
 		squareCollections.add(vienna);
 		
 	}
 
-	public StreetProperty getStreetProperty(int position) {
-		return (StreetProperty) squareCollections.get(position);
+	public CityProperty getStreetProperty(int position) {
+		return (CityProperty) squareCollections.get(position);
 	}
 	
-	public Event getEvent(int position) {
-		return (Event) squareCollections.get(position);
+	public Airport getEvent(int position) {
+		return (Airport) squareCollections.get(position);
 	}
 }
