@@ -1,4 +1,4 @@
-package team2.board;
+package team2.player;
 
 public abstract class Participant {
 	private String name;

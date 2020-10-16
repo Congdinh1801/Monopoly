@@ -1,5 +1,7 @@
 package team2.board;
 
+import team2.player.Participant;
+
 public abstract class Asset extends Square {
 	private int purchasePrice;
 	private int rentPrice;
