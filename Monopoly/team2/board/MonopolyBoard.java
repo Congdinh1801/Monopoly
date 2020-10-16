@@ -33,6 +33,7 @@ public class MonopolyBoard {
 		
 		Tax local = new Tax(4);
 		local.setName("Local Tax");
+		local.setTax(5000);
 		squareCollections.add(local);
 		
 		Airport fiumicino = new Airport(5);
@@ -219,6 +220,7 @@ public class MonopolyBoard {
 		
 		Tax tourist = new Tax(38);
 		tourist.setName("Tourist Tax");
+		tourist.setTax(2000);
 		squareCollections.add(tourist);
 		
 		CityProperty vienna = new CityProperty(39, COLOR.PURPLE);
@@ -229,11 +231,43 @@ public class MonopolyBoard {
 		
 	}
 
-	public CityProperty getStreetProperty(int position) {
+	public Airport getAirport(int position) {
+		return (Airport) squareCollections.get(position);
+	}
+
+	public Casino getCasino(int position) {
+		return (Casino) squareCollections.get(position);
+	}
+	
+	public CityProperty getCityProperty(int position) {
 		return (CityProperty) squareCollections.get(position);
 	}
 	
-	public Airport getEvent(int position) {
-		return (Airport) squareCollections.get(position);
+	public GoToJail getGoToJail(int position) {
+		return (GoToJail) squareCollections.get(position);
+	}
+	
+	public Jail getJail(int position) {
+		return (Jail) squareCollections.get(position);
+	}
+	
+	public Lottery getLottery(int position) {
+		return (Lottery) squareCollections.get(position);
+	}
+	
+	public Start getStart(int position) {
+		return (Start) squareCollections.get(position);
+	}
+	
+	public Tax getTax(int position) {
+		return (Tax) squareCollections.get(position);
+	}
+	
+	public Utilities getUtilities(int position) {
+		return (Utilities) squareCollections.get(position);
+	}
+	
+	public Vacation getVacation(int position) {
+		return (Vacation) squareCollections.get(position);
 	}
 }
