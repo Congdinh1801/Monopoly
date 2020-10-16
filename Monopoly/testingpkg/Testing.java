@@ -13,5 +13,6 @@ public class Testing {
 
 		
 		System.out.println("Welcome developer! You made it through github");
+		System.out.println("Success!");
 	}
 }
