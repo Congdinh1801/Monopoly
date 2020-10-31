@@ -1,6 +1,6 @@
-package team2.board;
+package game.board;
 
-import team2.player.Player;
+import game.player.Player;
 
 public class Lottery extends Square{
 	

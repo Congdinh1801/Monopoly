@@ -1,4 +1,4 @@
-package team2.player;
+package game.player;
 
 public class Player extends Participant{
 	private int money;

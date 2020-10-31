@@ -1,4 +1,4 @@
-package team2.board;
+package game.board;
 
 import java.util.ArrayList;
 import java.util.List;

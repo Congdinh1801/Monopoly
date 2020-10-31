@@ -1,18 +1,12 @@
-package team2.board;
+package game.board;
 
-import team2.player.Player;
+import game.player.Player;
 
-public class CityProperty extends Asset {
-	private final COLOR color;
+public class Airport extends Asset{
 	private int value = 0;
 	
-	public CityProperty(int position, COLOR color) {
+	public Airport(int position) {
 		super(position);
-		this.color = color;
-	}
-	
-	public COLOR getColor() {
-		return color;
 	}
 	
 	public void buyAsset(Player player) {

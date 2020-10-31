@@ -1,6 +1,6 @@
-package team2.board;
+package game.board;
 
-import team2.player.Participant;
+import game.player.Participant;
 
 public abstract class Asset extends Square {
 	private int purchasePrice;
