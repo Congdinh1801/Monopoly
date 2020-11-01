@@ -12,7 +12,7 @@ import game.board.Vacation;
 import game.dice.Dice;
 import game.player.Player;
 
-public class PlayGame implements Runnable{
+public class PlayGame{
 	private MonopolyBoard board;
 	private List<Player> player;
 	private Dice dice;
@@ -27,10 +27,6 @@ public class PlayGame implements Runnable{
 		stillPlaying = true;
 		scan = new Scanner(System.in);
 		player = new ArrayList<>();
-	}
-	
-	public void run() {
-		play();
 	}
 	
 	public void play() {

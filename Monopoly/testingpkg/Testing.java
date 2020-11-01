@@ -13,7 +13,7 @@ public class Testing {
 		PlayGame game = new PlayGame();
 		game.getPlayer().add(new Player("Longtin"));
 		game.getPlayer().add(new Player("Dinh"));
-		game.run();
+		game.play();
 		
 		System.out.println("Welcome developer! You made it through github");
 		System.out.println("Success!");
