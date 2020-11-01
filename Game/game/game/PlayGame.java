@@ -45,25 +45,94 @@ public class PlayGame implements Runnable{
 			
 			if(roll.equals("roll")) {
 				dice = this.dice.rollDice();
-//				currentPlayer.setPosition((player.getPosition() + dice) % 40);
-				System.out.println("Enter position: ");
-				currentPlayer.setPosition(scan.nextInt());
+				currentPlayer.setPosition((currentPlayer.getPosition() + dice) % 40);
 				
 				if(currentPlayer.getPosition() == 0) {
 					passedStart();
 				} else if(currentPlayer.getPosition() == 1) {
 					cityProperty();
+				} else if(currentPlayer.getPosition() == 2) {
+					lottery();
+				} else if(currentPlayer.getPosition() == 3) {
+					cityProperty();
 				} else if(currentPlayer.getPosition() == 4) {
 					tax();
 				} else if(currentPlayer.getPosition() == 5) {
 					airport();
+				} else if(currentPlayer.getPosition() == 6) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 7) {
+					casino();
+				} else if(currentPlayer.getPosition() == 8) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 9) {
+					cityProperty();
 				} else if(currentPlayer.getPosition() == 10) {
 					utilities();
+				} else if(currentPlayer.getPosition() == 11) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 12) {
+					jail();
+				} else if(currentPlayer.getPosition() == 13) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 14) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 15) {
+					airport();
+				} else if(currentPlayer.getPosition() == 16) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 17) {
+					lottery();
+				} else if(currentPlayer.getPosition() == 18) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 19) {
+					cityProperty();
 				} else if(currentPlayer.getPosition() == 20) {
 					vacation();
+				} else if(currentPlayer.getPosition() == 21) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 22) {
+					casino();
+				} else if(currentPlayer.getPosition() == 23) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 24) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 25) {
+					airport();
+				} else if(currentPlayer.getPosition() == 26) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 27) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 28) {
+					utilities();
+				} else if(currentPlayer.getPosition() == 29) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 30) {
+					lottery();
+				} else if(currentPlayer.getPosition() == 31) {
+					cityProperty();
 				} else if(currentPlayer.getPosition() == 32) {
 					goToJail();
+				}  else if(currentPlayer.getPosition() == 33) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 34) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 35) {
+					airport();
+				} else if(currentPlayer.getPosition() == 36) {
+					casino();
+				} else if(currentPlayer.getPosition() == 37) {
+					cityProperty();
+				} else if(currentPlayer.getPosition() == 38) {
+					goToJail();
+				} else if(currentPlayer.getPosition() == 39) {
+					tax();
 				}
+				
+				System.out.println("Player: " + currentPlayer.getName() + "\n" +
+									"Cash: " + currentPlayer.getMoney() + "\n" +
+									"Position: " + currentPlayer.getPosition() + "\n");
+				
 				
 				current = (current + 1) % player.size();
 			} else {
@@ -147,8 +216,21 @@ public class PlayGame implements Runnable{
 	private void goToJail() {
 		board.getGoToJail(currentPlayer.getPosition()).action(currentPlayer);
 	}
-
+	
+	public void lottery() {
+		board.getLottery(currentPlayer.getPosition()).action(currentPlayer);
+	}
+	
+	public void casino() {
+		board.getCasino(currentPlayer.getPosition()).action(currentPlayer);
+	}
+	
+	public void jail() {
+		board.getJail(currentPlayer.getPosition()).action(currentPlayer);
+	}
+	
 	public List<Player> getPlayer() {
 		return player;
 	}
+
 }

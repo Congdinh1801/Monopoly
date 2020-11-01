@@ -19,4 +19,5 @@ public class Airport extends Asset{
 		int currentMoney = player.getMoney() - value;
 		player.setMoney(currentMoney);
 	}
+	
 }
