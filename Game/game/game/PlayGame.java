@@ -144,10 +144,14 @@ public class PlayGame implements Runnable{
 
 	private void passedStart() {
 		board.getStart(currentPlayer.getPosition()).action(currentPlayer);
+		
+		System.out.println("You passed the Start square! Here is $200\n" );
 	}
 	
 	private void cityProperty() {
 		CityProperty city = board.getCityProperty(currentPlayer.getPosition());
+		
+		System.out.println("You are in " + city.getName() + "\n");
 		
 		String playerOption = "";
 		
@@ -171,11 +175,15 @@ public class PlayGame implements Runnable{
 	
 	private void tax() {
 		board.getTax(currentPlayer.getPosition()).action(currentPlayer);
+		
+		System.out.println("You are in taxed by " + board.getTax(currentPlayer.getPosition()).getName() + "\n");
 	}
 	
 	private void airport() {
 		Airport airplane = board.getAirport(currentPlayer.getPosition());
 		String playerOption = "";
+		
+		System.out.println("You are in " + airplane.getName() + "\n");
 		
 		if(airplane.getOwner() == null) {
 			System.out.println("Would you like to buy the property or auction the property?\n");
@@ -195,6 +203,8 @@ public class PlayGame implements Runnable{
 		Utilities util = board.getUtilities(currentPlayer.getPosition());
 		String playerOption = "";
 		
+		System.out.println("You are in " + util.getName() + "\n");
+		
 		if(util.getOwner() == null) {
 			System.out.println("Would you like to buy the property or auction the property?\n");
 			playerOption = scan.next();
@@ -211,22 +221,27 @@ public class PlayGame implements Runnable{
 	
 	private void vacation() {
 		board.getVacation(currentPlayer.getPosition()).action(currentPlayer);
+		System.out.println("You are on vacation!!" + "\n");
 	}
 	
 	private void goToJail() {
 		board.getGoToJail(currentPlayer.getPosition()).action(currentPlayer);
+		System.out.println("You are arrested, and now are in jail!!" + "\n");
 	}
 	
 	public void lottery() {
 		board.getLottery(currentPlayer.getPosition()).action(currentPlayer);
+		System.out.println("Here is a lottery ticket" + "\n");
 	}
 	
 	public void casino() {
 		board.getCasino(currentPlayer.getPosition()).action(currentPlayer);
+		System.out.println("Don't lose your money in the casino" + "\n");
 	}
 	
 	public void jail() {
 		board.getJail(currentPlayer.getPosition()).action(currentPlayer);
+		System.out.println("Thanks for visiting the Euro's jail "  + "\n");
 	}
 	
 	public List<Player> getPlayer() {
