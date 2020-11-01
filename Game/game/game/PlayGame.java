@@ -1,5 +1,7 @@
 package game.game;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import game.board.Airport;
@@ -12,17 +14,19 @@ import game.player.Player;
 
 public class PlayGame implements Runnable{
 	private MonopolyBoard board;
-	private Player player;
+	private List<Player> player;
 	private Dice dice;
 	private boolean stillPlaying;
+	private int current = 0;
 	private Scanner scan;
+	private Player currentPlayer;
 	
 	public PlayGame(){
 		board = new MonopolyBoard();
-		player = new Player("Longtin");
 		dice = new Dice();
 		stillPlaying = true;
 		scan = new Scanner(System.in);
+		player = new ArrayList<>();
 	}
 	
 	public void run() {
@@ -34,30 +38,34 @@ public class PlayGame implements Runnable{
 		int dice = 0;
 		
 		while(stillPlaying) {
+			currentPlayer = player.get(current);
+			System.out.println(currentPlayer.getName());
 			System.out.println("Enter \"roll\" to begin\n");
 			roll = scan.next();
 			
 			if(roll.equals("roll")) {
 				dice = this.dice.rollDice();
-//				player.setPosition(player.getPosition() + dice);
+//				currentPlayer.setPosition((player.getPosition() + dice) % 40);
 				System.out.println("Enter position: ");
-				player.setPosition(scan.nextInt());
+				currentPlayer.setPosition(scan.nextInt());
 				
-				if(player.getPosition() == 0) {
+				if(currentPlayer.getPosition() == 0) {
 					passedStart();
-				} else if(player.getPosition() == 1) {
+				} else if(currentPlayer.getPosition() == 1) {
 					cityProperty();
-				} else if(player.getPosition() == 4) {
+				} else if(currentPlayer.getPosition() == 4) {
 					tax();
-				} else if(player.getPosition() == 5) {
+				} else if(currentPlayer.getPosition() == 5) {
 					airport();
-				} else if(player.getPosition() == 10) {
+				} else if(currentPlayer.getPosition() == 10) {
 					utilities();
-				} else if(player.getPosition() == 20) {
+				} else if(currentPlayer.getPosition() == 20) {
 					vacation();
-				} else if(player.getPosition() == 32) {
+				} else if(currentPlayer.getPosition() == 32) {
 					goToJail();
 				}
+				
+				current = (current + 1) % player.size();
 			} else {
 				stillPlaying = false;
 			}
@@ -66,11 +74,12 @@ public class PlayGame implements Runnable{
 	}
 
 	private void passedStart() {
-		board.getStart(player.getPosition()).action(player);
+		board.getStart(currentPlayer.getPosition()).action(currentPlayer);
 	}
 	
 	private void cityProperty() {
-		CityProperty city = board.getCityProperty(player.getPosition());
+		CityProperty city = board.getCityProperty(currentPlayer.getPosition());
+		
 		String playerOption = "";
 		
 		if(city.getOwner() == null) {
@@ -78,12 +87,12 @@ public class PlayGame implements Runnable{
 			playerOption = scan.next();
 			
 			if(playerOption.equals("buy")) {
-				city.buyAsset(player);
+				city.buyAsset(currentPlayer);
 			} else {
 				autionProperty();
 			}
 		} else {
-			city.action(player);
+			city.action(currentPlayer);
 		}
 	}
 	
@@ -92,11 +101,11 @@ public class PlayGame implements Runnable{
 	}
 	
 	private void tax() {
-		board.getTax(player.getPosition()).action(player);
+		board.getTax(currentPlayer.getPosition()).action(currentPlayer);
 	}
 	
 	private void airport() {
-		Airport airplane = board.getAirport(player.getPosition());
+		Airport airplane = board.getAirport(currentPlayer.getPosition());
 		String playerOption = "";
 		
 		if(airplane.getOwner() == null) {
@@ -104,17 +113,17 @@ public class PlayGame implements Runnable{
 			playerOption = scan.next();
 			
 			if(playerOption.equals("buy")) {
-				airplane.buyAsset(player);
+				airplane.buyAsset(currentPlayer);
 			} else {
 				autionProperty();
 			}
 		} else {
-			airplane.action(player);
+			airplane.action(currentPlayer);
 		}
 	}
 	
 	private void utilities() {
-		Utilities util = board.getUtilities(player.getPosition());
+		Utilities util = board.getUtilities(currentPlayer.getPosition());
 		String playerOption = "";
 		
 		if(util.getOwner() == null) {
@@ -122,20 +131,24 @@ public class PlayGame implements Runnable{
 			playerOption = scan.next();
 			
 			if(playerOption.equals("buy")) {
-				util.buyAsset(player);
+				util.buyAsset(currentPlayer);
 			} else {
 				autionProperty();
 			}
 		} else {
-			util.action(player);
+			util.action(currentPlayer);
 		}
 	}
 	
 	private void vacation() {
-		board.getVacation(player.getPosition()).action(player);
+		board.getVacation(currentPlayer.getPosition()).action(currentPlayer);
 	}
 	
 	private void goToJail() {
-		board.getGoToJail(player.getPosition()).action(player);
+		board.getGoToJail(currentPlayer.getPosition()).action(currentPlayer);
+	}
+
+	public List<Player> getPlayer() {
+		return player;
 	}
 }
