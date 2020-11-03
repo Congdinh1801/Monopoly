@@ -3,6 +3,7 @@ package controllers;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import panels.LoginPanel;
 
 public class InitialControl implements ActionListener
 {
@@ -25,8 +26,8 @@ public class InitialControl implements ActionListener
     // The Login button takes the user to the login panel.
     if (command.equals("Login"))
     {
-      //LoginPanel loginPanel = (LoginPanel)container.getComponent(1);
-      //loginPanel.setError("");
+      LoginPanel loginPanel = (LoginPanel)container.getComponent(1);
+      loginPanel.setError("");
       CardLayout cardLayout = (CardLayout)container.getLayout();
       cardLayout.show(container, "2");
     }
