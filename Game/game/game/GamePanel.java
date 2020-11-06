@@ -68,6 +68,7 @@ public class GamePanel extends JPanel{
 			}
 			
 		});
+
 		southPanel.add(startButton);
 		southPanel.add(startButton1);
 		southPanel.add(startButton2);
