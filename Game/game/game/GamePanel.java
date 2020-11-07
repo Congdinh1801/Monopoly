@@ -12,8 +12,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.OverlayLayout;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import java.awt.Canvas;
+import java.awt.Component;
 
 public class GamePanel extends JPanel{
 	private JPanel container = new JPanel();
@@ -35,76 +39,81 @@ public class GamePanel extends JPanel{
 
 	
 	private void BoardPanel() {
-		JPanel mainPanel = new JPanel();
-		JPanel mainPanel2 = new JPanel();
 		
+		JPanel mainPanel2 = new JPanel();
+		OverlayLayout myLayout = new OverlayLayout(mainPanel2);
+		mainPanel2.setLayout(myLayout);
 		
 		southPanel.setLayout(new GridLayout(1, 11));
 //		northPanel.setLayout(new GridLayout(1, 13));
 //		westPanel.setLayout(new GridLayout(7, 1));
 //		eastPanel.setLayout(new GridLayout(7, 1));
 		
-		tempImage = new ImageIcon(GameFrame.class.getResource("/board.png"));
-		Image image = tempImage.getImage().getScaledInstance(500, 500, java.awt.Image.SCALE_SMOOTH);
+		tempImage = new ImageIcon(GameFrame.class.getResource("/centerimage.PNG"));
+		Image image = tempImage.getImage().getScaledInstance(400, 400, java.awt.Image.SCALE_SMOOTH);
 		imageLabel.setIcon(new ImageIcon(image));
 		
-		//mainPanel.add(imageLabel);
-		
-//		mainPanel.add(northPanel, BorderLayout.NORTH);
-//		mainPanel.add(westPanel, BorderLayout.WEST);
-//		mainPanel.add(eastPanel, BorderLayout.EAST);
-
 		JLabel catPiece = new JLabel();
 		ImageIcon tempImage2 = new ImageIcon(GameFrame.class.getResource("/cat.PNG"));
-		Image image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		Image image2 = tempImage2.getImage().getScaledInstance(10, 10, java.awt.Image.SCALE_SMOOTH);
 		catPiece.setIcon(new ImageIcon(image2));
 		
-		imageLabel.setLayout(new BorderLayout());
-		imageLabel.add(catPiece);
+		SquarePanel startButton = new SquarePanel();
+		SquarePanel startButton1 = new SquarePanel();
+		SquarePanel startButton2 = new SquarePanel();
+		SquarePanel startButton3 = new SquarePanel();
+		SquarePanel startButton4 = new SquarePanel();
+		SquarePanel startButton5 = new SquarePanel();
+		SquarePanel startButton6 = new SquarePanel();
+		SquarePanel startButton7 = new SquarePanel();
+		SquarePanel startButton8 = new SquarePanel();
+		SquarePanel startButton9 = new SquarePanel();
+		SquarePanel startButton10 = new SquarePanel();
 		
-		mainPanel.add(catPiece);
-		mainPanel2.add(imageLabel);
-		//masterPanel.add(catPiece, 2, 0);
-		//masterPanel.add(imageLabel, 1, 0);
+				
+		JButton myButton = new JButton("Test");
+		myButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("test");
+				startButton.removeImage();
+				startButton.addCatPiece(catPiece);
+				southPanel.removeAll();
+				southPanel.add(startButton);
+				southPanel.add(startButton1);
+				southPanel.add(startButton2);
+				southPanel.add(startButton3);
+				southPanel.add(startButton4);
+				southPanel.add(startButton5);
+				southPanel.add(startButton6);
+				southPanel.add(startButton7);
+				southPanel.add(startButton8);
+				southPanel.add(startButton9);
+				southPanel.add(startButton10);
+				add(southPanel);
+				repaint();
+			}
+			
+		});
 		
-		
-//		SquareButton startButton = new SquareButton();
-//		SquareButton startButton1 = new SquareButton();
-//		SquareButton startButton2 = new SquareButton();
-//		SquareButton startButton3 = new SquareButton();
-//		SquareButton startButton4 = new SquareButton();
-//		SquareButton startButton5 = new SquareButton();
-//		SquareButton startButton6 = new SquareButton();
-//		SquareButton startButton7 = new SquareButton();
-//		SquareButton startButton8 = new SquareButton();
-//		SquareButton startButton9 = new SquareButton();
-//		SquareButton startButton10 = new SquareButton();
-//		startButton.addActionListener(new ActionListener(){
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				System.out.println(startButton.getLocationOnScreen().getY());
-//				System.out.println(startButton.getWidth());
-//				repaint();
-//			}
-//			
-//		});
-//		
-//		
-//		southPanel.add(startButton);
-//		southPanel.add(startButton1);
-//		southPanel.add(startButton2);
-//		southPanel.add(startButton3);
-//		southPanel.add(startButton4);
-//		southPanel.add(startButton5);
-//		southPanel.add(startButton6);
-//		southPanel.add(startButton7);
-//		southPanel.add(startButton8);
-//		southPanel.add(startButton9);
-//		southPanel.add(startButton10);
-		
-		this.add(mainPanel2, BorderLayout.CENTER);
-//		this.add(southPanel, BorderLayout.SOUTH);
+		southPanel.add(startButton);
+		southPanel.add(startButton1);
+		southPanel.add(startButton2);
+		southPanel.add(startButton3);
+		southPanel.add(startButton4);
+		southPanel.add(startButton5);
+		southPanel.add(startButton6);
+		southPanel.add(startButton7);
+		southPanel.add(startButton8);
+		southPanel.add(startButton9);
+		southPanel.add(startButton10);
 		
 		this.setPreferredSize(new Dimension(500, 500));
+
+		
+		add(myButton);
+		add(imageLabel);
+		add(southPanel);
 	}
 }

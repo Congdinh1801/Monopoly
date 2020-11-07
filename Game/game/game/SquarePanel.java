@@ -10,20 +10,31 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.OverlayLayout;
 
-public class SquareButton extends JButton{
+public class SquarePanel extends JPanel{
 	private ImageIcon tempImage;
 	private Image image;
-	private Dimension size;
 	private RedSquare redSquare = new RedSquare();
+	private JLabel imageLabel;
 	
-	public SquareButton(){
-		this.setMargin(new Insets(0, 0, 0, 0));
-		tempImage = new ImageIcon(SquareButton.class.getResource("/board.png"));
+	public SquarePanel(){
+		OverlayLayout myLayout = new OverlayLayout(this);
+		this.setLayout(myLayout);
+		imageLabel = new JLabel();
+		tempImage = new ImageIcon(SquarePanel.class.getResource("/board.png"));
 		image = tempImage.getImage().getScaledInstance(40, 50, java.awt.Image.SCALE_SMOOTH);
-		this.setIcon(new ImageIcon(image));
+		imageLabel.setIcon(new ImageIcon(image));
+		this.add(imageLabel);
 	}
 	
+	public void removeImage() {
+		this.remove(imageLabel);
+	}
+	
+	public void addCatPiece(JLabel catPiece) {
+		this.add(catPiece);
+	}
 }
 
 class RedSquare{
