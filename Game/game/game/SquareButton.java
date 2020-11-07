@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,8 +18,9 @@ public class SquareButton extends JButton{
 	private RedSquare redSquare = new RedSquare();
 	
 	public SquareButton(){
+		this.setMargin(new Insets(0, 0, 0, 0));
 		tempImage = new ImageIcon(SquareButton.class.getResource("/board.png"));
-		image = tempImage.getImage().getScaledInstance(10, 40, java.awt.Image.SCALE_SMOOTH);
+		image = tempImage.getImage().getScaledInstance(40, 50, java.awt.Image.SCALE_SMOOTH);
 		this.setIcon(new ImageIcon(image));
 	}
 	
