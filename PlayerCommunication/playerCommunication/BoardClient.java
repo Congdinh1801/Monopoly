@@ -1,5 +1,7 @@
 package playerCommunication;
 
+import ocsf.client.AbstractClient;
+import controllers.CreateAccountControl;
 import controllers.InitialControl;
 import controllers.LoginControl;
 //import controllers.CreateAccountControl;
@@ -9,11 +11,11 @@ import controllers.LoginControl;
 //import controllers.InitialGameControl;
 //import controllers.GameControl;
 
-public class BoardClient {
+public class BoardClient extends AbstractClient{
 
-	private InitialControl ic;
-	private LoginControl lc;
-	//private CreateAccountControl cac;
+	private InitialControl initialControl;
+	private LoginControl loginControl;
+	private CreateAccountControl createAccountControl;
 	//private JoinGameControl jgc;
 	//private NewGameControl ngc;
 	//private WaitingRoomControl wrc;
@@ -29,19 +31,19 @@ public class BoardClient {
 	// Setters for GUI controllers.
 	public void setInitialControl(InitialControl ic) 
 	{
-		this.ic = ic;
+		this.initialControl = ic;
 	}	
   
     public void setLoginControl(LoginControl lc) 
     {
 
-	  this.lc = lc;
+	  this.loginControl = lc;
 	}
 
-	/*public void setCreateAccountControl(CreateAccountControl cac) 
-	 * {
-		this.cac = cac;
-	}*/
+	public void setCreateAccountControl(CreateAccountControl cac) 
+	{
+		this.createAccountControl = cac;
+	}
     
     /*public void setJoinGameControl(JoinGameControl jgc) 
 	 * {
@@ -77,32 +79,32 @@ public class BoardClient {
         
         if (message.equals("LoginSuccessful"))
         {
-          LoginControl.loginSuccess();
+          loginControl.loginSuccess();
         }
         else if (message.equals("CreateAccountSuccessful"))
         {
-          CreateAccountControl.createAccountSuccess();
+          createAccountControl.createAccountSuccess();
         }
         else if (message.equals("JoinGameSuccessful"))
         {
-          JoinGameControl.joinGameSuccess();
+          //JoinGameControl.joinGameSuccess();
         }
         else if (message.equals("NewGameSuccessful"))
         {
-          NewGameControl.newGameSuccess();
+          //NewGameControl.newGameSuccess();
         }
       }
       else if (arg0 instanceof Error)
       {
-        Error error = (Error)arg0;
+        /*Error error = (Error)arg0;
         
         if (error.getType().equals("Login"))
         {
-          LoginControl.displayError(error.getMessage());
+          loginControl.displayError(error.getMessage());
         }
         else if (error.getType().equals("CreateAccount"))
         {
-          CreateAccountControl.displayError(error.getMessage());
+          createAccountControl.displayError(error.getMessage());
         }
         else if (error.getType().equals("JoinGame"))
         {
@@ -111,7 +113,7 @@ public class BoardClient {
         else if (error.getType().equals("NewGame"))
         {
           NewGameControl.displayError(error.getMessage());
-        }
+        }*/
       }
     }
 }

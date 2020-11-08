@@ -1,11 +1,11 @@
 package controllers;
 
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.io.IOException;
-import panels.LoginPanel;
-import data.LoginData;
+import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JPanel;
+
 import playerCommunication.BoardClient;
 
 public class LoginControl implements ActionListener

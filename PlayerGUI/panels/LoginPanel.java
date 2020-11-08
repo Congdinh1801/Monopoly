@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import playerCommunication.BoardClient;
 import controllers.LoginControl;
+import playerCommunication.BoardClient;
 
 public class LoginPanel extends JPanel
 {
@@ -57,7 +57,7 @@ public class LoginPanel extends JPanel
 
     // Create the controller and set it in the chat client.
     LoginControl controller = new LoginControl(container, client);
-    client.setLoginControl(controller);
+    //client.setLoginControl(controller);
         
     // Create a panel for the labels at the top of the GUI.
     JPanel labelPanel = new JPanel(new GridLayout(2, 1, 5, 5));

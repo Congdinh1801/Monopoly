@@ -1,7 +1,11 @@
 package panels;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import controllers.InitialControl;
 
 public class InitialPanel extends JPanel
