@@ -59,7 +59,7 @@ public class CreateAccountPanel extends JPanel{
 	  public CreateAccountPanel (CreateAccountControl cac) {
 		  
 		  CreateAccountControl controller = new CreateAccountControl(container, client);
-		  client.setCac(controller);
+		  client.setCreateAccountControl(cac);
 		  
 		    // Create a panel for the labels at the top of the GUI.
 		    JPanel labelPanel = new JPanel(new GridLayout(3, 1, 5, 5));
