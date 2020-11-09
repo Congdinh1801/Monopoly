@@ -95,7 +95,7 @@ public class BoardClient extends AbstractClient{
       }
       else if (arg0 instanceof Error)
       {
-        /*Error error = (Error)arg0;
+        Error error = (Error)arg0;
         
         if (error.getType().equals("Login"))
         {
@@ -112,7 +112,7 @@ public class BoardClient extends AbstractClient{
         else if (error.getType().equals("NewGame"))
         {
           NewGameControl.displayError(error.getMessage());
-        }*/
+        }
       }
     }
 }
