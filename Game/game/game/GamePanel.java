@@ -6,6 +6,9 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -28,23 +31,24 @@ public class GamePanel extends JPanel{
 	private ImageIcon tempImage;
 	private Image image;
 	private JLabel imageLabel = new JLabel();
+	private ArrayList<SquarePanel> squareCollections;
+	private Runnable r1;
+	private ExecutorService pool = Executors.newFixedThreadPool(3);
 	
 	public void setContainer(JPanel container) {
 		this.container = container;
 	}
 	
 	public GamePanel(){
+		squareCollections = new ArrayList<>();
+		r1 = new Animator(squareCollections);
 		BoardPanel();
 	}
-
 	
 	private void BoardPanel() {
+		this.setLayout(new BorderLayout());
 		
-		JPanel mainPanel2 = new JPanel();
-		OverlayLayout myLayout = new OverlayLayout(mainPanel2);
-		mainPanel2.setLayout(myLayout);
-		
-		southPanel.setLayout(new GridLayout(1, 11));
+		southPanel.setLayout(new GridLayout(1, 4));
 //		northPanel.setLayout(new GridLayout(1, 13));
 //		westPanel.setLayout(new GridLayout(7, 1));
 //		eastPanel.setLayout(new GridLayout(7, 1));
@@ -53,67 +57,37 @@ public class GamePanel extends JPanel{
 		Image image = tempImage.getImage().getScaledInstance(400, 400, java.awt.Image.SCALE_SMOOTH);
 		imageLabel.setIcon(new ImageIcon(image));
 		
-		JLabel catPiece = new JLabel();
-		ImageIcon tempImage2 = new ImageIcon(GameFrame.class.getResource("/cat.PNG"));
-		Image image2 = tempImage2.getImage().getScaledInstance(10, 10, java.awt.Image.SCALE_SMOOTH);
-		catPiece.setIcon(new ImageIcon(image2));
 		
-		SquarePanel startButton = new SquarePanel();
-		SquarePanel startButton1 = new SquarePanel();
-		SquarePanel startButton2 = new SquarePanel();
-		SquarePanel startButton3 = new SquarePanel();
-		SquarePanel startButton4 = new SquarePanel();
-		SquarePanel startButton5 = new SquarePanel();
-		SquarePanel startButton6 = new SquarePanel();
-		SquarePanel startButton7 = new SquarePanel();
-		SquarePanel startButton8 = new SquarePanel();
-		SquarePanel startButton9 = new SquarePanel();
-		SquarePanel startButton10 = new SquarePanel();
+		SquarePanel startButton = new SquarePanel("/start.PNG");
+		squareCollections.add(startButton);
+		SquarePanel startButton1 = new SquarePanel("/istanbul.PNG");
+		squareCollections.add(startButton1);
+		SquarePanel startButton2 = new SquarePanel("/lotteryVertical.PNG");
+		squareCollections.add(startButton2);
+		SquarePanel startButton3 = new SquarePanel("/athens.PNG");
+		squareCollections.add(startButton3);
 		
-				
-		JButton myButton = new JButton("Test");
-		myButton.addActionListener(new ActionListener() {
-
+		JButton anime = new JButton("Anime");
+		anime.addActionListener(new ActionListener() {
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("test");
-				startButton.removeImage();
-				startButton.addCatPiece(catPiece);
-				southPanel.removeAll();
-				southPanel.add(startButton);
-				southPanel.add(startButton1);
-				southPanel.add(startButton2);
-				southPanel.add(startButton3);
-				southPanel.add(startButton4);
-				southPanel.add(startButton5);
-				southPanel.add(startButton6);
-				southPanel.add(startButton7);
-				southPanel.add(startButton8);
-				southPanel.add(startButton9);
-				southPanel.add(startButton10);
-				add(southPanel);
-				repaint();
+				pool.execute(r1);
 			}
 			
 		});
 		
-		southPanel.add(startButton);
-		southPanel.add(startButton1);
-		southPanel.add(startButton2);
 		southPanel.add(startButton3);
-		southPanel.add(startButton4);
-		southPanel.add(startButton5);
-		southPanel.add(startButton6);
-		southPanel.add(startButton7);
-		southPanel.add(startButton8);
-		southPanel.add(startButton9);
-		southPanel.add(startButton10);
+		southPanel.add(startButton2);
+		southPanel.add(startButton1);
+		southPanel.add(startButton);
 		
 		this.setPreferredSize(new Dimension(500, 500));
 
 		
-		add(myButton);
-		add(imageLabel);
-		add(southPanel);
+		add(anime, BorderLayout.NORTH);
+		add(imageLabel, BorderLayout.CENTER);
+		add(southPanel, BorderLayout.SOUTH);
 	}
+
 }

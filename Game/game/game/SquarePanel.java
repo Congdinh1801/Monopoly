@@ -13,65 +13,48 @@ import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
 
 public class SquarePanel extends JPanel{
-	private ImageIcon tempImage;
-	private Image image;
-	private RedSquare redSquare = new RedSquare();
-	private JLabel imageLabel;
+	private ImageIcon backgroundTempImage;
+	private Image backgroundImage;
+	private JLabel backgroundLabel;
 	
-	public SquarePanel(){
+	private JLabel catPieceLabel;
+	private ImageIcon catPieceTempImage;
+	private Image catPieceImage;
+	
+	public SquarePanel(String image) {
+		createSquare(image);
+		createPlayer();
+	}
+	
+	public void createSquare(String image) {
 		OverlayLayout myLayout = new OverlayLayout(this);
 		this.setLayout(myLayout);
-		imageLabel = new JLabel();
-		tempImage = new ImageIcon(SquarePanel.class.getResource("/board.png"));
-		image = tempImage.getImage().getScaledInstance(40, 50, java.awt.Image.SCALE_SMOOTH);
-		imageLabel.setIcon(new ImageIcon(image));
-		this.add(imageLabel);
+		backgroundLabel = new JLabel();
+		backgroundTempImage = new ImageIcon(SquarePanel.class.getResource(image));
+		backgroundImage = backgroundTempImage.getImage().getScaledInstance(40, 50, java.awt.Image.SCALE_SMOOTH);
+		backgroundLabel.setIcon(new ImageIcon(backgroundImage));
+		this.add(backgroundLabel);
+	}
+	
+	public void createPlayer() {
+		catPieceLabel = new JLabel();
+		catPieceTempImage = new ImageIcon(GameFrame.class.getResource("/cat.PNG"));
+		catPieceImage = catPieceTempImage.getImage().getScaledInstance(10, 10, java.awt.Image.SCALE_SMOOTH);
+		catPieceLabel.setIcon(new ImageIcon(catPieceImage));
+		catPieceLabel.setVisible(true);
+		this.add(catPieceLabel);
 	}
 	
 	public void removeImage() {
-		this.remove(imageLabel);
+		this.removeAll();
+		this.add(backgroundLabel);
+		repaint();
 	}
 	
-	public void addCatPiece(JLabel catPiece) {
-		this.add(catPiece);
+	public void addCatPiece() {
+		this.removeAll();
+		this.add(catPieceLabel);
+		this.add(backgroundLabel);
+		repaint();
 	}
-}
-
-class RedSquare{
-
-    private int xPos;
-    private int yPos;
-    private int width = 20;
-    private int height = 20;
-
-    public void setX(int xPos){ 
-        this.xPos = xPos;
-    }
-
-    public int getX(){
-        return xPos;
-    }
-
-    public void setY(int yPos){
-        this.yPos = yPos;
-    }
-
-    public int getY(){
-        return yPos;
-    }
-
-    public int getWidth(){
-        return width;
-    } 
-
-    public int getHeight(){
-        return height;
-    }
-
-    public void paintSquare(Graphics g){
-        g.setColor(Color.RED);
-        g.fillRect(xPos,yPos,width,height);
-        g.setColor(Color.BLACK);
-        g.drawRect(xPos,yPos,width,height);  
-    }
 }
