@@ -67,8 +67,8 @@ public class GamePanel extends JPanel{
 		SquarePanel startButton3 = new SquarePanel("/athens.PNG");
 		squareCollections.add(startButton3);
 		
-		JButton anime = new JButton("Anime");
-		anime.addActionListener(new ActionListener() {
+		JButton roll = new JButton("Roll Dice");
+		roll.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -85,7 +85,7 @@ public class GamePanel extends JPanel{
 		this.setPreferredSize(new Dimension(500, 500));
 
 		
-		add(anime, BorderLayout.NORTH);
+		add(roll, BorderLayout.NORTH);
 		add(imageLabel, BorderLayout.CENTER);
 		add(southPanel, BorderLayout.SOUTH);
 	}

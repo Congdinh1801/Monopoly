@@ -12,7 +12,7 @@ public class Animator implements Runnable{
 	
 	@Override
 	public void run() {
-		for(int i = 0; i < 4; i++) {
+		for(int i = 0; i < squareCollections.size(); i++) {
 			squareCollections.get(i).addCatPiece();
 			try {
 				Thread.sleep(1000);
