@@ -2,7 +2,7 @@ package game.game;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,17 +10,12 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.OverlayLayout;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
-import java.awt.Canvas;
-import java.awt.Component;
+
 
 public class GamePanel extends JPanel{
 	private JPanel container = new JPanel();
@@ -33,7 +28,8 @@ public class GamePanel extends JPanel{
 	private JLabel imageLabel = new JLabel();
 	private ArrayList<SquarePanel> squareCollections;
 	private Runnable r1;
-	private ExecutorService pool = Executors.newFixedThreadPool(3);
+	private ExecutorService pool = Executors.newFixedThreadPool(5);
+	private double resize = 1.2;
 	
 	public void setContainer(JPanel container) {
 		this.container = container;
@@ -48,28 +44,18 @@ public class GamePanel extends JPanel{
 	private void BoardPanel() {
 		this.setLayout(new BorderLayout());
 		
-		southPanel.setLayout(new GridLayout(1, 4));
-//		northPanel.setLayout(new GridLayout(1, 13));
-//		westPanel.setLayout(new GridLayout(7, 1));
-//		eastPanel.setLayout(new GridLayout(7, 1));
+		northPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
+		southPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
+		westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
+		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
 		
+		//The center piece of the board
 		tempImage = new ImageIcon(GameFrame.class.getResource("/centerimage.PNG"));
-		Image image = tempImage.getImage().getScaledInstance(400, 400, java.awt.Image.SCALE_SMOOTH);
+		image = tempImage.getImage().getScaledInstance(450, 420, java.awt.Image.SCALE_SMOOTH);
 		imageLabel.setIcon(new ImageIcon(image));
-		
-		
-		SquarePanel startButton = new SquarePanel("/start.PNG");
-		squareCollections.add(startButton);
-		SquarePanel startButton1 = new SquarePanel("/istanbul.PNG");
-		squareCollections.add(startButton1);
-		SquarePanel startButton2 = new SquarePanel("/lotteryVertical.PNG");
-		squareCollections.add(startButton2);
-		SquarePanel startButton3 = new SquarePanel("/athens.PNG");
-		squareCollections.add(startButton3);
 		
 		JButton roll = new JButton("Roll Dice");
 		roll.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				pool.execute(r1);
@@ -77,17 +63,104 @@ public class GamePanel extends JPanel{
 			
 		});
 		
-		southPanel.add(startButton3);
-		southPanel.add(startButton2);
-		southPanel.add(startButton1);
-		southPanel.add(startButton);
-		
-		this.setPreferredSize(new Dimension(500, 500));
+		this.setPreferredSize(new Dimension((int)(540 * resize), (int)(375 * resize)));
 
-		
-		add(roll, BorderLayout.NORTH);
-		add(imageLabel, BorderLayout.CENTER);
+		addSquares();
+		add(roll, BorderLayout.CENTER);
+		//add(imageLabel, BorderLayout.CENTER);
 		add(southPanel, BorderLayout.SOUTH);
+		add(northPanel, BorderLayout.NORTH);
+		add(westPanel, BorderLayout.WEST);
+		add(eastPanel, BorderLayout.EAST);
 	}
 
+	private void addSquares() {
+		int scaleX = (int)(40 * resize);
+		int scaleY = (int)(50 * resize);
+		
+		squareCollections.add(new SquarePanel("/start.PNG", scaleY, scaleY));
+		squareCollections.add(new SquarePanel("/istanbul.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/lotteryVertical.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/athens.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/localTax.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/fiumicino.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/rome.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/casinoVertical.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/venice.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/milan.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/motorway.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/barcelona.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/jail.PNG", scaleY, scaleY));
+		squareCollections.add(new SquarePanel("/seville.PNG", scaleY, scaleX));
+		squareCollections.add(new SquarePanel("/madrid.PNG", scaleY, scaleX));
+		squareCollections.add(new SquarePanel("/barajas.PNG", scaleY, scaleX));
+		squareCollections.add(new SquarePanel("/bordeaux.PNG", scaleY, scaleX));
+		squareCollections.add(new SquarePanel("/lotteryHorizontal.PNG", scaleY, scaleX));
+		squareCollections.add(new SquarePanel("/lyon.PNG", scaleY, scaleX));
+		squareCollections.add(new SquarePanel("/paris.PNG", scaleY, scaleX));
+		squareCollections.add(new SquarePanel("/vacation.PNG", scaleY, scaleY));
+		squareCollections.add(new SquarePanel("/london.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/casinoVertical.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/brussels.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/amsterdam.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/schiphol.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/oslo.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/stockholm.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/ferry.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/copenhagen.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/lotteryVertical.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/berlin.PNG", scaleX, scaleY));
+		squareCollections.add(new SquarePanel("/goToJail.PNG", scaleY, scaleY));
+		squareCollections.add(new SquarePanel("/frankfurt.PNG", scaleY, scaleX));
+		squareCollections.add(new SquarePanel("/munich.PNG", scaleY, scaleX));
+		squareCollections.add(new SquarePanel("/fjStrauss.PNG", scaleY, scaleX));
+		squareCollections.add(new SquarePanel("/casinoHorizontal.PNG", scaleY, scaleX));
+		squareCollections.add(new SquarePanel("/prague.PNG", scaleY, scaleX));
+		squareCollections.add(new SquarePanel("/touristTax.PNG", scaleY, scaleX));
+		squareCollections.add(new SquarePanel("/vienna.PNG", scaleY, scaleX));
+		
+		//display player at the start
+		squareCollections.get(4).addCatPiece();
+		
+		southPanel.add(squareCollections.get(12));
+		southPanel.add(squareCollections.get(11));
+		southPanel.add(squareCollections.get(10));
+		southPanel.add(squareCollections.get(9));
+		southPanel.add(squareCollections.get(8));
+		southPanel.add(squareCollections.get(7));
+		southPanel.add(squareCollections.get(6));
+		southPanel.add(squareCollections.get(5));
+		southPanel.add(squareCollections.get(4));
+		southPanel.add(squareCollections.get(3));
+		southPanel.add(squareCollections.get(2));
+		southPanel.add(squareCollections.get(1));
+		southPanel.add(squareCollections.get(0));
+		westPanel.add(squareCollections.get(19));
+		westPanel.add(squareCollections.get(18));
+		westPanel.add(squareCollections.get(17));
+		westPanel.add(squareCollections.get(16));
+		westPanel.add(squareCollections.get(15));
+		westPanel.add(squareCollections.get(14));
+		westPanel.add(squareCollections.get(13));
+		northPanel.add(squareCollections.get(20));
+		northPanel.add(squareCollections.get(21));
+		northPanel.add(squareCollections.get(22));
+		northPanel.add(squareCollections.get(23));
+		northPanel.add(squareCollections.get(24));
+		northPanel.add(squareCollections.get(25));
+		northPanel.add(squareCollections.get(26));
+		northPanel.add(squareCollections.get(27));
+		northPanel.add(squareCollections.get(28));
+		northPanel.add(squareCollections.get(29));
+		northPanel.add(squareCollections.get(30));
+		northPanel.add(squareCollections.get(31));
+		northPanel.add(squareCollections.get(32));
+		eastPanel.add(squareCollections.get(33));
+		eastPanel.add(squareCollections.get(34));
+		eastPanel.add(squareCollections.get(35));
+		eastPanel.add(squareCollections.get(36));
+		eastPanel.add(squareCollections.get(37));
+		eastPanel.add(squareCollections.get(38));
+		eastPanel.add(squareCollections.get(39));
+	}
 }

@@ -21,17 +21,17 @@ public class SquarePanel extends JPanel{
 	private ImageIcon catPieceTempImage;
 	private Image catPieceImage;
 	
-	public SquarePanel(String image) {
-		createSquare(image);
+	public SquarePanel(String image, int width, int height) {
+		createSquare(image, width, height);
 		createPlayer();
 	}
 	
-	public void createSquare(String image) {
+	public void createSquare(String image, int width, int height) {
 		OverlayLayout myLayout = new OverlayLayout(this);
 		this.setLayout(myLayout);
 		backgroundLabel = new JLabel();
 		backgroundTempImage = new ImageIcon(SquarePanel.class.getResource(image));
-		backgroundImage = backgroundTempImage.getImage().getScaledInstance(40, 50, java.awt.Image.SCALE_SMOOTH);
+		backgroundImage = backgroundTempImage.getImage().getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
 		backgroundLabel.setIcon(new ImageIcon(backgroundImage));
 		this.add(backgroundLabel);
 	}
@@ -39,7 +39,7 @@ public class SquarePanel extends JPanel{
 	public void createPlayer() {
 		catPieceLabel = new JLabel();
 		catPieceTempImage = new ImageIcon(GameFrame.class.getResource("/cat.PNG"));
-		catPieceImage = catPieceTempImage.getImage().getScaledInstance(10, 10, java.awt.Image.SCALE_SMOOTH);
+		catPieceImage = catPieceTempImage.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
 		catPieceLabel.setIcon(new ImageIcon(catPieceImage));
 		catPieceLabel.setVisible(true);
 		this.add(catPieceLabel);

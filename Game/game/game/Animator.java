@@ -12,12 +12,11 @@ public class Animator implements Runnable{
 	
 	@Override
 	public void run() {
-		for(int i = 0; i < squareCollections.size(); i++) {
+		for(int i = 4; i < squareCollections.size(); i = (i + 1) % 40) {
 			squareCollections.get(i).addCatPiece();
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(300);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			squareCollections.get(i).removeImage();
