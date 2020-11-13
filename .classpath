@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="Monopoly"/>
-	<classpathentry kind="src" path="Game"/>
 	<classpathentry kind="src" path="resources"/>
+	<classpathentry kind="src" path="original"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-12"/>
+	<classpathentry kind="lib" path="C:/Users/admin/git/Monopoly7/mysql-connector-java-5.1.40-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/git/Monopoly7/ocsf.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
