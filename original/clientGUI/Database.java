@@ -69,7 +69,7 @@ public class Database {
 		if (database.get(username) != null)
 			return false;
 		// Write to the database
-		String dml = "insert into user values(\"" + username + "\", aes_encrypt(" + password + ",'key'))";
+		String dml = "Insert Into user values('" + username + "', AES_ENCRYPT('" + password + "', 'key'))";   //Insert Into user values('" + username + "', AES_ENCRYPT('" + password + "', 'key'))
 		try {
 			executeDML(dml);
 		} catch (SQLException e) {
