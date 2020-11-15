@@ -41,10 +41,13 @@ public class ClientGUI extends JFrame
     LoginControl lc = new LoginControl(container,client);
     CreateAccountControl cac = new CreateAccountControl(container,client);
     GamePanelControl gpc = new GamePanelControl(container,client);
+    RollDiceControl rdc = new RollDiceControl(container, client);
     
     //Set the client info
     client.setLoginControl(lc);
     client.setCreateAccountControl(cac);
+    //client.setGamePanelControl(gpc);
+    //client.setRollDiceControl(rdc);
    
     
     // Create the four views. (need the controller to register with the Panels
