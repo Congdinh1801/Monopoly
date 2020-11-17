@@ -6,6 +6,8 @@ public class ChatClient extends AbstractClient {
 	// Private data fields for storing the GUI controllers.
 	private LoginControl loginControl;
 	private CreateAccountControl createAccountControl;
+	private RollDiceControl rollDiceControl;
+	//private BuyPropertiesControl buyPropertiesControl;
 
 	// Setters for the GUI controllers.
 	public void setLoginControl(LoginControl loginControl) {
@@ -38,6 +40,14 @@ public class ChatClient extends AbstractClient {
 			else if (message.equals("CreateAccountSuccessful")) {
 				createAccountControl.createAccountSuccess();
 			}
+			else if (message.equals("RollDiceSuccess"))
+			{
+				rollDiceControl.RollDiceSuccess();
+			}
+			else if (message.equals("BuyPropertiesSuccess"))
+			{
+				//buyPropertiesControl.BuyPropertiesSuccess();
+			}
 		}
 
 		// If we received an Error, figure out where to display it.
@@ -53,6 +63,12 @@ public class ChatClient extends AbstractClient {
 			// Display account creation errors using the create account controller.
 			else if (error.getType().equals("CreateAccount")) {
 				createAccountControl.displayError(error.getMessage());
+			}
+			else if (error.getType().equals("RollDice")) {
+				rollDiceControl.displayError(error.getMessage());
+			}
+			else if (error.getType().equals("BuyProperties")) {
+				//buyPropertiesControl.displayError(error.getMessage());
 			}
 		}
 	}

@@ -2,6 +2,9 @@ package clientGUI;
 
 import java.awt.*;
 import javax.swing.*;
+
+import longtingui.GameData;
+
 import java.io.IOException;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -95,6 +98,41 @@ public class ChatServer extends AbstractServer {
 			} else {
 				result = new Error("We're sorry! The username is already in use or An error has occured.", "CreateAccount");
 				log.append("Client " + arg1.getId() + " failed to create a new account\n");
+			}
+
+			// Send the result to the client.
+			try {
+				arg1.sendToClient(result);
+			} catch (IOException e) {
+				return;
+			}
+		}
+		
+		else if (arg0 instanceof RollDiceData) {
+			RollDiceData data = (RollDiceData) arg0;
+			GameData gamedata = new GameData();
+			Object result;
+			if (gamedata.getdiceRoll()) {
+				result = "RollDiceSuccess";
+			} else {
+				result = new Error("Not your turn.", "RollDice");
+			}
+
+			// Send the result to the client.
+			try {
+				arg1.sendToClient(result);
+			} catch (IOException e) {
+				return;
+			}
+		}
+		
+		else if (arg0 instanceof BuyPropertiesData) {
+			BuyPropertiesData data = (BuyPropertieseData) arg0;
+			Object result;
+			if (player.getMoney() < property.getPrice()) {
+				result = "BuyPropertiesSuccess";
+			} else {
+				result = new Error("Not enough money.", "BuyProperties");
 			}
 
 			// Send the result to the client.
