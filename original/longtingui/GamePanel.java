@@ -1,8 +1,10 @@
 package longtingui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import game.game.PlayGame;
-
+import clientGUI.CreateAccountControl;
+import clientGUI.ChatClient;
 import javax.swing.JButton;
 
 
@@ -33,6 +36,14 @@ public class GamePanel extends JPanel{
 	private PlayGame playGame;
 	private ExecutorService pool = Executors.newFixedThreadPool(2);
 	private double resize = 1.5;//1.2
+	private JLabel priceLabel;
+	private JLabel errorLabel;
+	private JButton buyBttn;
+	private ChatClient client = new ChatClient();
+	
+	public void setClient(ChatClient client) {
+	    this.client = client;
+	  }
 	
 	public void setContainer(JPanel container) {
 		this.container = container;
@@ -166,4 +177,45 @@ public class GamePanel extends JPanel{
 		eastPanel.add(squareCollections.get(38));
 		eastPanel.add(squareCollections.get(39));
 	}
+	
+	public void setPrice(String price) {
+		
+		priceLabel.setText(price);
+	  }
+	
+	// Setter for the error text.
+	public void setError(String error) {
+	    
+		errorLabel.setText(error);
+	  }
+	
+	public void BuyPropertiesPanel(GamePanelControl gpc)
+	  {
+	    //controller and set it in the chat client.
+		GamePanelControl controller = new GamePanelControl(container, client);
+	    client.setGamePanelControl(controller);
+	    
+	    // Create a panel for the labels at the top of the GUI.
+	    JPanel labelPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+	    errorLabel = new JLabel("", JLabel.CENTER);
+	    errorLabel.setForeground(Color.RED);
+	    priceLabel = new JLabel("", JLabel.CENTER);
+	    labelPanel.add(errorLabel);
+	    labelPanel.add(priceLabel);
+	    
+	    // Create a panel the button.
+	    JPanel buttonPanel = new JPanel();
+	    buyBttn = new JButton("Buy");
+	    //buyBttn.addActionListener();
+	    JButton cancelButton = new JButton("Cancel");
+	    cancelButton.addActionListener(gpc);    
+	    buttonPanel.add(buyBttn);
+	    buttonPanel.add(cancelButton);
+
+	    // Arrange the three panels in a grid.
+	    JPanel grid = new JPanel(new GridLayout(2, 1, 0, 10));
+	    grid.add(labelPanel);
+	    grid.add(buttonPanel);
+	    this.add(grid);
+	  }
 }
