@@ -78,6 +78,14 @@ public class GamePanel extends JPanel{
 		int scaleX = (int)(40 * resize);
 		int scaleY = (int)(50 * resize);
 		
+		createSquares(scaleX, scaleY);
+		//display player at the start
+		squareCollections.get(0).addCatPiece();
+		addSquaresToJPanel();
+		
+	}
+	
+	private void createSquares(int scaleX, int scaleY) {
 		squareCollections.add(new SquarePanel("/start.PNG", scaleY, scaleY));
 		squareCollections.add(new SquarePanel("/istanbul.PNG", scaleX, scaleY));
 		squareCollections.add(new SquarePanel("/lotteryVertical.PNG", scaleX, scaleY));
@@ -118,10 +126,9 @@ public class GamePanel extends JPanel{
 		squareCollections.add(new SquarePanel("/prague.PNG", scaleY, scaleX));
 		squareCollections.add(new SquarePanel("/touristTax.PNG", scaleY, scaleX));
 		squareCollections.add(new SquarePanel("/vienna.PNG", scaleY, scaleX));
-		
-		//display player at the start
-		squareCollections.get(0).addCatPiece();
-		
+	}
+	
+	private void addSquaresToJPanel() {
 		southPanel.add(squareCollections.get(12));
 		southPanel.add(squareCollections.get(11));
 		southPanel.add(squareCollections.get(10));

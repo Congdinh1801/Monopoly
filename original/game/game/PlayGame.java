@@ -1,8 +1,5 @@
 package game.game;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 import game.board.Airport;
 import game.board.CityProperty;
@@ -15,21 +12,16 @@ import game.player.Player;
 public class PlayGame{
 	private MonopolyBoard board;
 	private Dice dice;
-	private boolean stillPlaying;
-	private int current = 0;
-	private Scanner scan;
 	private Player player;
+	private boolean canBuy;
 	
 	public PlayGame(){
 		board = new MonopolyBoard();
 		dice = new Dice();
-		stillPlaying = true;
-		scan = new Scanner(System.in);
 		player = new Player("longtin");
 	}
 	
 	public void play() {
-		String roll = "";
 		int dice = 0;
 		
 		dice = this.dice.rollDice();
@@ -133,20 +125,11 @@ public class PlayGame{
 		
 		System.out.println("You are in " + city.getName() + "\n");
 		
-		String playerOption = "";
-		
-//		if(city.getOwner() == null) {
-//			System.out.println("Would you like to buy the property or auction the property?\n");
-//			playerOption = scan.next();
-//			
-//			if(playerOption.equals("buy")) {
-//				city.buyAsset(player);
-//			} else {
-//				autionProperty();
-//			}
-//		} else {
-//			city.action(player);
-//		}
+		if(city.getOwner() == null) {
+			canBuy = true;
+		} else {
+			canBuy = false;
+		}
 	}
 	
 	private void autionProperty() {
@@ -165,18 +148,11 @@ public class PlayGame{
 		
 		System.out.println("You are in " + airplane.getName() + "\n");
 		
-//		if(airplane.getOwner() == null) {
-//			System.out.println("Would you like to buy the property or auction the property?\n");
-//			playerOption = scan.next();
-//			
-//			if(playerOption.equals("buy")) {
-//				airplane.buyAsset(player);
-//			} else {
-//				autionProperty();
-//			}
-//		} else {
-//			airplane.action(player);
-//		}
+		if(airplane.getOwner() == null) {
+			canBuy = true;
+		} else {
+			canBuy = false;
+		}
 	}
 	
 	private void utilities() {
@@ -185,18 +161,11 @@ public class PlayGame{
 		
 		System.out.println("You are in " + util.getName() + "\n");
 		
-//		if(util.getOwner() == null) {
-//			System.out.println("Would you like to buy the property or auction the property?\n");
-//			playerOption = scan.next();
-//			
-//			if(playerOption.equals("buy")) {
-//				util.buyAsset(player);
-//			} else {
-//				autionProperty();
-//			}
-//		} else {
-//			util.action(player);
-//		}
+		if(util.getOwner() == null) {
+			canBuy = true;
+		} else {
+			canBuy = false;
+		}
 	}
 	
 	private void vacation() {
@@ -209,19 +178,23 @@ public class PlayGame{
 		System.out.println("You are arrested, and now are in jail!!" + "\n");
 	}
 	
-	public void lottery() {
+	private void lottery() {
 		board.getLottery(player.getPosition()).action(player);
 		System.out.println("Here is a lottery ticket" + "\n");
 	}
 	
-	public void casino() {
+	private void casino() {
 		board.getCasino(player.getPosition()).action(player);
 		System.out.println("Don't lose your money in the casino" + "\n");
 	}
 	
-	public void jail() {
+	private void jail() {
 		board.getJail(player.getPosition()).action(player);
 		System.out.println("Thanks for visiting the Euro's jail "  + "\n");
+	}
+	
+	private boolean canBuy() {
+		return canBuy;
 	}
 	
 	public Player getPlayer() {
