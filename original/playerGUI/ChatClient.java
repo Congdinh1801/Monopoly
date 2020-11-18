@@ -1,9 +1,9 @@
-package playerCommunication;
+package playerGUI;
 
 import ocsf.client.AbstractClient;
-import playerGUI.*;
+import playerCommunication.Error;
 
-public class BoardClient extends AbstractClient {
+public class ChatClient extends AbstractClient {
 	// Private data fields for storing the GUI controllers.
 	private LoginControl loginControl;
 	private CreateAccountControl createAccountControl;
@@ -23,7 +23,7 @@ public class BoardClient extends AbstractClient {
 	}
 
 	// Constructor for initializing the client with default settings.
-	public BoardClient() {
+	public ChatClient() {
 		super("localhost", 8300);
 	}
 

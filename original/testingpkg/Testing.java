@@ -3,8 +3,8 @@ package testingpkg;
 import java.util.ArrayList;
 import java.util.List;
 
-import game.game.PlayGame;
-import game.player.Player;
+import serverBackend.game.PlayGame;
+import serverBackend.player.Player;
 
 
 public class Testing {
