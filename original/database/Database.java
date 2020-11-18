@@ -20,7 +20,7 @@ public class Database {
 		Properties prop = new Properties();
 		FileInputStream fis = null;
 		try {
-			fis = new FileInputStream("original/clientGUI/db.properties"); // "./original/clientGUI/db.properties" or "original/clientGUI/db.properties"
+			fis = new FileInputStream("original/playerGUI/db.properties"); // "./original/clientGUI/db.properties" or "original/clientGUI/db.properties"
 		} catch (FileNotFoundException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();

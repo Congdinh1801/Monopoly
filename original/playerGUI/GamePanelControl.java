@@ -48,12 +48,12 @@ public class GamePanelControl implements ActionListener {
 //			}
 //
 //			// Submit the login information to the server.
-			GameData data = new GameData();
-			try {
-				client.sendToServer(data);
-			} catch (IOException e) {
-				displayError("Not your turn");
-			}
+//			GameData data = new GameData();
+//			try {
+//				client.sendToServer(data);
+//			} catch (IOException e) {
+//				displayError("Not your turn");
+//			}
 		}
 	}
 	

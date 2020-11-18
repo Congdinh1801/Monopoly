@@ -3,14 +3,14 @@ package testingpkg;
 import java.util.ArrayList;
 import java.util.List;
 
-import serverBackend.game.PlayGame;
+import serverBackend.game.GameData;
 import serverBackend.player.Player;
 
 
 public class Testing {
 
 	public static void main(String[] args) {
-		PlayGame game = new PlayGame();
+		GameData game = new GameData();
 		
 		game.play();
 		

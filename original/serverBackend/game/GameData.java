@@ -9,13 +9,16 @@ import serverBackend.board.Vacation;
 import serverBackend.dice.Dice;
 import serverBackend.player.Player;
 
-public class PlayGame{
+public class GameData{
 	private MonopolyBoard board;
 	private Dice dice;
 	private Player player;
 	private boolean canBuy;
+	private boolean isAirport;
+	private boolean isCityProperty;
+	private boolean isUtilities;
 	
-	public PlayGame(){
+	public GameData(){
 		board = new MonopolyBoard();
 		dice = new Dice();
 		player = new Player("longtin");
@@ -24,6 +27,7 @@ public class PlayGame{
 	public void play() {
 		int dice = 0;
 		
+		setCurrentAsset(false, false, false);
 		dice = this.dice.rollDice();
 		player.setPosition((player.getPosition() + dice) % 40);
 
@@ -113,6 +117,45 @@ public class PlayGame{
 				"Cash: " + player.getMoney() + "\n" +
 				"Position: " + player.getPosition() + "\n");
 	}
+	
+	public boolean isAirport() {
+		return isAirport;
+	}
+
+	public boolean isCityProperty() {
+		return isCityProperty;
+	}
+
+	public boolean isUtilities() {
+		return isUtilities;
+	}
+
+	public boolean canBuy() {
+		return canBuy;
+	}
+	
+	public void buyCityProperty() {
+		CityProperty city = board.getCityProperty(player.getPosition());
+		city.buyAsset(player);
+	}
+	
+	public void buyAirport() {
+		Airport airport = board.getAirport(player.getPosition());
+		airport.buyAsset(player);
+	}
+	
+	public void buyUtilitites() {
+		Utilities util = board.getUtilities(player.getPosition());
+		util.buyAsset(player);
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public Dice getDice() {
+		return dice;
+	}
 
 	private void passedStart() {
 		board.getStart(player.getPosition()).action(player);
@@ -123,13 +166,14 @@ public class PlayGame{
 	private void cityProperty() {
 		CityProperty city = board.getCityProperty(player.getPosition());
 		
-		System.out.println("You are in " + city.getName() + "\n");
-		
 		if(city.getOwner() == null) {
 			canBuy = true;
 		} else {
 			canBuy = false;
 		}
+		
+		setCurrentAsset(false, true, false);
+		
 	}
 	
 	private void autionProperty() {
@@ -143,29 +187,27 @@ public class PlayGame{
 	}
 	
 	private void airport() {
-		Airport airplane = board.getAirport(player.getPosition());
-		String playerOption = "";
+		Airport airport = board.getAirport(player.getPosition());
 		
-		System.out.println("You are in " + airplane.getName() + "\n");
-		
-		if(airplane.getOwner() == null) {
+		if(airport.getOwner() == null) {
 			canBuy = true;
 		} else {
 			canBuy = false;
 		}
+		
+		setCurrentAsset(true, false, false);
 	}
 	
 	private void utilities() {
 		Utilities util = board.getUtilities(player.getPosition());
-		String playerOption = "";
-		
-		System.out.println("You are in " + util.getName() + "\n");
 		
 		if(util.getOwner() == null) {
 			canBuy = true;
 		} else {
 			canBuy = false;
 		}
+		
+		setCurrentAsset(false, false, true);
 	}
 	
 	private void vacation() {
@@ -193,12 +235,10 @@ public class PlayGame{
 		System.out.println("Thanks for visiting the Euro's jail "  + "\n");
 	}
 	
-	private boolean canBuy() {
-		return canBuy;
+	private void setCurrentAsset(boolean isAirport, boolean isCityProperty, boolean isUtilities) {
+		this.isAirport = isAirport;
+		this.isCityProperty = isCityProperty;
+		this.isUtilities = isUtilities;
 	}
 	
-	public Player getPlayer() {
-		return player;
-	}
-
 }

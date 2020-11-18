@@ -32,7 +32,7 @@ public class GamePanel extends JPanel{
 	private Image image;
 	private JLabel imageLabel = new JLabel();
 	private ArrayList<SquarePanel> squareCollections;
-	//private PlayGame playGame;
+	private GameData gameData;
 	private ExecutorService pool = Executors.newFixedThreadPool(2);
 	private double resize = 1.5;//1.2
 	private JLabel priceLabel;
@@ -50,7 +50,7 @@ public class GamePanel extends JPanel{
 	
 	public GamePanel(GamePanelControl gpc){
 		squareCollections = new ArrayList<>();
-		//playGame = new PlayGame();
+		gameData = new GameData();
 		BoardPanel();
 	}
 	
@@ -68,12 +68,20 @@ public class GamePanel extends JPanel{
 		roll.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//int currentPosition = playGame.getPlayer().getPosition();
-				//playGame.play();
-				//Runnable r1 = new Animator(squareCollections, currentPosition, playGame.getPlayer().getPosition());
-				//pool.execute(r1);
+				int currentPosition = gameData.getPlayer().getPosition();
+				gameData.play();
+				Runnable r1 = new Animator(squareCollections, currentPosition, gameData.getPlayer().getPosition());
+				if(gameData.canBuy()) {
+					if(gameData.isAirport()) {
+						System.out.println("You are in an Airplane Square");
+					} else if(gameData.isCityProperty()) {
+						System.out.println("You are in City Property Square");
+					} else if(gameData.isUtilities()) {
+						System.out.println("You are in an Utility Square");
+					}
+				}
+				pool.execute(r1);
 			}
-			
 		});
 		
 		this.setPreferredSize(new Dimension((int)(540 * resize), (int)(375 * resize)));

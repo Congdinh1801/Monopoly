@@ -11,7 +11,7 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import playerCommunication.Error;
 import playerGUI.CreateAccountData;
-import playerGUI.GameData;
+//import playerGUI.GameData;
 import playerGUI.LoginData;
 
 public class ChatServer extends AbstractServer {
@@ -113,23 +113,23 @@ public class ChatServer extends AbstractServer {
 			}
 		}
 		
-		else if (arg0 instanceof Dice) {
-			Dice data = (Dice) arg0;
-			GameData gamedata = new GameData();
-			Object result;
-			if (gamedata.getdiceRoll()) {
-				result = "RollDiceSuccess";
-			} else {
-				result = new Error("Not your turn.", "RollDice");
-			}
-
-			// Send the result to the client.
-			try {
-				arg1.sendToClient(result);
-			} catch (IOException e) {
-				return;
-			}
-		}
+//		else if (arg0 instanceof Dice) {
+//			Dice data = (Dice) arg0;
+//			GameData gamedata = new GameData();
+//			Object result;
+//			if (gamedata.getdiceRoll()) {
+//				result = "RollDiceSuccess";
+//			} else {
+//				result = new Error("Not your turn.", "RollDice");
+//			}
+//
+//			// Send the result to the client.
+//			try {
+//				arg1.sendToClient(result);
+//			} catch (IOException e) {
+//				return;
+//			}
+//		}
 		//BuyPropertiesData doesnt exist anymore
 		/*else if (arg0 instanceof BuyPropertiesData) {
 			BuyPropertiesData data = (BuyPropertieseData) arg0;
