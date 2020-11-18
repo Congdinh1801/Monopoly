@@ -1,13 +1,13 @@
 package clientGUI;
 
+import longtingui.GamePanelControl;
 import ocsf.client.AbstractClient;
 
 public class ChatClient extends AbstractClient {
 	// Private data fields for storing the GUI controllers.
 	private LoginControl loginControl;
 	private CreateAccountControl createAccountControl;
-	private RollDiceControl rollDiceControl;
-	//private BuyPropertiesControl buyPropertiesControl;
+	private GamePanelControl gamePanelControl;
 
 	// Setters for the GUI controllers.
 	public void setLoginControl(LoginControl loginControl) {
@@ -16,6 +16,10 @@ public class ChatClient extends AbstractClient {
 
 	public void setCreateAccountControl(CreateAccountControl createAccountControl) {
 		this.createAccountControl = createAccountControl;
+	}
+	
+	public void setGamePanelControl(GamePanelControl gamePanelControl) {
+		this.gamePanelControl = gamePanelControl;
 	}
 
 	// Constructor for initializing the client with default settings.
@@ -40,13 +44,14 @@ public class ChatClient extends AbstractClient {
 			else if (message.equals("CreateAccountSuccessful")) {
 				createAccountControl.createAccountSuccess();
 			}
+			//
 			else if (message.equals("RollDiceSuccess"))
 			{
-				rollDiceControl.RollDiceSuccess();
+				gamePanelControl.RollDiceSuccess();
 			}
 			else if (message.equals("BuyPropertiesSuccess"))
 			{
-				//buyPropertiesControl.BuyPropertiesSuccess();
+				//gamePanelControl.BuyPropertiesSuccess();
 			}
 		}
 
@@ -65,10 +70,10 @@ public class ChatClient extends AbstractClient {
 				createAccountControl.displayError(error.getMessage());
 			}
 			else if (error.getType().equals("RollDice")) {
-				rollDiceControl.displayError(error.getMessage());
+				gamePanelControl.displayError(error.getMessage());
 			}
 			else if (error.getType().equals("BuyProperties")) {
-				//buyPropertiesControl.displayError(error.getMessage());
+				gamePanelControl.displayError(error.getMessage());
 			}
 		}
 	}

@@ -40,23 +40,27 @@ public class CreateAccountControl implements ActionListener {
 
 			// Check the validity of the information locally first.
 			if (username.equals("") || password.equals("")) {
+				
 				displayError("You must enter a username and password.");
 				return;
-			} else if (!password.equals(passwordVerify)) {
+			} 
+			else if (!password.equals(passwordVerify)) {
 				displayError("The two passwords did not match.");
 				return;
 			}
-			if (password.length() < 6) {
+			else if (password.length() < 6 || passwordVerify.length() < 6) {
 				displayError("The password must be at least 6 characters.");
 				return;
 			}
+			else {
 
-			// Submit the new account information to the server.
-			CreateAccountData data = new CreateAccountData(username, password);
-			try {
-				client.sendToServer(data);
-			} catch (IOException e) {
-				displayError("Error connecting to the server.");
+				// Submit the new account information to the server.
+				CreateAccountData data = new CreateAccountData(username, password);
+				try {
+					client.sendToServer(data);
+				} catch (IOException e) {
+					displayError("Error connecting to the server.");
+				}
 			}
 		}
 	}
@@ -78,5 +82,7 @@ public class CreateAccountControl implements ActionListener {
 	public void displayError(String error) {
 		CreateAccountPanel createAccountPanel = (CreateAccountPanel) container.getComponent(2);
 		createAccountPanel.setError(error);
+		CardLayout cardLayout = (CardLayout)container.getLayout();
+		cardLayout.show(container, "3");
 	}
 }

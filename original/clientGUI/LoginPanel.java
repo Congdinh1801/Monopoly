@@ -10,6 +10,8 @@ public class LoginPanel extends JPanel
   private JTextField usernameField;
   private JPasswordField passwordField;
   private JLabel errorLabel;
+  private JPanel container = new JPanel();
+  private ChatClient client = new ChatClient();
   
   // Getter for the text in the username field.
   public String getUsername()
@@ -23,6 +25,16 @@ public class LoginPanel extends JPanel
     return new String(passwordField.getPassword());
   }
   
+  public void setContainer(JPanel container)
+  {
+    this.container = container;
+  }
+  
+  public void setClient(ChatClient client)
+  {
+    this.client = client;
+  }
+  
   // Setter for the error text.
   public void setError(String error)
   {
@@ -33,8 +45,8 @@ public class LoginPanel extends JPanel
   public LoginPanel(LoginControl lc)
   {
     // Create the controller and set it in the chat client.
-    //LoginControl controller = new LoginControl(container, client);
-    //client.setLoginControl(controller);
+    LoginControl controller = new LoginControl(container, client);
+    client.setLoginControl(controller);
         
     // Create a panel for the labels at the top of the GUI.
     JPanel labelPanel = new JPanel(new GridLayout(2, 1, 5, 5));

@@ -3,6 +3,7 @@ package clientGUI;
 import java.awt.*;
 import javax.swing.*;
 
+import game.dice.Dice;
 import longtingui.GameData;
 
 import java.io.IOException;
@@ -108,8 +109,8 @@ public class ChatServer extends AbstractServer {
 			}
 		}
 		
-		else if (arg0 instanceof RollDiceData) {
-			RollDiceData data = (RollDiceData) arg0;
+		else if (arg0 instanceof Dice) {
+			Dice data = (Dice) arg0;
 			GameData gamedata = new GameData();
 			Object result;
 			if (gamedata.getdiceRoll()) {
@@ -126,7 +127,8 @@ public class ChatServer extends AbstractServer {
 			}
 		}
 		
-		else if (arg0 instanceof BuyPropertiesData) {
+		//BuyPropertiesData doesnt exist anymore
+		/*else if (arg0 instanceof BuyPropertiesData) {
 			BuyPropertiesData data = (BuyPropertieseData) arg0;
 			Object result;
 			if (player.getMoney() < property.getPrice()) {
@@ -140,8 +142,8 @@ public class ChatServer extends AbstractServer {
 				arg1.sendToClient(result);
 			} catch (IOException e) {
 				return;
-			}
-		}
+			}*/
+		
 	}
 
 	// Method that handles listening exceptions by displaying exception information.

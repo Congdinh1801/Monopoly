@@ -2,6 +2,7 @@ package clientGUI;
 
 import java.awt.*;
 import javax.swing.*;
+
 import java.awt.event.*;
 
 public class CreateAccountPanel extends JPanel
@@ -11,6 +12,18 @@ public class CreateAccountPanel extends JPanel
   private JPasswordField passwordField;
   private JPasswordField passwordVerifyField;
   private JLabel errorLabel;
+  private JPanel container = new JPanel ();
+  private ChatClient client = new ChatClient();
+  
+  public void setContainer(JPanel container)
+  {
+    this.container = container;
+  }
+  
+  public void setClient(ChatClient client)
+  {
+    this.client = client;
+  }
   
   // Getter for the text in the username field.
   public String getUsername()
@@ -40,8 +53,8 @@ public class CreateAccountPanel extends JPanel
   public CreateAccountPanel(CreateAccountControl cac)
   {
     // Create the controller and set it in the chat client.
-    //CreateAccountControl controller = new CreateAccountControl(container, client);
-    //client.setCreateAccountControl(controller);
+    CreateAccountControl controller = new CreateAccountControl(container, client);
+    client.setCreateAccountControl(controller);
     
     // Create a panel for the labels at the top of the GUI.
     JPanel labelPanel = new JPanel(new GridLayout(3, 1, 5, 5));
