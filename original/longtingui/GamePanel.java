@@ -14,6 +14,9 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import game.game.PlayGame;
+
 import javax.swing.JButton;
 
 
@@ -27,7 +30,7 @@ public class GamePanel extends JPanel{
 	private Image image;
 	private JLabel imageLabel = new JLabel();
 	private ArrayList<SquarePanel> squareCollections;
-	private Runnable r1;
+	private PlayGame playGame;
 	private ExecutorService pool = Executors.newFixedThreadPool(2);
 	private double resize = 1.5;//1.2
 	
@@ -37,7 +40,7 @@ public class GamePanel extends JPanel{
 	
 	public GamePanel(GamePanelControl gpc){
 		squareCollections = new ArrayList<>();
-		r1 = new Animator(squareCollections);
+		playGame = new PlayGame();
 		BoardPanel();
 	}
 	
@@ -55,6 +58,9 @@ public class GamePanel extends JPanel{
 		roll.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int currentPosition = playGame.getPlayer().getPosition();
+				playGame.play();
+				Runnable r1 = new Animator(squareCollections, currentPosition, playGame.getPlayer().getPosition());
 				pool.execute(r1);
 			}
 			

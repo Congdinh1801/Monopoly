@@ -2,8 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="src" path="original"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-10"/>
-	<classpathentry kind="lib" path="C:/Users/admin/git/Monopoly7/mysql-connector-java-5.1.40-bin.jar"/>
-	<classpathentry kind="lib" path="C:/Users/admin/git/Monopoly7/ocsf.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-10">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Longtin/Desktop/General/School/UCA/Software Engineering/Monopoly/Monopoly/mysql-connector-java-5.1.40-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Longtin/Desktop/General/School/UCA/Software Engineering/Monopoly/Monopoly/ocsf.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

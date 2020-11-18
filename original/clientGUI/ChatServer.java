@@ -126,22 +126,22 @@ public class ChatServer extends AbstractServer {
 			}
 		}
 		
-		else if (arg0 instanceof BuyPropertiesData) {
-			BuyPropertiesData data = (BuyPropertieseData) arg0;
-			Object result;
-			if (player.getMoney() < property.getPrice()) {
-				result = "BuyPropertiesSuccess";
-			} else {
-				result = new Error("Not enough money.", "BuyProperties");
-			}
-
-			// Send the result to the client.
-			try {
-				arg1.sendToClient(result);
-			} catch (IOException e) {
-				return;
-			}
-		}
+//		else if (arg0 instanceof BuyPropertiesData) {
+//			BuyPropertiesData data = (BuyPropertieseData) arg0;
+//			Object result;
+//			if (player.getMoney() < property.getPrice()) {
+//				result = "BuyPropertiesSuccess";
+//			} else {
+//				result = new Error("Not enough money.", "BuyProperties");
+//			}
+//
+//			// Send the result to the client.
+//			try {
+//				arg1.sendToClient(result);
+//			} catch (IOException e) {
+//				return;
+//			}
+//		}
 	}
 
 	// Method that handles listening exceptions by displaying exception information.
