@@ -34,31 +34,14 @@ public class GamePanelControl implements ActionListener {
 		    } catch (IOException e) {
 				displayError("Error connecting to the server.");
 				}*/
-		
+		//buy button control
 			
 			
-//			// Get the username and password the user entered.
-//			GamePanel loginPanel = (GamePanel) container.getComponent(3);
-//			GameData data = new GameData();
-//
-//			// Check the validity of the information locally first.
-//			if (data.getUsername().equals("") || data.getPassword().equals("")) {
-//				displayError("You must enter a username and password.");
-//				return;
-//			}
-//
-//			// Submit the login information to the server.
-//			GameData data = new GameData();
-//			try {
-//				client.sendToServer(data);
-//			} catch (IOException e) {
-//				displayError("Not your turn");
-//			}
+
 		}
 	}
 	
 	// After dice has been rolled, update gui
-	// screen.
 	public void RollDiceSuccess() {
 			//RollDicePanel rollDicePanel = (RollDicePanel) container.getComponent(2);
 			//ClientGUI clientGUI = (ClientGUI) SwingUtilities.getWindowAncestor(rollDicePanel);
@@ -73,5 +56,6 @@ public class GamePanelControl implements ActionListener {
 	  {
 	    System.out.println(error);
 	  }
+	  
 
 }

@@ -35,7 +35,9 @@ public class GamePanel extends JPanel{
 	private GameData gameData;
 	private ExecutorService pool = Executors.newFixedThreadPool(2);
 	private double resize = 1.5;//1.2
-	private JLabel priceLabel;
+	private JLabel rentPriceLabel;
+	private JLabel purchasePriceLabel;
+	private JLabel nameLabel;
 	private JLabel errorLabel;
 	private JButton buyBttn;
 	private ChatClient client = new ChatClient();
@@ -185,9 +187,17 @@ public class GamePanel extends JPanel{
 		eastPanel.add(squareCollections.get(39));
 	}
 	
-	public void setPrice(String price) {
+	public void nameLabel(String name) {
 		
-		priceLabel.setText(price);
+		nameLabel.setText(name);
+	  }
+	public void rentPriceLabel(String rentPrice) {
+		
+		rentPriceLabel.setText(rentPrice);
+	  }
+	public void purchasePriceLabel(String purchasePrice) {
+		
+		purchasePriceLabel.setText(purchasePrice);
 	  }
 	
 	// Setter for the error text.
@@ -196,24 +206,26 @@ public class GamePanel extends JPanel{
 		errorLabel.setText(error);
 	  }
 	
+	//Buy properties
 	public void BuyPropertiesPanel(GamePanelControl gpc)
 	  {
 	    //controller and set it in the chat client.
 		GamePanelControl controller = new GamePanelControl(container, client);
 	    client.setGamePanelControl(controller);
 	    
-	    // Create a panel for the labels at the top of the GUI.
-	    JPanel labelPanel = new JPanel(new GridLayout(2, 1, 5, 5));
-	    errorLabel = new JLabel("", JLabel.CENTER);
-	    errorLabel.setForeground(Color.RED);
-	    priceLabel = new JLabel("", JLabel.CENTER);
-	    labelPanel.add(errorLabel);
-	    labelPanel.add(priceLabel);
-	    
-	    // Create a panel the button.
+	    // Create land name and price info label
+	    JPanel labelPanel = new JPanel(new GridLayout(3, 1, 5, 5));
+	    nameLabel = new JLabel("", JLabel.CENTER);
+	    rentPriceLabel = new JLabel("", JLabel.CENTER);
+	    purchasePriceLabel = new JLabel("", JLabel.CENTER);
+	    labelPanel.add(nameLabel);
+	    labelPanel.add(rentPriceLabel);
+	    labelPanel.add(purchasePriceLabel);
+
+	    // Create a panel the buttons
 	    JPanel buttonPanel = new JPanel();
 	    buyBttn = new JButton("Buy");
-	    //buyBttn.addActionListener();
+	    buyBttn.addActionListener(gpc);
 	    JButton cancelButton = new JButton("Cancel");
 	    cancelButton.addActionListener(gpc);    
 	    buttonPanel.add(buyBttn);
@@ -225,4 +237,5 @@ public class GamePanel extends JPanel{
 	    grid.add(buttonPanel);
 	    this.add(grid);
 	  }
+	
 }
