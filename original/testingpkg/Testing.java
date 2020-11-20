@@ -3,7 +3,7 @@ package testingpkg;
 import java.util.ArrayList;
 import java.util.List;
 
-import serverBackend.game.GameData;
+import playerGUI.GameData;
 import serverBackend.player.Player;
 
 

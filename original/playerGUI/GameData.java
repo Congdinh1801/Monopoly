@@ -1,4 +1,4 @@
-package serverBackend.game;
+package playerGUI;
 
 
 import serverBackend.board.Airport;
