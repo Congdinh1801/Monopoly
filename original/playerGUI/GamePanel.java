@@ -99,7 +99,7 @@ public class GamePanel extends JPanel {
 				pool.execute(r1);
 				
 				int die1;
-				die1 = gameData.getDice().getDiceNumber();
+				die1 = gameData.getDice1().getDiceNumber();
 				
 				switch (die1) {
 				case 1:
@@ -134,7 +134,7 @@ public class GamePanel extends JPanel {
 					break;
 				}
 				
-				int die2 = (int)(Math.random() * 6) + 1;
+				int die2 = gameData.getDice2().getDiceNumber();
 				switch(die2) {
 				case 1:
 					tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));

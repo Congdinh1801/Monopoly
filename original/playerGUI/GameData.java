@@ -11,7 +11,8 @@ import serverBackend.player.Player;
 
 public class GameData{
 	private MonopolyBoard board;
-	private Dice dice;
+	private Dice dice1;
+	private Dice dice2;
 	private Player player;
 	private int previousPosition;
 	private boolean canBuy;
@@ -21,17 +22,20 @@ public class GameData{
 	
 	public GameData(){
 		board = new MonopolyBoard();
-		dice = new Dice();
+		dice1 = new Dice();
+		dice2 = new Dice();
 		player = new Player("longtin");
 	}
 	
 	public void play() {
-		int dice = 0;
+		int dice1 = 0;
+		int dice2 = 0;
 		
 		setCurrentAsset(false, false, false);
-		dice = this.dice.rollDice();
+		dice1 = this.dice1.rollDice();
+		dice2 = this.dice2.rollDice();
 		previousPosition = player.getPosition();
-		player.setPosition((player.getPosition() + dice) % 40);
+		player.setPosition((player.getPosition() + dice1 + dice2) % 40);
 
 		if(player.getPosition() == 0) {
 			passedStart();
@@ -159,8 +163,12 @@ public class GameData{
 		return player;
 	}
 	
-	public Dice getDice() {
-		return dice;
+	public Dice getDice1() {
+		return dice1;
+	}
+	
+	public Dice getDice2() {
+		return dice2;
 	}
 
 	private void passedStart() {
