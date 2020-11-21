@@ -170,6 +170,7 @@ public class GameData{
 			canBuy = true;
 		} else {
 			canBuy = false;
+			city.action(player);
 		}
 		
 		setCurrentAsset(false, true, false);
@@ -193,6 +194,7 @@ public class GameData{
 			canBuy = true;
 		} else {
 			canBuy = false;
+			airport.action(player);
 		}
 		
 		setCurrentAsset(true, false, false);
@@ -205,6 +207,7 @@ public class GameData{
 			canBuy = true;
 		} else {
 			canBuy = false;
+			util.action(player);
 		}
 		
 		setCurrentAsset(false, false, true);
