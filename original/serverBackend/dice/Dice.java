@@ -26,7 +26,7 @@ public class Dice {
 	    this.dice = dice;
 	  }
 	
-	public int getDice() {
+	public int getDiceNumber() {
 		return dice;
 	}
 

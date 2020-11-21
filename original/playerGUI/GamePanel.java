@@ -32,10 +32,12 @@ public class GamePanel extends JPanel {
 	private JPanel dice2 = new JPanel();
 	private ImageIcon tempImage;
 	private Image image;
+	private ImageIcon tempImage2;
+	private Image image2;
 	private JLabel imageLabel = new JLabel();
 	private ArrayList<SquarePanel> squareCollections;
 	private GameData gameData;
-	private ExecutorService pool = Executors.newFixedThreadPool(2);
+	private ExecutorService pool = Executors.newFixedThreadPool(1);	//2
 	private double resize = 1.5;// 1.2
 	private JLabel rentPriceLabel;
 	private JLabel purchasePriceLabel;
@@ -71,7 +73,11 @@ public class GamePanel extends JPanel {
 		JLabel label1 = new JLabel();
 		label1.setIcon(new ImageIcon("/Alea_1.png"));
 		JLabel label2 = new JLabel();
-		label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_1.png"));
+		
+		tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));
+		image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		label2.setIcon(new ImageIcon(image2));
+
 		
 		JButton roll = new JButton("Roll Dice");
 		roll.addActionListener(new ActionListener() {
@@ -92,48 +98,73 @@ public class GamePanel extends JPanel {
 				}
 				pool.execute(r1);
 				
-				int die1 = (int)(Math.random() * 6) + 1;
+				int die1;
+				die1 = gameData.getDice().getDiceNumber();
 				
 				switch (die1) {
 				case 1:
-					label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_1.png"));
+					tempImage = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));
+					image = tempImage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label1.setIcon(new ImageIcon(image));
 					break;
 				case 2:
-					label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_2.png"));
+					tempImage = new ImageIcon(GamePanel.class.getResource("/Alea_2.png"));
+					image = tempImage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label1.setIcon(new ImageIcon(image));
 					break;
 				case 3:
-					label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_3.png"));
+					tempImage = new ImageIcon(GamePanel.class.getResource("/Alea_3.png"));
+					image = tempImage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label1.setIcon(new ImageIcon(image));
 					break;
 				case 4:
-					label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_4.png"));
+					tempImage = new ImageIcon(GamePanel.class.getResource("/Alea_4.png"));
+					image = tempImage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label1.setIcon(new ImageIcon(image));
 					break;
 				case 5:
-					label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_5.png"));
+					tempImage = new ImageIcon(GamePanel.class.getResource("/Alea_5.png"));
+					image = tempImage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label1.setIcon(new ImageIcon(image));
 					break;
 				case 6:
-					label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_6.png"));
+					tempImage = new ImageIcon(GamePanel.class.getResource("/Alea_6.png"));
+					image = tempImage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label1.setIcon(new ImageIcon(image));
 					break;
 				}
 				
 				int die2 = (int)(Math.random() * 6) + 1;
 				switch(die2) {
 				case 1:
-					label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_1.png"));
+					tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));
+					image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label2.setIcon(new ImageIcon(image2));
 					break;
 				case 2:
-					label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_2.png"));
+					tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_2.png"));
+					image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label2.setIcon(new ImageIcon(image2));
 					break;
 				case 3:
-					label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_3.png"));
+					tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_3.png"));
+					image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label2.setIcon(new ImageIcon(image2));
 					break;
 				case 4:
-					label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_4.png"));
+					tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_4.png"));
+					image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label2.setIcon(new ImageIcon(image2));
 					break;
 				case 5:
-					label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_5.png"));
+					tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_5.png"));
+					image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label2.setIcon(new ImageIcon(image2));
 					break;
 				case 6:
-					label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_6.png"));
+					tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_6.png"));
+					image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label2.setIcon(new ImageIcon(image2));
 					break;
 				}
 			}
@@ -287,7 +318,6 @@ public class GamePanel extends JPanel {
 	}
 
 	public void purchasePriceLabel(String purchasePrice) {
-
 		purchasePriceLabel.setText(purchasePrice);
 	}
 
