@@ -69,7 +69,7 @@ public class GamePanel extends JPanel {
 		centerPanel.setLayout(new FlowLayout());
 		
 		JLabel label1 = new JLabel();
-		label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_1.png"));
+		label1.setIcon(new ImageIcon("/Alea_1.png"));
 		JLabel label2 = new JLabel();
 		label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_1.png"));
 		
@@ -77,9 +77,10 @@ public class GamePanel extends JPanel {
 		roll.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int currentPosition = gameData.getPlayer().getPosition();
 				gameData.play();
-				Runnable r1 = new Animator(squareCollections, currentPosition, gameData.getPlayer().getPosition());
+				
+				int previousPosition = gameData.getPreviousPosition();
+				Runnable r1 = new Animator(squareCollections, previousPosition, gameData.getPlayer().getPosition());
 				if(gameData.canBuy()) {
 					if(gameData.isAirport()) {
 						System.out.println("You are in an Airplane Square");
@@ -139,9 +140,7 @@ public class GamePanel extends JPanel {
 		});
 		
 		
-		
-		
-		
+
 		
 		JLabel label3 = new JLabel("test");
 		JLabel label4 = new JLabel("test");

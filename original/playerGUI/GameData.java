@@ -13,6 +13,7 @@ public class GameData{
 	private MonopolyBoard board;
 	private Dice dice;
 	private Player player;
+	private int previousPosition;
 	private boolean canBuy;
 	private boolean isAirport;
 	private boolean isCityProperty;
@@ -29,6 +30,7 @@ public class GameData{
 		
 		setCurrentAsset(false, false, false);
 		dice = this.dice.rollDice();
+		previousPosition = player.getPosition();
 		player.setPosition((player.getPosition() + dice) % 40);
 
 		if(player.getPosition() == 0) {
@@ -118,6 +120,10 @@ public class GameData{
 				"Position: " + player.getPosition() + "\n");
 	}
 	
+	public int getPreviousPosition() {
+		return previousPosition;
+	}
+
 	public boolean isAirport() {
 		return isAirport;
 	}
