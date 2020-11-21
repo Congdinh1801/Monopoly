@@ -21,41 +21,43 @@ import javax.swing.JPanel;
 
 import javax.swing.JButton;
 
-
-public class GamePanel extends JPanel{
+public class GamePanel extends JPanel {
 	private JPanel container = new JPanel();
 	private JPanel northPanel = new JPanel();
 	private JPanel eastPanel = new JPanel();
 	private JPanel westPanel = new JPanel();
 	private JPanel southPanel = new JPanel();
+	private JPanel centerPanel = new JPanel();
+	private JPanel dice1 = new JPanel();
+	private JPanel dice2 = new JPanel();
 	private ImageIcon tempImage;
 	private Image image;
 	private JLabel imageLabel = new JLabel();
 	private ArrayList<SquarePanel> squareCollections;
 	private GameData gameData;
 	private ExecutorService pool = Executors.newFixedThreadPool(2);
-	private double resize = 1.5;//1.2
+	private double resize = 1.5;// 1.2
 	private JLabel rentPriceLabel;
 	private JLabel purchasePriceLabel;
 	private JLabel nameLabel;
 	private JLabel errorLabel;
 	private JButton buyBttn;
 	private ChatClient client = new ChatClient();
-	
+
 	public void setClient(ChatClient client) {
-	    this.client = client;
-	  }
-	
+		this.client = client;
+	}
+
 	public void setContainer(JPanel container) {
 		this.container = container;
 	}
-	
-	public GamePanel(GamePanelControl gpc){
+
+	public GamePanel(GamePanelControl gpc) {
 		squareCollections = new ArrayList<>();
 		gameData = new GameData();
 		BoardPanel();
 	}
-	
+
 	private void BoardPanel() {
 		this.setLayout(new BorderLayout());
 		
@@ -64,7 +66,12 @@ public class GamePanel extends JPanel{
 		westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
 		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
 		
+		centerPanel.setLayout(new FlowLayout());
 		
+		JLabel label1 = new JLabel();
+		label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_1.png"));
+		JLabel label2 = new JLabel();
+		label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_1.png"));
 		
 		JButton roll = new JButton("Roll Dice");
 		roll.addActionListener(new ActionListener() {
@@ -83,14 +90,97 @@ public class GamePanel extends JPanel{
 					}
 				}
 				pool.execute(r1);
+				
+				int die1 = (int)(Math.random() * 6) + 1;
+				
+				switch (die1) {
+				case 1:
+					label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_1.png"));
+					break;
+				case 2:
+					label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_2.png"));
+					break;
+				case 3:
+					label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_3.png"));
+					break;
+				case 4:
+					label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_4.png"));
+					break;
+				case 5:
+					label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_5.png"));
+					break;
+				case 6:
+					label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_6.png"));
+					break;
+				}
+				
+				int die2 = (int)(Math.random() * 6) + 1;
+				switch(die2) {
+				case 1:
+					label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_1.png"));
+					break;
+				case 2:
+					label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_2.png"));
+					break;
+				case 3:
+					label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_3.png"));
+					break;
+				case 4:
+					label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_4.png"));
+					break;
+				case 5:
+					label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_5.png"));
+					break;
+				case 6:
+					label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_6.png"));
+					break;
+				}
 			}
 		});
+		
+		
+		
+		
+		
+		
+		JLabel label3 = new JLabel("test");
+		JLabel label4 = new JLabel("test");
+		
+		
+		
+		JPanel dicePanel = new JPanel(new GridLayout(1,2,10,1));
+
+		
+		dice1 = new JPanel(new FlowLayout());
+		dice1.setSize(50, 50);
+		dice1.add(label1);
+		
+		dice2 = new JPanel(new FlowLayout());
+		dice2.add(label2);
+		JPanel rollbuttonbuffer = new JPanel();
+		rollbuttonbuffer.add(roll);
+		
+		
+		JPanel panel3 = new JPanel (new GridLayout(2,1,1,0));
+		dicePanel.add(dice1);
+		dicePanel.add(dice2);
+		panel3.add(dicePanel);
+		panel3.add(rollbuttonbuffer);
+		
+		JPanel centerwest = new JPanel(new FlowLayout());
+		JPanel centereast = new JPanel(new FlowLayout());
+		centerPanel.add(centerwest, BorderLayout.WEST);
+		centerPanel.add(centereast, BorderLayout.EAST);
+		//centerwest.add(label3); India use centerwest, i will use centereast
+		centereast.add(panel3);
+		centerPanel.add(centerwest, BorderLayout.WEST);
+		centerPanel.add(centereast, BorderLayout.EAST);
 		
 		this.setPreferredSize(new Dimension((int)(540 * resize), (int)(375 * resize)));
 
 		addSquares();
-		add(roll, BorderLayout.CENTER);
-		//add(imageLabel, BorderLayout.CENTER);
+		//add(roll, BorderLayout.CENTER);
+		add(centerPanel, BorderLayout.CENTER);
 		add(southPanel, BorderLayout.SOUTH);
 		add(northPanel, BorderLayout.NORTH);
 		add(westPanel, BorderLayout.WEST);
@@ -98,9 +188,9 @@ public class GamePanel extends JPanel{
 	}
 
 	private void addSquares() {
-		int scaleX = (int)(40 * resize);
-		int scaleY = (int)(50 * resize);
-		
+		int scaleX = (int) (40 * resize);
+		int scaleY = (int) (50 * resize);
+
 		squareCollections.add(new SquarePanel("/start.PNG", scaleY, scaleY));
 		squareCollections.add(new SquarePanel("/istanbul.PNG", scaleX, scaleY));
 		squareCollections.add(new SquarePanel("/lotteryVertical.PNG", scaleX, scaleY));
@@ -141,10 +231,10 @@ public class GamePanel extends JPanel{
 		squareCollections.add(new SquarePanel("/prague.PNG", scaleY, scaleX));
 		squareCollections.add(new SquarePanel("/touristTax.PNG", scaleY, scaleX));
 		squareCollections.add(new SquarePanel("/vienna.PNG", scaleY, scaleX));
-		
-		//display player at the start
+
+		// display player at the start
 		squareCollections.get(0).addCatPiece();
-		
+
 		southPanel.add(squareCollections.get(12));
 		southPanel.add(squareCollections.get(11));
 		southPanel.add(squareCollections.get(10));
@@ -186,56 +276,57 @@ public class GamePanel extends JPanel{
 		eastPanel.add(squareCollections.get(38));
 		eastPanel.add(squareCollections.get(39));
 	}
-	
+
 	public void nameLabel(String name) {
-		
+
 		nameLabel.setText(name);
-	  }
+	}
+
 	public void rentPriceLabel(String rentPrice) {
-		
+
 		rentPriceLabel.setText(rentPrice);
-	  }
+	}
+
 	public void purchasePriceLabel(String purchasePrice) {
-		
+
 		purchasePriceLabel.setText(purchasePrice);
-	  }
-	
+	}
+
 	// Setter for the error text.
 	public void setError(String error) {
-	    
+
 		errorLabel.setText(error);
-	  }
-	
-	//Buy properties
-	public void BuyPropertiesPanel(GamePanelControl gpc)
-	  {
-	    //controller and set it in the chat client.
+	}
+
+	// Buy properties
+	public void BuyPropertiesPanel(GamePanelControl gpc) {
+		// controller and set it in the chat client.
 		GamePanelControl controller = new GamePanelControl(container, client);
-	    client.setGamePanelControl(controller);
-	    
-	    // Create land name and price info label
-	    JPanel labelPanel = new JPanel(new GridLayout(3, 1, 5, 5));
-	    nameLabel = new JLabel("", JLabel.CENTER);
-	    rentPriceLabel = new JLabel("", JLabel.CENTER);
-	    purchasePriceLabel = new JLabel("", JLabel.CENTER);
-	    labelPanel.add(nameLabel);
-	    labelPanel.add(rentPriceLabel);
-	    labelPanel.add(purchasePriceLabel);
+		client.setGamePanelControl(controller);
 
-	    // Create a panel the buttons
-	    JPanel buttonPanel = new JPanel();
-	    buyBttn = new JButton("Buy");
-	    buyBttn.addActionListener(gpc);
-	    JButton cancelButton = new JButton("Cancel");
-	    cancelButton.addActionListener(gpc);    
-	    buttonPanel.add(buyBttn);
-	    buttonPanel.add(cancelButton);
+		// Create land name and price info label
+		JPanel labelPanel = new JPanel(new GridLayout(3, 1, 5, 5));
+		nameLabel = new JLabel("", JLabel.CENTER);
+		rentPriceLabel = new JLabel("", JLabel.CENTER);
+		purchasePriceLabel = new JLabel("", JLabel.CENTER);
+		labelPanel.add(nameLabel);
+		labelPanel.add(rentPriceLabel);
+		labelPanel.add(purchasePriceLabel);
 
-	    // Arrange the three panels in a grid.
-	    JPanel grid = new JPanel(new GridLayout(2, 1, 0, 10));
-	    grid.add(labelPanel);
-	    grid.add(buttonPanel);
-	    this.add(grid);
-	  }
-	
+		// Create a panel the buttons
+		JPanel buttonPanel = new JPanel();
+		buyBttn = new JButton("Buy");
+		buyBttn.addActionListener(gpc);
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(gpc);
+		buttonPanel.add(buyBttn);
+		buttonPanel.add(cancelButton);
+
+		// Arrange the three panels in a grid.
+		JPanel grid = new JPanel(new GridLayout(2, 1, 0, 10));
+		grid.add(labelPanel);
+		grid.add(buttonPanel);
+		this.add(grid);
+	}
+
 }
