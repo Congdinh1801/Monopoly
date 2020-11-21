@@ -35,7 +35,7 @@ public class GamePanel extends JPanel {
 	private JLabel imageLabel = new JLabel();
 	private ArrayList<SquarePanel> squareCollections;
 	private GameData gameData;
-	private ExecutorService pool = Executors.newFixedThreadPool(2);
+	private ExecutorService pool = Executors.newFixedThreadPool(1);	//2
 	private double resize = 1.5;// 1.2
 	private JLabel rentPriceLabel;
 	private JLabel purchasePriceLabel;
@@ -69,9 +69,18 @@ public class GamePanel extends JPanel {
 		centerPanel.setLayout(new FlowLayout());
 		
 		JLabel label1 = new JLabel();
-		label1.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_1.png"));
+//		label1.setIcon(new ImageIcon("./athens.png"));
+		
+		ImageIcon catPieceTempImage = new ImageIcon(GamePanel.class.getResource("/athens.png"));
+		Image catPieceImage = catPieceTempImage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		label1.setIcon(new ImageIcon(catPieceImage));
+		
 		JLabel label2 = new JLabel();
-		label2.setIcon(new ImageIcon("C:\\Users\\Blake\\git\\Monopoly\\resources\\Alea_1.png"));
+		
+		ImageIcon catPieceTempImage1 = new ImageIcon(GamePanel.class.getResource("/athens.png"));
+		Image catPieceImage1 = catPieceTempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		label2.setIcon(new ImageIcon(catPieceImage1));
+
 		
 		JButton roll = new JButton("Roll Dice");
 		roll.addActionListener(new ActionListener() {
@@ -91,7 +100,8 @@ public class GamePanel extends JPanel {
 				}
 				pool.execute(r1);
 				
-				int die1 = (int)(Math.random() * 6) + 1;
+				int die1;
+				die1 = gameData.getDice().getDiceNumber();
 				
 				switch (die1) {
 				case 1:
@@ -288,7 +298,6 @@ public class GamePanel extends JPanel {
 	}
 
 	public void purchasePriceLabel(String purchasePrice) {
-
 		purchasePriceLabel.setText(purchasePrice);
 	}
 

@@ -43,7 +43,6 @@ public class GamePanelControl implements ActionListener {
 	
 	// After dice has been rolled, update gui
 	public void RollDiceSuccess() {
-			//RollDicePanel rollDicePanel = (RollDicePanel) container.getComponent(2);
 			//ClientGUI clientGUI = (ClientGUI) SwingUtilities.getWindowAncestor(rollDicePanel);
 			// clientGUI.setUser(new User(createAccountPanel.getUsername(),
 			// createAccountPanel.getPassword()));
