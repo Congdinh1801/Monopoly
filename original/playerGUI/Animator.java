@@ -20,7 +20,7 @@ public class Animator implements Runnable{
 		while(currentPosition != nextPosition) {
 			squareCollections.get(currentPosition).addCatPiece();
 			try {
-				Thread.sleep(1);
+				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

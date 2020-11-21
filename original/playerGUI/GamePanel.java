@@ -30,11 +30,15 @@ public class GamePanel extends JPanel {
 	private JPanel centerPanel = new JPanel();
 	private JPanel dice1 = new JPanel();
 	private JPanel dice2 = new JPanel();
-	private ImageIcon tempImage;
-	private Image image;
+	
+	private JLabel label1;
+	private ImageIcon tempImage1;
+	private Image image1;
+	
+	private JLabel label2;
 	private ImageIcon tempImage2;
 	private Image image2;
-	private JLabel imageLabel = new JLabel();
+	
 	private ArrayList<SquarePanel> squareCollections;
 	private GameData gameData;
 	private ExecutorService pool = Executors.newFixedThreadPool(1);	//2
@@ -70,10 +74,12 @@ public class GamePanel extends JPanel {
 		
 		centerPanel.setLayout(new FlowLayout());
 		
-		JLabel label1 = new JLabel();
-		label1.setIcon(new ImageIcon("/Alea_1.png"));
-		JLabel label2 = new JLabel();
+		label1 = new JLabel();
+		tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));
+		image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		label1.setIcon(new ImageIcon(image1));
 		
+		label2 = new JLabel();
 		tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));
 		image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		label2.setIcon(new ImageIcon(image2));
@@ -103,34 +109,34 @@ public class GamePanel extends JPanel {
 				
 				switch (die1) {
 				case 1:
-					tempImage = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));
-					image = tempImage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-					label1.setIcon(new ImageIcon(image));
+					tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));
+					image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label1.setIcon(new ImageIcon(image1));
 					break;
 				case 2:
-					tempImage = new ImageIcon(GamePanel.class.getResource("/Alea_2.png"));
-					image = tempImage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-					label1.setIcon(new ImageIcon(image));
+					tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_2.png"));
+					image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label1.setIcon(new ImageIcon(image1));
 					break;
 				case 3:
-					tempImage = new ImageIcon(GamePanel.class.getResource("/Alea_3.png"));
-					image = tempImage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-					label1.setIcon(new ImageIcon(image));
+					tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_3.png"));
+					image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label1.setIcon(new ImageIcon(image1));
 					break;
 				case 4:
-					tempImage = new ImageIcon(GamePanel.class.getResource("/Alea_4.png"));
-					image = tempImage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-					label1.setIcon(new ImageIcon(image));
+					tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_4.png"));
+					image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label1.setIcon(new ImageIcon(image1));
 					break;
 				case 5:
-					tempImage = new ImageIcon(GamePanel.class.getResource("/Alea_5.png"));
-					image = tempImage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-					label1.setIcon(new ImageIcon(image));
+					tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_5.png"));
+					image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label1.setIcon(new ImageIcon(image1));
 					break;
 				case 6:
-					tempImage = new ImageIcon(GamePanel.class.getResource("/Alea_6.png"));
-					image = tempImage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-					label1.setIcon(new ImageIcon(image));
+					tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_6.png"));
+					image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					label1.setIcon(new ImageIcon(image1));
 					break;
 				}
 				
