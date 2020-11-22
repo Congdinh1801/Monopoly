@@ -7,7 +7,6 @@ public abstract class Asset extends Square {
 	private int purchasePrice;
 	private int rentPrice;
 	private Participant owner;
-	private int value = 0;
 	
 	public Asset(int position) {
 		super(position);
@@ -38,13 +37,14 @@ public abstract class Asset extends Square {
 	}
 	
 	public void action(Player player) {
-		value = getRentPrice();
-		int currentMoney = player.getMoney() - value;
+		int currentMoney = player.getMoney() - getRentPrice();;
 		player.setMoney(currentMoney);
 		System.out.println("you bought something");
 	}
 	
 	public void buyAsset(Player player) {
+		int currentMoney = player.getMoney() - getPurchasePrice();
+		player.setMoney(currentMoney);
 		setOwner(player);
 	}
 
