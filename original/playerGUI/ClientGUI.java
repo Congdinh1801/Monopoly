@@ -44,7 +44,7 @@ public class ClientGUI extends JFrame
     //Set the client info
     client.setLoginControl(lc);
     client.setCreateAccountControl(cac);
-    //client.setGamePanelControl(gpc);
+    client.setGamePanelControl(gpc);
     //client.setRollDiceControl(rdc);
    
     

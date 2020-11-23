@@ -2,6 +2,7 @@ package playerGUI;
 
 import ocsf.client.AbstractClient;
 import playerCommunication.Error;
+import serverBackend.dice.Dice;
 
 public class ChatClient extends AbstractClient {
 	// Private data fields for storing the GUI controllers.
@@ -75,6 +76,8 @@ public class ChatClient extends AbstractClient {
 			else if (error.getType().equals("BuyProperties")) {
 				gamePanelControl.displayError(error.getMessage());
 			}
+		} else if(arg0 instanceof Dice) {
+			System.out.println("success");
 		}
 	}
 }

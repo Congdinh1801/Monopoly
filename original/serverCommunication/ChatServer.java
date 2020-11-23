@@ -111,6 +111,10 @@ public class ChatServer extends AbstractServer {
 			} catch (IOException e) {
 				return;
 			}
+		} else if (arg0 instanceof Dice) {
+			Object result;
+			Dice data = (Dice) arg0;
+			this.sendToAllClients(data);
 		}
 		
 //		else if (arg0 instanceof Dice) {
