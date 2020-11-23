@@ -151,6 +151,44 @@ public class GamePanelControl implements ActionListener {
 		}
 	}
 	
+	public void updateRollDice(Dice die) {
+		int die1;
+		die1 = die.getDiceNumber();
+		
+		switch (die1) {
+		case 1:
+			tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));
+			image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+			label1.setIcon(new ImageIcon(image1));
+			break;
+		case 2:
+			tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_2.png"));
+			image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+			label1.setIcon(new ImageIcon(image1));
+			break;
+		case 3:
+			tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_3.png"));
+			image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+			label1.setIcon(new ImageIcon(image1));
+			break;
+		case 4:
+			tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_4.png"));
+			image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+			label1.setIcon(new ImageIcon(image1));
+			break;
+		case 5:
+			tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_5.png"));
+			image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+			label1.setIcon(new ImageIcon(image1));
+			break;
+		case 6:
+			tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_6.png"));
+			image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+			label1.setIcon(new ImageIcon(image1));
+			break;
+		}
+	}
+	
 	// After dice has been rolled, update gui
 	public void RollDiceSuccess() {
 			//ClientGUI clientGUI = (ClientGUI) SwingUtilities.getWindowAncestor(rollDicePanel);

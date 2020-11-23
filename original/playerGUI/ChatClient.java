@@ -77,7 +77,9 @@ public class ChatClient extends AbstractClient {
 				gamePanelControl.displayError(error.getMessage());
 			}
 		} else if(arg0 instanceof Dice) {
-			System.out.println("success");
+			Dice die1 = (Dice) arg0;
+			
+			gamePanelControl.updateRollDice(die1);
 		}
 	}
 }
