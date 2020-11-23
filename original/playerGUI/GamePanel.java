@@ -1,6 +1,7 @@
 package playerGUI;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -15,6 +16,7 @@ import java.util.concurrent.Executors;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 //import serverBackend.game.*;
@@ -363,5 +365,15 @@ public class GamePanel extends JPanel {
 		grid.add(buttonPanel);
 		this.add(grid);
 	}
-
+	
+	public void winGame() 
+	{
+		JOptionPane.showMessageDialog(this, "You won!", "Monopoly", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void loseGame() 
+	{
+		JOptionPane.showMessageDialog(this, "You lost.", "Monopoly", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
 }
