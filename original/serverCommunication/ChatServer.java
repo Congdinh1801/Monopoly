@@ -10,6 +10,7 @@ import java.io.IOException;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import playerCommunication.Error;
+import playerGUI.ClientGameData;
 import playerGUI.CreateAccountData;
 //import playerGUI.GameData;
 import playerGUI.LoginData;
@@ -111,9 +112,8 @@ public class ChatServer extends AbstractServer {
 			} catch (IOException e) {
 				return;
 			}
-		} else if (arg0 instanceof Dice) {
-			Object result;
-			Dice data = (Dice) arg0;
+		} else if (arg0 instanceof ClientGameData) {
+			ClientGameData data = (ClientGameData) arg0;
 			this.sendToAllClients(data);
 		}
 		

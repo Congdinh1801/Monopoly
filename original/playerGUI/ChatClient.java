@@ -76,10 +76,12 @@ public class ChatClient extends AbstractClient {
 			else if (error.getType().equals("BuyProperties")) {
 				gamePanelControl.displayError(error.getMessage());
 			}
-		} else if(arg0 instanceof Dice) {
-			Dice die1 = (Dice) arg0;
+		} else if(arg0 instanceof ClientGameData) {
+			ClientGameData clientGameData = (ClientGameData) arg0;
+			int dice1 = clientGameData.getDice1();
+			int dice2 = clientGameData.getDice2();
 			
-			gamePanelControl.updateRollDice(die1);
+			gamePanelControl.updateRollDice(dice1, dice2);
 		}
 	}
 }

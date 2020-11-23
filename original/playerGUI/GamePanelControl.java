@@ -34,6 +34,8 @@ public class GamePanelControl implements ActionListener {
 	private ExecutorService pool = Executors.newFixedThreadPool(1);	//2
 	
 	private ArrayList<SquarePanel> squareCollections;
+	
+	private ClientGameData clientGameData = new ClientGameData();
 
 	public GamePanelControl(JPanel container, ChatClient client) {
 		this.container = container;
@@ -71,79 +73,16 @@ public class GamePanelControl implements ActionListener {
 			}
 			pool.execute(r1);
 			
-			Dice die = gameData.getDice1();
-			int die1;
-			die1 = die.getDiceNumber();
+			int dice1 = gameData.getDice1().getDiceNumber();
+			int dice2 = gameData.getDice2().getDiceNumber();
 			
-			switch (die1) {
-			case 1:
-				tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));
-				image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-				label1.setIcon(new ImageIcon(image1));
-				break;
-			case 2:
-				tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_2.png"));
-				image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-				label1.setIcon(new ImageIcon(image1));
-				break;
-			case 3:
-				tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_3.png"));
-				image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-				label1.setIcon(new ImageIcon(image1));
-				break;
-			case 4:
-				tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_4.png"));
-				image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-				label1.setIcon(new ImageIcon(image1));
-				break;
-			case 5:
-				tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_5.png"));
-				image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-				label1.setIcon(new ImageIcon(image1));
-				break;
-			case 6:
-				tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_6.png"));
-				image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-				label1.setIcon(new ImageIcon(image1));
-				break;
-			}
+			diceLabel(dice1, dice2);
 			
-			int die2 = gameData.getDice2().getDiceNumber();
-			switch(die2) {
-			case 1:
-				tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));
-				image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-				label2.setIcon(new ImageIcon(image2));
-				break;
-			case 2:
-				tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_2.png"));
-				image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-				label2.setIcon(new ImageIcon(image2));
-				break;
-			case 3:
-				tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_3.png"));
-				image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-				label2.setIcon(new ImageIcon(image2));
-				break;
-			case 4:
-				tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_4.png"));
-				image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-				label2.setIcon(new ImageIcon(image2));
-				break;
-			case 5:
-				tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_5.png"));
-				image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-				label2.setIcon(new ImageIcon(image2));
-				break;
-			case 6:
-				tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_6.png"));
-				image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-				label2.setIcon(new ImageIcon(image2));
-				break;
-			}
+			clientGameData.setDice1(dice1);
+			clientGameData.setDice2(dice2);
 			
 			try {
-				client.sendToServer(die);
+				client.sendToServer(clientGameData);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -151,11 +90,12 @@ public class GamePanelControl implements ActionListener {
 		}
 	}
 	
-	public void updateRollDice(Dice die) {
-		int die1;
-		die1 = die.getDiceNumber();
-		
-		switch (die1) {
+	public void updateRollDice(int dice1, int dice2) {
+		diceLabel(dice1, dice2);
+	}
+	
+	public void diceLabel(int dice1, int dice2) {
+		switch (dice1) {
 		case 1:
 			tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));
 			image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
@@ -185,6 +125,39 @@ public class GamePanelControl implements ActionListener {
 			tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_6.png"));
 			image1 = tempImage1.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 			label1.setIcon(new ImageIcon(image1));
+			break;
+		}
+		
+		switch(dice2) {
+		case 1:
+			tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));
+			image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+			label2.setIcon(new ImageIcon(image2));
+			break;
+		case 2:
+			tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_2.png"));
+			image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+			label2.setIcon(new ImageIcon(image2));
+			break;
+		case 3:
+			tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_3.png"));
+			image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+			label2.setIcon(new ImageIcon(image2));
+			break;
+		case 4:
+			tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_4.png"));
+			image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+			label2.setIcon(new ImageIcon(image2));
+			break;
+		case 5:
+			tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_5.png"));
+			image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+			label2.setIcon(new ImageIcon(image2));
+			break;
+		case 6:
+			tempImage2 = new ImageIcon(GamePanel.class.getResource("/Alea_6.png"));
+			image2 = tempImage2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+			label2.setIcon(new ImageIcon(image2));
 			break;
 		}
 	}
