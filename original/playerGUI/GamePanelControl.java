@@ -250,7 +250,7 @@ public class GamePanelControl implements ActionListener {
 			gamePanel.setCancelBttn(true);
 		}
 		else {
-			gamePanel.setRentPrice("");
+			gamePanel.setRentPrice("Property Not For Sale");
 			gamePanel.setPurchasePrice("");
 			gamePanel.setBuyBttn(false);
 			gamePanel.setCancelBttn(false);
