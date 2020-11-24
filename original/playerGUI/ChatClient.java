@@ -45,6 +45,10 @@ public class ChatClient extends AbstractClient {
 				System.out.println("Login successfully");
 				GameData gamedata = gamePanelControl.getGameData();
 				gamedata.getPlayer().setName(split[0]);
+				if(!split[2].equals("player1"))
+				{
+					gamePanelControl.turnOffRollDiceButton();
+				}
 //				Player p = new Player("player1");
 //				if(p)
 //				p.setId(0);

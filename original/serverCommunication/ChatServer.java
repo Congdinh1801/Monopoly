@@ -45,7 +45,7 @@ public class ChatServer extends AbstractServer {
 		this.setTimeout(500);
 		players = new ArrayList<Player>();
 		counter_turn = 0;
-		counter_players = 0;
+		counter_players = 1;
 	}
 
 	// Getter that returns whether the server is currently running.
@@ -98,12 +98,16 @@ public class ChatServer extends AbstractServer {
 			LoginData data = (LoginData) arg0;
 			Object result;
 			if (database.verifyAccount(data.getUsername(), data.getPassword())) {
-				result = data.getUsername() + ",LoginSuccessful";
-				log.append("Client " + arg1.getId() + " successfully logged in as " + data.getUsername() + "\n");
-				String clientId = Long.toString(arg1.getId());
-				players.add(new Player("Player" + clientId));
-				players.get(counter_players).setName(data.getUsername());
+				result = data.getUsername() + ",LoginSuccessful,player" + counter_players; //Example: dinh,LoginSuccessful,player1
 				counter_players++;
+				log.append("Client " + arg1.getId() + " successfully logged in as " + data.getUsername() + "\n");
+//				String clientId = Long.toString(arg1.getId());
+				
+				players.add(new Player(data.getUsername()));
+				
+//				players.add(new Player("Player" + clientId));
+//				players.get(counter_players).setName(data.getUsername());
+//				counter_players++;
 			} else {
 				result = new Error("The username and password are incorrect.", "Login");
 				log.append("Client " + arg1.getId() + " failed to log in\n");
