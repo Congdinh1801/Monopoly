@@ -142,7 +142,7 @@ public class GamePanelControl implements ActionListener {
 		//no buy button control
 		if (command.contentEquals("No Buy")) {
 			
-			GamePanel gamePanel = (GamePanel) container.getComponent(1);
+			GamePanel gamePanel = (GamePanel) container.getComponent(3);
 			gamePanel.setBuyBttn(false);
 			gamePanel.setCancelBttn(false);
 		}

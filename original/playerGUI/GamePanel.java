@@ -149,6 +149,7 @@ public class GamePanel extends JPanel {
 		//button panel
 		JPanel buttonPanel = new JPanel(new GridLayout(2,1,0,5));
 		buyBttn.addActionListener(gpc);
+		cancelBttn.addActionListener(gpc);
 		buyBttn.setVisible(false);
 		cancelBttn.setVisible(false);
 		buttonPanel.add(buyBttn);
