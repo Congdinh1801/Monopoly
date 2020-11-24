@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -48,9 +49,9 @@ public class GamePanel extends JPanel {
 	private double resize = 1.5;// 1.2
 	
 	//labels will only be initialized this way for testing
-	private JLabel rentPriceLabel = new JLabel("rent price");
-	private JLabel purchasePriceLabel = new JLabel("purchase price");
-	private JLabel propertyNameLabel = new JLabel("property name");
+	private JLabel rentPriceLabel = new JLabel("");
+	private JLabel purchasePriceLabel = new JLabel("");
+	private JLabel propertyNameLabel = new JLabel("");
 	private JLabel errorLabel;
 	private JButton buyBttn = new JButton("Buy");
 	private JButton cancelBttn = new JButton("No Buy");
@@ -146,7 +147,7 @@ public class GamePanel extends JPanel {
 		labelPanel.add(purchasePriceLabel);
 		
 		//button panel
-		JPanel buttonPanel = new JPanel();
+		JPanel buttonPanel = new JPanel(new GridLayout(2,1,0,5));
 		buyBttn.addActionListener(gpc);
 		buyBttn.setVisible(false);
 		cancelBttn.setVisible(false);
@@ -271,7 +272,7 @@ public class GamePanel extends JPanel {
 
 	public void setRentPrice(String rent) {
 
-		rentPriceLabel.setText(rent); 
+		rentPriceLabel.setText(rent);
 	}
 
 	public void setPurchasePrice(String price) {
