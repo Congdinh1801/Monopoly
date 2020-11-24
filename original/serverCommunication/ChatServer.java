@@ -148,11 +148,13 @@ public class ChatServer extends AbstractServer {
 			if (counter_turn % 2 == 0) {
 				ClientGameData data = (ClientGameData) arg0;
 				data.setPlayerturn(players.get(1).getName());
+				data.setId(1);
 				this.sendToAllClients(data);
 				counter_turn++;
 			} else {
 				ClientGameData data = (ClientGameData) arg0;
 				data.setPlayerturn(players.get(0).getName());
+				data.setId(0);
 				this.sendToAllClients(data);
 				counter_turn++;
 			}

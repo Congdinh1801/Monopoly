@@ -1,5 +1,6 @@
 package playerGUI;
 
+import java.awt.Color;
 import java.awt.Image;
 
 //import game.dice.Dice;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -209,6 +211,18 @@ public class GamePanelControl implements ActionListener {
 		else {
 			gamePanel.setBuyBttn(false);
 			gamePanel.setCancelBttn(false);
+		}
+	}
+	
+	public void BuyPropSuccess()
+	{
+		if (clientGameData.getId() == 0)
+		{
+			squareCollections.get(gameData.getPlayer().getPosition()).setBorder(BorderFactory.createLineBorder(Color.RED));
+		}
+		else if (clientGameData.getId() == 1)
+		{
+			squareCollections.get(gameData.getPlayer().getPosition()).setBorder(BorderFactory.createLineBorder(Color.BLUE));
 		}
 	}
 		
