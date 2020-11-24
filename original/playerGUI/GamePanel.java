@@ -46,11 +46,15 @@ public class GamePanel extends JPanel {
 	
 	private ArrayList<SquarePanel> squareCollections;
 	private double resize = 1.5;// 1.2
-	private JLabel rentPriceLabel;
-	private JLabel purchasePriceLabel;
-	private JLabel nameLabel;
+	
+	//labels will only be initialized this way for testing
+	private JLabel rentPriceLabel = new JLabel("rent price");
+	private JLabel purchasePriceLabel = new JLabel("purchase price");
+	private JLabel propertyNameLabel = new JLabel("property name");
 	private JLabel errorLabel;
-	private JButton buyBttn;
+	private JButton buyBttn = new JButton("Buy");
+	private JButton cancelBttn = new JButton("Cancel");
+
 	private ChatClient client;
 	private JButton roll;
 	
@@ -134,6 +138,25 @@ public class GamePanel extends JPanel {
 		centerPanel.add(centerwest, BorderLayout.WEST);
 		centerPanel.add(centereast, BorderLayout.EAST);
 		//centerwest.add(label3); India use centerwest, i will use centereast
+		
+		//land information
+		JPanel labelPanel = new JPanel(new GridLayout(3,1,0,10));
+		labelPanel.add(propertyNameLabel);
+		labelPanel.add(rentPriceLabel);
+		labelPanel.add(purchasePriceLabel);
+		
+		//button panel
+		JPanel buttonPanel = new JPanel();
+		buyBttn.setVisible(false);
+		cancelBttn.setVisible(false);
+		buttonPanel.add(buyBttn);
+		buttonPanel.add(cancelBttn);
+		
+	    JPanel landInfoPanel = new JPanel(new GridLayout(2, 1, 0, 10));
+	    landInfoPanel.add(labelPanel);
+	    landInfoPanel.add(buttonPanel);
+
+		centerwest.add(landInfoPanel);
 		centereast.add(panel3);
 		centerPanel.add(centerwest, BorderLayout.WEST);
 		centerPanel.add(centereast, BorderLayout.EAST);
@@ -240,56 +263,34 @@ public class GamePanel extends JPanel {
 		eastPanel.add(squareCollections.get(39));
 	}
 
-	public void nameLabel(String name) {
-
-		nameLabel.setText(name);
+	public void setPropertyName(String name) {
+		
+		propertyNameLabel.setText(name);
 	}
 
-	public void rentPriceLabel(String rentPrice) {
+	public void setRentPrice(String rent) {
 
-		rentPriceLabel.setText(rentPrice);
+		rentPriceLabel.setText(rent); 
 	}
 
-	public void purchasePriceLabel(String purchasePrice) {
-		purchasePriceLabel.setText(purchasePrice);
+	public void setPurchasePrice(String price) {
+		
+		purchasePriceLabel.setText(price);
 	}
 
+	public void setBuyBttn (Boolean t) {
+		buyBttn.setVisible(t);
+	}
+	
+	public void setCancelBttn (Boolean t) {
+		cancelBttn.setVisible(t);
+	}
 	// Setter for the error text.
 	public void setError(String error) {
 
 		errorLabel.setText(error);
 	}
-
-	// Buy properties
-	public void BuyPropertiesPanel(GamePanelControl gpc) {
-		// controller and set it in the chat client.
-		GamePanelControl controller = new GamePanelControl(container, client);
-		client.setGamePanelControl(controller);
-
-		// Create land name and price info label
-		JPanel labelPanel = new JPanel(new GridLayout(3, 1, 5, 5));
-		nameLabel = new JLabel("", JLabel.CENTER);
-		rentPriceLabel = new JLabel("", JLabel.CENTER);
-		purchasePriceLabel = new JLabel("", JLabel.CENTER);
-		labelPanel.add(nameLabel);
-		labelPanel.add(rentPriceLabel);
-		labelPanel.add(purchasePriceLabel);
-
-		// Create a panel the buttons
-		JPanel buttonPanel = new JPanel();
-		buyBttn = new JButton("Buy");
-		buyBttn.addActionListener(gpc);
-		JButton cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(gpc);
-		buttonPanel.add(buyBttn);
-		buttonPanel.add(cancelButton);
-
-		// Arrange the three panels in a grid.
-		JPanel grid = new JPanel(new GridLayout(2, 1, 0, 10));
-		grid.add(labelPanel);
-		grid.add(buttonPanel);
-		this.add(grid);
-	}
+	
 	
 	public void winGame() 
 	{

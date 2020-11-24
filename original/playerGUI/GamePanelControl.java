@@ -16,6 +16,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import serverBackend.board.Asset;
+import serverBackend.board.Square;
+
 import serverBackend.dice.Dice;
 
 public class GamePanelControl implements ActionListener {
@@ -23,6 +26,8 @@ public class GamePanelControl implements ActionListener {
 	private JPanel container;
 	private ChatClient client;
 	private GameData gameData;
+	private Asset asset;
+	private serverBackend.board.Square square;
 	
 	public GameData getGameData() {
 		return gameData;
@@ -180,19 +185,38 @@ public class GamePanelControl implements ActionListener {
 		}
 	}
 	
-	// After dice has been rolled, update gui
+	//Display Land information
 	public void RollDiceSuccess() {
-			//ClientGUI clientGUI = (ClientGUI) SwingUtilities.getWindowAncestor(rollDicePanel);
-			// clientGUI.setUser(new User(createAccountPanel.getUsername(),
-			// createAccountPanel.getPassword()));
-			//CardLayout cardLayout = (CardLayout) container.getLayout();
-			//cardLayout.show(container, "4");
+		
+		GamePanel gamePanel = (GamePanel) container.getComponent(1);
+		asset = new Asset(gameData.getPlayer().getPosition()) {
+		};
+		square = new Square(gameData.getPlayer().getPosition()) {
+		};
+		
+		//name label
+		gamePanel.setPropertyName(square.getName());
+		
+		//price labels
+		if(gameData.canBuy()) {
+			String rent = Integer.toString(asset.getRentPrice());
+			gamePanel.setRentPrice(rent);
+			String price = Integer.toString(asset.getPurchasePrice());
+			gamePanel.setPurchasePrice(price);
+			gamePanel.setBuyBttn(true);
+			gamePanel.setCancelBttn(true);
 		}
+		else {
+			gamePanel.setBuyBttn(false);
+			gamePanel.setCancelBttn(false);
+		}
+	}
 		
 	// Method that displays a message in the error label.
 	  public void displayError(String error)
 	  {
-	    System.out.println(error);
+		GamePanel gamePanel = (GamePanel) container.getComponent(1);
+		gamePanel.setError(error);
 	  }
 	  
 
