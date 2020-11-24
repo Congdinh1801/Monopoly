@@ -53,7 +53,7 @@ public class GamePanel extends JPanel {
 	private JLabel propertyNameLabel = new JLabel("property name");
 	private JLabel errorLabel;
 	private JButton buyBttn = new JButton("Buy");
-	private JButton cancelBttn = new JButton("Cancel");
+	private JButton cancelBttn = new JButton("No Buy");
 
 	private ChatClient client;
 	private JButton roll;
@@ -147,6 +147,7 @@ public class GamePanel extends JPanel {
 		
 		//button panel
 		JPanel buttonPanel = new JPanel();
+		buyBttn.addActionListener(gpc);
 		buyBttn.setVisible(false);
 		cancelBttn.setVisible(false);
 		buttonPanel.add(buyBttn);

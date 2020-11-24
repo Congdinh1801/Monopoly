@@ -145,6 +145,12 @@ public class ChatServer extends AbstractServer {
 //			ClientGameData data = (ClientGameData) arg0;
 //			this.sendToAllClients(data);
 
+			try {
+				arg1.sendToClient("RollDiceSuccess");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if (counter_turn % 2 == 0) {
 				ClientGameData data = (ClientGameData) arg0;
 				data.setPlayerturn(players.get(1).getName());
@@ -159,6 +165,32 @@ public class ChatServer extends AbstractServer {
 				counter_turn++;
 			}
 			
+
+		}
+		//buy properties -- something similar to this? -india
+		else if (arg0 instanceof String) {
+	
+			GameData gamedata = new GameData();
+
+			String message = (String) arg0;
+			
+			if (message.equals("Airport")) {
+				gamedata.buyAirport();
+			}
+			if (message.equals("CityProperty")) {
+				gamedata.buyCityProperty();
+			}
+			if (message.equals("Utility")) {
+				gamedata.buyUtilitites();
+			}
+			
+			try {
+				arg1.sendToClient("BuyPropertySuccess");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 
 		}
 
