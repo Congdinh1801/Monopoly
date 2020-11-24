@@ -29,8 +29,8 @@ public class GamePanelControl implements ActionListener {
 	private JPanel container;
 	private ChatClient client;
 	private GameData gameData;
-	private Asset asset;
-	private serverBackend.board.Square square;
+	private MonopolyBoard board = new MonopolyBoard();
+
 	
 	public GameData getGameData() {
 		return gameData;
@@ -117,6 +117,7 @@ public class GamePanelControl implements ActionListener {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					
 				}
 			}
 			else if (gameData.isCityProperty()) {
@@ -232,22 +233,30 @@ public class GamePanelControl implements ActionListener {
 	//Land information GUI
 	public void RollDiceSuccess() {
 		
-		GamePanel gamePanel = (GamePanel) container.getComponent(3);
-		MonopolyBoard board = new MonopolyBoard();
-		
+		GamePanel gamePanel = (GamePanel) container.getComponent(3);		
 		int pos = gameData.getPlayer().getPosition();
+		String rent = "";
+		String price = "";
+		String tax = "";
 		
 		//name label
 		gamePanel.setPropertyName(board.getName(pos));
 		
 		//price labels if player can buy land
 		if(gameData.canBuy()) {
-			String rent = "Rent: $ " + Integer.toString(board.getRent(pos));
+			rent = "Rent: " + Integer.toString(board.getRent(pos)) + " €";
 			gamePanel.setRentPrice(rent);
-			String price = "Price: $ " + Integer.toString(board.getPurchase(pos));
+			price = "Price: " + Integer.toString(board.getPurchase(pos)) + " €";
 			gamePanel.setPurchasePrice(price);
 			gamePanel.setBuyBttn(true);
 			gamePanel.setCancelBttn(true);
+		}
+		else if(pos == 4 || pos == 38){
+			tax = "Tax: " + Integer.toString(board.getTax(pos).getTax()) + " €";
+			gamePanel.setRentPrice(tax);
+			gamePanel.setPurchasePrice("");
+			gamePanel.setBuyBttn(false);
+			gamePanel.setCancelBttn(false);
 		}
 		else {
 			gamePanel.setRentPrice("Property Not For Sale");
@@ -255,6 +264,7 @@ public class GamePanelControl implements ActionListener {
 			gamePanel.setBuyBttn(false);
 			gamePanel.setCancelBttn(false);
 		}
+			
 	}
 	
 	public void BuyPropSuccess()

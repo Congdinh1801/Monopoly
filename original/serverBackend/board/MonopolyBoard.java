@@ -8,7 +8,23 @@ public class MonopolyBoard {
 	private List<Asset> assetCollections = new ArrayList<>();
 	
 	public MonopolyBoard(){
+		initializeAssets();
 		initializeSquares();
+	}
+	
+	public void initializeAssets() {
+		
+		CityProperty blank = new CityProperty(0, COLOR.BLUE);
+		blank.setName("blank");
+		blank.setRentPrice(0);
+		blank.setPurchasePrice(0);
+		
+		//initialize assetCollection
+		//assetCollection and squareCollection will have equal positions
+		for (int i =0; i < 39; i++) {
+
+			assetCollections.add(blank);
+		}
 	}
 	
 	private void initializeSquares() {
