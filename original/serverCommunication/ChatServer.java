@@ -5,13 +5,17 @@ import javax.swing.*;
 
 import database.Database;
 import serverBackend.dice.*;
+import serverBackend.player.Player;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import playerCommunication.Error;
 import playerGUI.ClientGameData;
 import playerGUI.CreateAccountData;
+import playerGUI.*;
 //import playerGUI.GameData;
 import playerGUI.LoginData;
 
@@ -21,11 +25,27 @@ public class ChatServer extends AbstractServer {
 	private JLabel status;
 	private boolean running = false;
 	private Database database = new Database();
+	private ArrayList<Player> players;
+	private int counter_turn;
+	private int counter_players;
+
+//	private GameData gamedata;
+//
+//	public GameData getGamedata() {
+//		return gamedata;
+//	}
+//
+//	public void setGamedata(GameData gamedata) {
+//		this.gamedata = gamedata;
+//	}
 
 	// Constructor for initializing the server with default settings.
 	public ChatServer() {
 		super(12345);
 		this.setTimeout(500);
+		players = new ArrayList<Player>();
+		counter_turn = 0;
+		counter_players = 0;
 	}
 
 	// Getter that returns whether the server is currently running.
@@ -78,8 +98,12 @@ public class ChatServer extends AbstractServer {
 			LoginData data = (LoginData) arg0;
 			Object result;
 			if (database.verifyAccount(data.getUsername(), data.getPassword())) {
-				result = "LoginSuccessful";
+				result = data.getUsername() + ",LoginSuccessful";
 				log.append("Client " + arg1.getId() + " successfully logged in as " + data.getUsername() + "\n");
+				String clientId = Long.toString(arg1.getId());
+				players.add(new Player("Player" + clientId));
+				players.get(counter_players).setName(data.getUsername());
+				counter_players++;
 			} else {
 				result = new Error("The username and password are incorrect.", "Login");
 				log.append("Client " + arg1.getId() + " failed to log in\n");
@@ -102,7 +126,8 @@ public class ChatServer extends AbstractServer {
 				result = "CreateAccountSuccessful";
 				log.append("Client " + arg1.getId() + " created a new account called " + data.getUsername() + "\n");
 			} else {
-				result = new Error("We're sorry! The username is already in use or An error has occured.", "CreateAccount");
+				result = new Error("We're sorry! The username is already in use or An error has occured.",
+						"CreateAccount");
 				log.append("Client " + arg1.getId() + " failed to create a new account\n");
 			}
 
@@ -113,10 +138,24 @@ public class ChatServer extends AbstractServer {
 				return;
 			}
 		} else if (arg0 instanceof ClientGameData) {
-			ClientGameData data = (ClientGameData) arg0;
-			this.sendToAllClients(data);
+//			ClientGameData data = (ClientGameData) arg0;
+//			this.sendToAllClients(data);
+
+			if (counter_turn % 2 == 0) {
+				ClientGameData data = (ClientGameData) arg0;
+				data.setPlayerturn(players.get(1).getName());
+				this.sendToAllClients(data);
+				counter_turn++;
+			} else {
+				ClientGameData data = (ClientGameData) arg0;
+				data.setPlayerturn(players.get(0).getName());
+				this.sendToAllClients(data);
+				counter_turn++;
+			}
+			
+
 		}
-		
+
 //		else if (arg0 instanceof Dice) {
 //			Dice data = (Dice) arg0;
 //			GameData gamedata = new GameData();
@@ -134,22 +173,16 @@ public class ChatServer extends AbstractServer {
 //				return;
 //			}
 //		}
-		//BuyPropertiesData doesnt exist anymore
-		/*else if (arg0 instanceof BuyPropertiesData) {
-			BuyPropertiesData data = (BuyPropertieseData) arg0;
-			Object result;
-			if (player.getMoney() < property.getPrice()) {
-				result = "BuyPropertiesSuccess";
-			} else {
-				result = new Error("Not enough money.", "BuyProperties");
-			}
-
-			// Send the result to the client.
-			try {
-				arg1.sendToClient(result);
-			} catch (IOException e) {
-				return;
-			}*/
+		// BuyPropertiesData doesnt exist anymore
+		/*
+		 * else if (arg0 instanceof BuyPropertiesData) { BuyPropertiesData data =
+		 * (BuyPropertieseData) arg0; Object result; if (player.getMoney() <
+		 * property.getPrice()) { result = "BuyPropertiesSuccess"; } else { result = new
+		 * Error("Not enough money.", "BuyProperties"); }
+		 * 
+		 * // Send the result to the client. try { arg1.sendToClient(result); } catch
+		 * (IOException e) { return; }
+		 */
 	}
 
 	// Method that handles listening exceptions by displaying exception information.

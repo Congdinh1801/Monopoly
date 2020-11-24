@@ -19,12 +19,13 @@ public class GameData{
 	private boolean isAirport;
 	private boolean isCityProperty;
 	private boolean isUtilities;
+	private String name;
 	
 	public GameData(){
 		board = new MonopolyBoard();
 		dice1 = new Dice();
 		dice2 = new Dice();
-		player = new Player("longtin");
+		player = new Player("player");
 	}
 	
 	public void play() {

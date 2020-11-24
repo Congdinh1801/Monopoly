@@ -52,8 +52,17 @@ public class GamePanel extends JPanel {
 	private JLabel errorLabel;
 	private JButton buyBttn;
 	private ChatClient client;
+	private JButton roll;
 	
 	private GamePanelControl gpc;
+	
+	public void turnOnRollDiceButton() {
+		roll.setVisible(true);
+	}
+	
+	public void turnOffRollDiceButton() {
+		roll.setVisible(false);
+	}
 
 	public void setClient(ChatClient client) {
 		this.client = client;
@@ -93,7 +102,7 @@ public class GamePanel extends JPanel {
 		gpc.setLabel1(label1);
 		gpc.setLabel2(label2);
 		
-		JButton roll = new JButton("Roll Dice");
+		roll = new JButton("Roll Dice");
 		roll.addActionListener(gpc);
 		
 		JLabel label3 = new JLabel("test");

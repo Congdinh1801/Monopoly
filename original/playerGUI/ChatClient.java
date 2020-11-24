@@ -3,12 +3,15 @@ package playerGUI;
 import ocsf.client.AbstractClient;
 import playerCommunication.Error;
 import serverBackend.dice.Dice;
+import serverBackend.player.Player;
 
 public class ChatClient extends AbstractClient {
 	// Private data fields for storing the GUI controllers.
 	private LoginControl loginControl;
 	private CreateAccountControl createAccountControl;
 	private GamePanelControl gamePanelControl;
+
+//	private GameData gamedata;
 
 	// Setters for the GUI controllers.
 	public void setLoginControl(LoginControl loginControl) {
@@ -36,9 +39,15 @@ public class ChatClient extends AbstractClient {
 			String message = (String) arg0;
 
 			// If we successfully logged in, tell the login controller.
-			if (message.equals("LoginSuccessful")) {
+			if (message.contains("LoginSuccessful")) {
+				String split[] = message.split(",");
 				loginControl.loginSuccess();
 				System.out.println("Login successfully");
+				GameData gamedata = gamePanelControl.getGameData();
+				gamedata.getPlayer().setName(split[0]);
+//				Player p = new Player("player1");
+//				if(p)
+//				p.setId(0);
 			}
 
 			// If we successfully created an account, tell the create account controller.
@@ -77,11 +86,28 @@ public class ChatClient extends AbstractClient {
 				gamePanelControl.displayError(error.getMessage());
 			}
 		} else if(arg0 instanceof ClientGameData) {
+//			if it is your turn
+			GameData gamedata = gamePanelControl.getGameData();
+			Player p = gamedata.getPlayer();
 			ClientGameData clientGameData = (ClientGameData) arg0;
-			int dice1 = clientGameData.getDice1();
-			int dice2 = clientGameData.getDice2();
+			if(clientGameData.getPlayerturn().equals(p.getName()))
+			{
+				int dice1 = clientGameData.getDice1();
+				int dice2 = clientGameData.getDice2();
+				
+				gamePanelControl.updateRollDice(dice1, dice2);
+				System.out.println(clientGameData.getPlayerturn() + "'s turn");
+				gamePanelControl.turnOnRollDiceButton();
+			}
+			else {
+//				int dice1 = clientGameData.getDice1();
+//				int dice2 = clientGameData.getDice2();	
+//				gamePanelControl.updateRollDice(dice1, dice2);
+				System.out.println(clientGameData.getPlayerturn() + "'s turn");
+				gamePanelControl.turnOffRollDiceButton();
+			}
 			
-			gamePanelControl.updateRollDice(dice1, dice2);
+			
 		}
 	}
 }

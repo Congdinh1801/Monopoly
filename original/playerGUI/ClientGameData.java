@@ -7,6 +7,13 @@ import serverBackend.dice.Dice;
 public class ClientGameData implements Serializable  {
 	private int dice1;
 	private int dice2;
+	private String playerturn = "";
+	public String getPlayerturn() {
+		return playerturn;
+	}
+	public void setPlayerturn(String playerturn) {
+		this.playerturn = playerturn;
+	}
 	public int getDice1() {
 		return dice1;
 	}

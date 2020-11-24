@@ -24,6 +24,14 @@ public class GamePanelControl implements ActionListener {
 	private ChatClient client;
 	private GameData gameData;
 	
+	public GameData getGameData() {
+		return gameData;
+	}
+
+	public void setGameData(GameData gameData) {
+		this.gameData = gameData;
+	}
+
 	private JLabel label1;
 	private ImageIcon tempImage1;
 	private Image image1;
@@ -92,6 +100,16 @@ public class GamePanelControl implements ActionListener {
 	
 	public void updateRollDice(int dice1, int dice2) {
 		diceLabel(dice1, dice2);
+	}
+	
+	public void turnOnRollDiceButton() {
+		 GamePanel gamepanel = (GamePanel)container.getComponent(3);
+		 gamepanel.turnOnRollDiceButton();
+	}
+	
+	public void turnOffRollDiceButton() {
+		GamePanel gamepanel = (GamePanel)container.getComponent(3);
+		gamepanel.turnOffRollDiceButton();
 	}
 	
 	public void diceLabel(int dice1, int dice2) {
