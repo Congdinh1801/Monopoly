@@ -90,6 +90,7 @@ public class ChatClient extends AbstractClient {
 			} else if(allClientGameData.getBuyOrNot().equals("No Buy")) {
 				gamePanelControl.turnOffBuyButtons();
 			} else {
+				//update the client's GUI
 				int dice1 = allClientGameData.getDice1();
 				int dice2 = allClientGameData.getDice2();
 				int previousPosition = allClientGameData.getPreviousPosition();

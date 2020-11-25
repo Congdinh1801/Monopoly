@@ -93,6 +93,7 @@ public class ChatServer extends AbstractServer {
 				log.append("Client " + arg1.getId() + " successfully logged in as " + data.getUsername() + "\n");
 				Player player = new Player(data.getUsername()); 
 				
+				//This checks who is the first client and enable the roll button for client
 				if(this.getNumberOfClients() == 1) {
 					ClientGameData clientGameData = new ClientGameData();
 					clientGameData.setFirstPlayer(true);
@@ -140,7 +141,10 @@ public class ChatServer extends AbstractServer {
 			}
 		} else if (arg0 instanceof String) {
 			if(arg0.equals("Roll Dice")) {
+				
 				playGame();
+				
+				//Send data to all of the clients to update their GUI
 				AllClientGameData allClientGameData = new AllClientGameData();
 				allClientGameData.setDice1(gameData.getDice1().getDiceNumber());
 				allClientGameData.setDice2(gameData.getDice2().getDiceNumber());
@@ -148,6 +152,7 @@ public class ChatServer extends AbstractServer {
 				allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
 				sendToAllClients(allClientGameData);
 				
+				//Send data to a client that is their turn
 				ClientGameData clientGameData = new ClientGameData();
 				clientGameData.setRoll(true);
 				clientGameData.setBoard(board);
@@ -166,6 +171,8 @@ public class ChatServer extends AbstractServer {
 				} else if(gameData.isUtilities()) {
 					gameData.buyUtilitites();
 				}
+				
+				//update all the clients that a purchase have happened
 				AllClientGameData allClientGameData = new AllClientGameData();
 				allClientGameData.setBuyOrNot("Buy");
 				allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
@@ -173,6 +180,8 @@ public class ChatServer extends AbstractServer {
 				playerTurn = (playerTurn + 1) % playerCount;
 				sendToAllClients(allClientGameData);
 			} else if(arg0.equals("No Buy")) {
+				
+				//update all the clients that the player did not buy
 				AllClientGameData allClientGameData = new AllClientGameData();
 				allClientGameData.setBuyOrNot("No Buy");
 				sendToAllClients(allClientGameData);
