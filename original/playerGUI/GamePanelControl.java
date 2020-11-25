@@ -79,15 +79,7 @@ public class GamePanelControl implements ActionListener {
 			
 			int previousPosition = gameData.getPreviousPosition();
 			Runnable r1 = new Animator(squareCollections, previousPosition, gameData.getPlayer().getPosition());
-			if(gameData.canBuy()) {
-				if(gameData.isAirport()) {
-					System.out.println("You are in an Airplane Square");
-				} else if(gameData.isCityProperty()) {
-					System.out.println("You are in City Property Square");
-				} else if(gameData.isUtilities()) {
-					System.out.println("You are in an Utility Square");
-				}
-			}
+			RollDiceSuccess();
 			pool.execute(r1);
 			
 			int dice1 = gameData.getDice1().getDiceNumber();
@@ -101,56 +93,41 @@ public class GamePanelControl implements ActionListener {
 			
 			//test updating land info
 			//RollDiceSuccess();
-			
-			try {
-				client.sendToServer(clientGameData);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-
 		}
 		
-		//buy button control
-		if (command.contentEquals("Buy")) {
-
-			if (gameData.isAirport()) {
-				gameData.buyAirport();
-			}
-			else if (gameData.isCityProperty()) {
-				gameData.buyCityProperty();
-			}
-			else if (gameData.isUtilities()) {
-				gameData.buyUtilitites();
+		//buy button contro;
+			if (command.contentEquals("Buy")) {
+				if(gameData.isAirport()) {
+					gameData.buyAirport();
+				} else if(gameData.isCityProperty()) {
+					gameData.buyCityProperty();
+				} else if(gameData.isUtilities()) {
+					gameData.buyUtilitites();
+				}
+				clientGameData.setBuyOrNot("Buy");
+				GamePanel gamePanel = (GamePanel) container.getComponent(3);
+				gamePanel.setBuyBttn(false);
+				gamePanel.setCancelBttn(false);
+				System.out.println("hello");
+				try {
+					client.sendToServer(clientGameData);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 			
-			//let server know player purchased property and is next players turn
-			try {
-				client.sendToServer("Buy");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			//no buy button control
+			if (command.contentEquals("No Buy")) {
+				GamePanel gamePanel = (GamePanel) container.getComponent(3);
+				gamePanel.setBuyBttn(false);
+				gamePanel.setCancelBttn(false);
+				clientGameData.setBuyOrNot("NotBuy");
+				try {
+					client.sendToServer(clientGameData);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
-
-			
-		}
-		
-		//no buy button control
-		if (command.contentEquals("No Buy")) {
-
-			
-			GamePanel gamePanel = (GamePanel) container.getComponent(3);
-			gamePanel.setBuyBttn(false);
-			gamePanel.setCancelBttn(false);
-			
-			//let server know its the next players turn
-			try {
-				client.sendToServer("No Buy");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
 	}
 	
 	public void updateRollDice(int dice1, int dice2) {
@@ -291,7 +268,7 @@ public class GamePanelControl implements ActionListener {
 	
 	public void BuyPropSuccess(ClientGameData clientGameData)
 	{
-		GamePanel gamePanel = (GamePanel) container.getComponent(1);
+		GamePanel gamePanel = (GamePanel) container.getComponent(3);
 		gamePanel.setPropertyName("Property Successfully Purchased!");
 		gamePanel.setBuyBttn(false);
 		gamePanel.setCancelBttn(false);

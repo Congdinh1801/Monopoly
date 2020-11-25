@@ -11,6 +11,7 @@ public class ClientGameData implements Serializable  {
 	private int id;
 	private boolean canbuy;
 	private String type;
+	private String buyOrNot;
 	
 	public String getType() {
 		return type;
@@ -58,5 +59,13 @@ public class ClientGameData implements Serializable  {
 	
 	public void setDice2(int dice2) {
 		this.dice2 = dice2;
+	}
+
+	public String getBuyOrNot() {
+		return buyOrNot;
+	}
+
+	public void setBuyOrNot(String buyOrNot) {
+		this.buyOrNot = buyOrNot;
 	}
 }

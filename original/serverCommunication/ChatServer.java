@@ -156,7 +156,6 @@ public class ChatServer extends AbstractServer {
 				ClientGameData data = (ClientGameData) arg0;
 				data.setPlayerturn(players.get(1).getName());
 				data.setId(1);
-				data.setType("rolldice");
 				if (data.isCanbuy() == true)
 					data.setPlayerturn(players.get(0).getName());
 				else
@@ -167,10 +166,6 @@ public class ChatServer extends AbstractServer {
 				ClientGameData data = (ClientGameData) arg0;
 				data.setPlayerturn(players.get(0).getName());
 				data.setId(0);
-				if (data.isCanbuy() == true)
-					data.setPlayerturn(players.get(1).getName());
-				else
-					data.setPlayerturn(players.get(0).getName());
 				this.sendToAllClients(data);
 				counter_turn++;
 			}

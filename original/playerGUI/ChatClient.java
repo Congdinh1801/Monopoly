@@ -101,18 +101,21 @@ public class ChatClient extends AbstractClient {
 				
 				gamePanelControl.updateRollDice(dice1, dice2);
 				System.out.println(clientGameData.getPlayerturn() + "'s turn");
-				if(clientGameData.isCanbuy() == true)
-					gamePanelControl.turnOffRollDiceButton();
-				else
-					gamePanelControl.turnOnRollDiceButton();
+				if(clientGameData.getBuyOrNot().equals("Buy")) {
+					gamePanelControl.BuyPropSuccess(clientGameData);
+				} 
+				gamePanelControl.turnOnRollDiceButton();
 				
 			}
 			else {
-//				int dice1 = clientGameData.getDice1();
-//				int dice2 = clientGameData.getDice2();	
-//				gamePanelControl.updateRollDice(dice1, dice2);
+				int dice1 = clientGameData.getDice1();
+				int dice2 = clientGameData.getDice2();	
+				gamePanelControl.updateRollDice(dice1, dice2);
 				System.out.println(clientGameData.getPlayerturn() + "'s turn");
 				gamePanelControl.turnOffRollDiceButton();
+				if(clientGameData.getBuyOrNot().equals("Buy")) {
+					gamePanelControl.BuyPropSuccess(clientGameData);
+				} 
 			}
 		}
 			
