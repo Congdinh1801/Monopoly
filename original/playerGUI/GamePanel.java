@@ -226,6 +226,7 @@ public class GamePanel extends JPanel {
 		
 		// display player at the start
 		squareCollections.get(0).addCatPiece();
+		squareCollections.get(0).addDogPiece();
 
 		southPanel.add(squareCollections.get(12));
 		southPanel.add(squareCollections.get(11));

@@ -84,8 +84,8 @@ public class GamePanelControl implements ActionListener {
 		}
 	}
 	
-	public void updatePlayer(int previousPosition, int currentPosition) {
-		Runnable r1 = new Animator(squareCollections, previousPosition, currentPosition);
+	public void updatePlayer(int previousPosition, int currentPosition, int playerid, int opponent_position) {
+		Runnable r1 = new Animator(squareCollections, previousPosition, currentPosition, playerid, opponent_position);
 		pool.execute(r1);
 	}
 	

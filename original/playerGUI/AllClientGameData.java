@@ -9,9 +9,27 @@ public class AllClientGameData implements Serializable  {
 	private int dice1 = 0;
 	private int dice2 = 0;
 	private int previousPosition = 0;
-	private int currentPosition = 0;
-	private int currentPlayer = -1;
-	private String buyOrNot = "";
+	private int currentPosition = 0; //current position for current player
+	private int currentPlayer = -1;//0 for player1, 1 for player2
+	private int opponentPosition = -1; //position of opponent
+//	private int playerid;
+//	public int getPlayerid() {
+//		return playerid;
+//	}
+//
+//	public void setPlayerid(int playerid) {
+//		this.playerid = playerid;
+//	}
+
+	public int getOpponentPosition() {
+		return opponentPosition;
+	}
+
+	public void setOpponentPosition(int opponentPosition) {
+		this.opponentPosition = opponentPosition;
+	}
+
+	private String buyOrNot = "";	//buy is when you buy, no buy when you don't buy, null if no action
 	
 	public int getDice1() {
 		return dice1;

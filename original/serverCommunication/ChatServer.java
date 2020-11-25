@@ -30,6 +30,7 @@ public class ChatServer extends AbstractServer {
 	private int playerTurn;
 	private MonopolyBoard board;
 	private GameData gameData;
+	private int prevPlayerPosition = -1;
 
 	// Constructor for initializing the server with default settings.
 	public ChatServer() {
@@ -149,7 +150,14 @@ public class ChatServer extends AbstractServer {
 				allClientGameData.setDice1(gameData.getDice1().getDiceNumber());
 				allClientGameData.setDice2(gameData.getDice2().getDiceNumber());
 				allClientGameData.setPreviousPosition(gameData.getPreviousPosition());
+				allClientGameData.setCurrentPlayer(playerTurn);
 				allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
+				
+				int opponent_position = gameData.getPlayer().get((playerTurn + 1)%2).getPosition();
+				
+				allClientGameData.setOpponentPosition(opponent_position);
+				
+				
 				sendToAllClients(allClientGameData);
 				
 				//Send data to a client that is their turn
@@ -158,6 +166,12 @@ public class ChatServer extends AbstractServer {
 				clientGameData.setBoard(board);
 				clientGameData.setCanBuy(gameData.canBuy());
 				clientGameData.setPos(gameData.getCurrentPosition());
+				
+				if(!gameData.canBuy()) {
+//					allClientGameData.setCurrentPlayer(playerTurn);
+					playerTurn = (playerTurn + 1) % playerCount;
+				}
+				
 				try {
 					arg1.sendToClient(clientGameData);
 				} catch (IOException e) {
@@ -184,6 +198,10 @@ public class ChatServer extends AbstractServer {
 				//update all the clients that the player did not buy
 				AllClientGameData allClientGameData = new AllClientGameData();
 				allClientGameData.setBuyOrNot("No Buy");
+				
+				allClientGameData.setCurrentPlayer(playerTurn);
+				playerTurn = (playerTurn + 1) % playerCount;
+				
 				sendToAllClients(allClientGameData);
 			}
 		}
