@@ -167,32 +167,7 @@ public class ChatServer extends AbstractServer {
 			
 
 		}
-		//buy properties -- something similar to this? -india
-		else if (arg0 instanceof String) {
-	
-			GameData gamedata = new GameData();
 
-			String message = (String) arg0;
-			
-			if (message.equals("Airport")) {
-				gamedata.buyAirport();
-			}
-			if (message.equals("CityProperty")) {
-				gamedata.buyCityProperty();
-			}
-			if (message.equals("Utility")) {
-				gamedata.buyUtilitites();
-			}
-			
-			try {
-				arg1.sendToClient("BuyPropertySuccess");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-
-		}
 
 //		else if (arg0 instanceof Dice) {
 //			Dice data = (Dice) arg0;

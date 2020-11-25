@@ -112,29 +112,21 @@ public class GamePanelControl implements ActionListener {
 		//buy button control
 		if (command.contentEquals("Buy")) {
 			if (gameData.isAirport()) {
-				try {
-					client.sendToServer("Airport");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					
-				}
+				gameData.buyAirport();
 			}
 			else if (gameData.isCityProperty()) {
-				try {
-					client.sendToServer("CityProperty");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				gameData.buyCityProperty();
 			}
 			else if (gameData.isUtilities()) {
-				try {
-					client.sendToServer("Utility");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				gameData.buyUtilitites();
+			}
+			
+			//let server know player purchased property and is next players turn
+			try {
+				client.sendToServer("Buy");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
 		}
@@ -145,6 +137,14 @@ public class GamePanelControl implements ActionListener {
 			GamePanel gamePanel = (GamePanel) container.getComponent(3);
 			gamePanel.setBuyBttn(false);
 			gamePanel.setCancelBttn(false);
+			
+			//let server know its the next players turn
+			try {
+				client.sendToServer("No Buy");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
