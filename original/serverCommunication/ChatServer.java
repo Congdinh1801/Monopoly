@@ -89,7 +89,7 @@ public class ChatServer extends AbstractServer {
 			LoginData data = (LoginData) arg0;
 			Object result;
 			if (database.verifyAccount(data.getUsername(), data.getPassword())) {
-				result = "LoginSuccessful";
+				result = data.getUsername() + ",LoginSuccessful";
 				log.append("Client " + arg1.getId() + " successfully logged in as " + data.getUsername() + "\n");
 				Player player = new Player(data.getUsername()); 
 				
@@ -127,7 +127,8 @@ public class ChatServer extends AbstractServer {
 				result = "CreateAccountSuccessful";
 				log.append("Client " + arg1.getId() + " created a new account called " + data.getUsername() + "\n");
 			} else {
-				result = new Error("We're sorry! The username is already in use or An error has occured.", "CreateAccount");
+				result = new Error("We're sorry! The username is already in use or An error has occured.",
+						"CreateAccount");
 				log.append("Client " + arg1.getId() + " failed to create a new account\n");
 			}
 
@@ -177,8 +178,7 @@ public class ChatServer extends AbstractServer {
 				sendToAllClients(allClientGameData);
 			}
 		}
-		
-
+	
 	}
 
 	private void playGame() {

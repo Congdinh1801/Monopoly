@@ -3,12 +3,15 @@ package playerGUI;
 import ocsf.client.AbstractClient;
 import playerCommunication.Error;
 import serverBackend.dice.Dice;
+import serverBackend.player.Player;
 
 public class ChatClient extends AbstractClient {
 	// Private data fields for storing the GUI controllers.
 	private LoginControl loginControl;
 	private CreateAccountControl createAccountControl;
 	private GamePanelControl gamePanelControl;
+
+//	private GameData gamedata;
 
 	// Setters for the GUI controllers.
 	public void setLoginControl(LoginControl loginControl) {
@@ -36,7 +39,7 @@ public class ChatClient extends AbstractClient {
 			String message = (String) arg0;
 
 			// If we successfully logged in, tell the login controller.
-			if (message.equals("LoginSuccessful")) {
+			if (message.contains("LoginSuccessful")) {
 				loginControl.loginSuccess();
 				System.out.println("Login successfully");
 			}
@@ -106,3 +109,4 @@ public class ChatClient extends AbstractClient {
 		}
 	}
 }
+

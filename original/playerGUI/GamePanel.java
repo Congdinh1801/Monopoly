@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -158,7 +159,6 @@ public class GamePanel extends JPanel {
 	    landInfoPanel.add(buttonPanel);
 
 		centerwest.add(landInfoPanel);
-		
 		centereast.add(panel3);
 		centerPanel.add(centerwest, BorderLayout.WEST);
 		centerPanel.add(centereast, BorderLayout.EAST);

@@ -23,6 +23,7 @@ public class GameData{
 	private boolean isAirport;
 	private boolean isCityProperty;
 	private boolean isUtilities;
+	private String name;
 	
 	public GameData(){
 		board = new MonopolyBoard();
@@ -150,6 +151,7 @@ public class GameData{
 	}
 
 	public boolean canBuy() {
+		//check if the land is available or not
 		return canBuy;
 	}
 	

@@ -29,7 +29,7 @@ public class GamePanelControl implements ActionListener {
 
 	private JPanel container;
 	private ChatClient client;
-	
+
 	private JLabel label1;
 	private ImageIcon tempImage1;
 	private Image image1;
@@ -60,6 +60,7 @@ public class GamePanelControl implements ActionListener {
 	
 	public void actionPerformed(ActionEvent ae) {
 		String command = ae.getActionCommand();
+		//roll dice control
 		if (command == "Roll Dice") {
 			try {
 				client.sendToServer("Roll Dice");
@@ -190,7 +191,7 @@ public class GamePanelControl implements ActionListener {
 		String rent = "";
 		String price = "";
 		String tax = "";
-		
+	
 		//name label
 		gamePanel.setPropertyName(board.getName(pos));
 		
@@ -227,7 +228,8 @@ public class GamePanelControl implements ActionListener {
 	// Method that displays a message in the error label.
 	  public void displayError(String error)
 	  {
-	    System.out.println(error);
+		GamePanel gamePanel = (GamePanel) container.getComponent(1);
+		gamePanel.setError(error);
 	  }
 	  
 
