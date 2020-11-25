@@ -21,16 +21,22 @@ public class SquarePanel extends JPanel{
 	private ImageIcon catPieceTempImage;
 	private Image catPieceImage;
 	
+	private JLabel dogPieceLabel;
+	private ImageIcon dogPieceTempImage;
+	private Image dogPieceImage;
+	
 	private String image;
 	private int width;
 	private int height;
+	
+//	private int playerid;
 	
 	public SquarePanel(String image, int width, int height) {
 		this.image = image;
 		this.height = height;
 		this.width = width;
 		createSquare(image, width, height);
-		createPlayer();
+		createPlayers();
 	}
 	
 	public void createSquare(String image, int width, int height) {
@@ -43,25 +49,54 @@ public class SquarePanel extends JPanel{
 		this.add(backgroundLabel);
 	}
 	
-	public void createPlayer() {
+	public void createPlayers() {
 		catPieceLabel = new JLabel();
+		dogPieceLabel = new JLabel();
 		//catPieceTempImage = new ImageIcon(GameFrame.class.getResource("/cat.PNG"));
+//		if(playerid == 0)
+//			catPieceTempImage = new ImageIcon(SquarePanel.class.getResource("/cat.PNG"));
+//		else {
+//			catPieceTempImage = new ImageIcon(SquarePanel.class.getResource("/dog.PNG"));
+//		}
 		catPieceTempImage = new ImageIcon(SquarePanel.class.getResource("/cat.PNG"));
 		catPieceImage = catPieceTempImage.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
 		catPieceLabel.setIcon(new ImageIcon(catPieceImage));
+		
+		dogPieceTempImage = new ImageIcon(SquarePanel.class.getResource("/berlin.PNG"));
+		dogPieceImage = dogPieceTempImage.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		dogPieceLabel.setIcon(new ImageIcon(dogPieceImage));
+		
+		dogPieceLabel.setVisible(true);
 		catPieceLabel.setVisible(true);
+		this.add(dogPieceLabel);
 		this.add(catPieceLabel);
+		
 	}
 	
-	public void removeImage() {
+	public void removeImage(int playerid, boolean same_position) {
 		this.removeAll();
+		if(playerid == 0 && same_position)
+		{
+			this.add(dogPieceLabel);
+		}
+		if(playerid == 1 && same_position)
+		{
+			this.add(catPieceLabel);
+		}
 		this.add(backgroundLabel);
 		repaint();
 	}
+
 	
 	public void addCatPiece() {
-		//this.removeAll(); //
+		this.removeAll(); 
 		this.add(catPieceLabel);
+		this.add(backgroundLabel);
+		repaint();
+	}
+	public void addDogPiece() {
+		this.removeAll(); 
+		this.add(dogPieceLabel);
 		this.add(backgroundLabel);
 		repaint();
 	}

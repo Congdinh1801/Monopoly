@@ -95,7 +95,7 @@ public class ChatClient extends AbstractClient {
 				int previousPosition = allClientGameData.getPreviousPosition();
 				int currentPosition = allClientGameData.getCurrentPosition();
 				gamePanelControl.updateRollDice(dice1, dice2);
-				gamePanelControl.updatePlayer(previousPosition, currentPosition);
+				gamePanelControl.updatePlayer(previousPosition, currentPosition, allClientGameData.getCurrentPlayer(), allClientGameData.getOpponentPosition());
 				gamePanelControl.turnOnRollDiceButton();
 			}
 		} else if(arg0 instanceof ClientGameData) {
