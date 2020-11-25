@@ -178,6 +178,7 @@ public class ChatServer extends AbstractServer {
 		}
 
 
+
 		else if (arg0 instanceof String) {
 			String msg = (String) arg0;
 			if (msg.equals("bought")) {	
@@ -190,6 +191,7 @@ public class ChatServer extends AbstractServer {
 					data.setPlayerturn(players.get(0).getName());
 			}
 		}
+
 
 	}
 
