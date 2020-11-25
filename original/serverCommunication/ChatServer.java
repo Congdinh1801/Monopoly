@@ -98,13 +98,14 @@ public class ChatServer extends AbstractServer {
 			LoginData data = (LoginData) arg0;
 			Object result;
 			if (database.verifyAccount(data.getUsername(), data.getPassword())) {
-				result = data.getUsername() + ",LoginSuccessful,player" + counter_players; //Example: dinh,LoginSuccessful,player1
+				result = data.getUsername() + ",LoginSuccessful,player" + counter_players; // Example:
+																							// dinh,LoginSuccessful,player1
 				counter_players++;
 				log.append("Client " + arg1.getId() + " successfully logged in as " + data.getUsername() + "\n");
 //				String clientId = Long.toString(arg1.getId());
-				
+
 				players.add(new Player(data.getUsername()));
-				
+
 //				players.add(new Player("Player" + clientId));
 //				players.get(counter_players).setName(data.getUsername());
 //				counter_players++;
@@ -142,85 +143,54 @@ public class ChatServer extends AbstractServer {
 				return;
 			}
 		} else if (arg0 instanceof ClientGameData) {
-//			ClientGameData data = (ClientGameData) arg0;
-//			this.sendToAllClients(data);
-
-			try {
-				arg1.sendToClient("RollDiceSuccess");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			// this is not updatting 2 players so can not use it
+//			try {
+//				arg1.sendToClient("RollDiceSuccess");
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			// if counter_turn is even it is player1's turn, if counter_turn is odd it is
+			// player2's turn
 			if (counter_turn % 2 == 0) {
 				ClientGameData data = (ClientGameData) arg0;
 				data.setPlayerturn(players.get(1).getName());
 				data.setId(1);
+				data.setType("rolldice");
+				if (data.isCanbuy() == true)
+					data.setPlayerturn(players.get(0).getName());
+				else
+					data.setPlayerturn(players.get(1).getName());
 				this.sendToAllClients(data);
 				counter_turn++;
 			} else {
 				ClientGameData data = (ClientGameData) arg0;
 				data.setPlayerturn(players.get(0).getName());
 				data.setId(0);
+				if (data.isCanbuy() == true)
+					data.setPlayerturn(players.get(1).getName());
+				else
+					data.setPlayerturn(players.get(0).getName());
 				this.sendToAllClients(data);
 				counter_turn++;
 			}
-			
 
 		}
-		//buy properties -- something similar to this? -india
+
+
 		else if (arg0 instanceof String) {
-	
-			GameData gamedata = new GameData();
-
-			String message = (String) arg0;
-			
-			if (message.equals("Airport")) {
-				gamedata.buyAirport();
+			String msg = (String) arg0;
+			if (msg.equals("bought")) {	
+				
+				ClientGameData data = (ClientGameData) arg0;
+				data.setType("buyData");
+				if(data.getId() == 0)
+					data.setPlayerturn(players.get(1).getName());
+				else
+					data.setPlayerturn(players.get(0).getName());
 			}
-			if (message.equals("CityProperty")) {
-				gamedata.buyCityProperty();
-			}
-			if (message.equals("Utility")) {
-				gamedata.buyUtilitites();
-			}
-			
-			try {
-				arg1.sendToClient("BuyPropertySuccess");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-
 		}
 
-//		else if (arg0 instanceof Dice) {
-//			Dice data = (Dice) arg0;
-//			GameData gamedata = new GameData();
-//			Object result;
-//			if (gamedata.getdiceRoll()) {
-//				result = "RollDiceSuccess";
-//			} else {
-//				result = new Error("Not your turn.", "RollDice");
-//			}
-//
-//			// Send the result to the client.
-//			try {
-//				arg1.sendToClient(result);
-//			} catch (IOException e) {
-//				return;
-//			}
-//		}
-		// BuyPropertiesData doesnt exist anymore
-		/*
-		 * else if (arg0 instanceof BuyPropertiesData) { BuyPropertiesData data =
-		 * (BuyPropertieseData) arg0; Object result; if (player.getMoney() <
-		 * property.getPrice()) { result = "BuyPropertiesSuccess"; } else { result = new
-		 * Error("Not enough money.", "BuyProperties"); }
-		 * 
-		 * // Send the result to the client. try { arg1.sendToClient(result); } catch
-		 * (IOException e) { return; }
-		 */
 	}
 
 	// Method that handles listening exceptions by displaying exception information.

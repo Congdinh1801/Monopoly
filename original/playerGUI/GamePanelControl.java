@@ -97,6 +97,7 @@ public class GamePanelControl implements ActionListener {
 			
 			clientGameData.setDice1(dice1);
 			clientGameData.setDice2(dice2);
+			clientGameData.setCanbuy(true);
 			
 			//test updating land info
 			//RollDiceSuccess();
@@ -111,40 +112,41 @@ public class GamePanelControl implements ActionListener {
 		
 		//buy button control
 		if (command.contentEquals("Buy")) {
-			if (gameData.isAirport()) {
-				try {
-					client.sendToServer("Airport");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					
-				}
-			}
-			else if (gameData.isCityProperty()) {
-				try {
-					client.sendToServer("CityProperty");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			else if (gameData.isUtilities()) {
-				try {
-					client.sendToServer("Utility");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			//client should buy buy himself and then send the message "bought" to the server
+//			if (gameData.isAirport()) {
+//				try {
+//					client.sendToServer("Airport");
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//					
+//				}
+//			}
+//			else if (gameData.isCityProperty()) {
+//				try {
+//					client.sendToServer("CityProperty");
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//			else if (gameData.isUtilities()) {
+//				try {
+//					client.sendToServer("Utility");
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
 			
 		}
 		
 		//no buy button control
 		if (command.contentEquals("No Buy")) {
-			
-			GamePanel gamePanel = (GamePanel) container.getComponent(3);
-			gamePanel.setBuyBttn(false);
-			gamePanel.setCancelBttn(false);
+			//client send the message "don't buy" to the server
+//			GamePanel gamePanel = (GamePanel) container.getComponent(3);
+//			gamePanel.setBuyBttn(false);
+//			gamePanel.setCancelBttn(false);
 		}
 	}
 	
@@ -244,15 +246,15 @@ public class GamePanelControl implements ActionListener {
 		
 		//price labels if player can buy land
 		if(gameData.canBuy()) {
-			rent = "Rent: " + Integer.toString(board.getRent(pos)) + " â‚¬";
+			rent = "Rent: " + Integer.toString(board.getRent(pos)) + " €";
 			gamePanel.setRentPrice(rent);
-			price = "Price: " + Integer.toString(board.getPurchase(pos)) + " â‚¬";
+			price = "Price: " + Integer.toString(board.getPurchase(pos)) + " €";
 			gamePanel.setPurchasePrice(price);
 			gamePanel.setBuyBttn(true);
 			gamePanel.setCancelBttn(true);
 		}
 		else if(pos == 4 || pos == 38){
-			tax = "Tax: " + Integer.toString(board.getTax(pos).getTax()) + " â‚¬";
+			tax = "Tax: " + Integer.toString(board.getTax(pos).getTax()) + " €";
 			gamePanel.setRentPrice(tax);
 			gamePanel.setPurchasePrice("");
 			gamePanel.setBuyBttn(false);
@@ -267,7 +269,24 @@ public class GamePanelControl implements ActionListener {
 			
 	}
 	
-	public void BuyPropSuccess()
+//	public void BuyPropSuccess()
+//	{
+//		GamePanel gamePanel = (GamePanel) container.getComponent(1);
+//		gamePanel.setPropertyName("Property Successfully Purchased!");
+//		gamePanel.setBuyBttn(false);
+//		gamePanel.setCancelBttn(false);
+//	
+//		if (clientGameData.getId() == 0)
+//		{
+//			squareCollections.get(gameData.getPlayer().getPosition()).setBorder(BorderFactory.createLineBorder(Color.RED));
+//		}
+//		else if (clientGameData.getId() == 1)
+//		{
+//			squareCollections.get(gameData.getPlayer().getPosition()).setBorder(BorderFactory.createLineBorder(Color.BLUE));
+//		}
+//	}
+	
+	public void BuyPropSuccess(ClientGameData clientGameData)
 	{
 		GamePanel gamePanel = (GamePanel) container.getComponent(1);
 		gamePanel.setPropertyName("Property Successfully Purchased!");

@@ -9,7 +9,25 @@ public class ClientGameData implements Serializable  {
 	private int dice2;
 	private String playerturn = "";
 	private int id;
+	private boolean canbuy;
+	private String type;
 	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public boolean isCanbuy() {
+		return canbuy;
+	}
+
+	public void setCanbuy(boolean canbuy) {
+		this.canbuy = canbuy;
+	}
+
 	public int getId() {
 		return id;
 	}

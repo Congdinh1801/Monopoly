@@ -142,6 +142,7 @@ public class GameData{
 	}
 
 	public boolean canBuy() {
+		//check if the land is available or not
 		return canBuy;
 	}
 	
