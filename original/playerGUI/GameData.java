@@ -1,6 +1,8 @@
 package playerGUI;
 
 
+import java.util.ArrayList;
+
 import serverBackend.board.Airport;
 import serverBackend.board.CityProperty;
 import serverBackend.board.MonopolyBoard;
@@ -13,8 +15,10 @@ public class GameData{
 	private MonopolyBoard board;
 	private Dice dice1;
 	private Dice dice2;
-	private Player player;
+	private ArrayList<Player> players;
 	private int previousPosition;
+	private int currentPosition;
+	private int currentPlayer;
 	private boolean canBuy;
 	private boolean isAirport;
 	private boolean isCityProperty;
@@ -24,110 +28,115 @@ public class GameData{
 		board = new MonopolyBoard();
 		dice1 = new Dice();
 		dice2 = new Dice();
-		player = new Player("longtin");
+		players = new ArrayList<>();
 	}
 	
-	public void play() {
+	public void play(int currentPlayer) {
 		int dice1 = 0;
 		int dice2 = 0;
-		
+		this.currentPlayer = currentPlayer;
 		setCurrentAsset(false, false, false);
 		dice1 = this.dice1.rollDice();
 		dice2 = this.dice2.rollDice();
-		previousPosition = player.getPosition();
-		player.setPosition((player.getPosition() + dice1 + dice2) % 40);
+		previousPosition = players.get(currentPlayer).getPosition();
+		players.get(currentPlayer).setPosition((players.get(currentPlayer).getPosition() + dice1 + dice2) % 40);
+		currentPosition = players.get(currentPlayer).getPosition();
 
-		if(player.getPosition() == 0) {
+		if(currentPosition == 0) {
 			passedStart();
-		} else if(player.getPosition() == 1) {
+		} else if(currentPosition == 1) {
 			cityProperty();
-		} else if(player.getPosition() == 2) {
+		} else if(currentPosition == 2) {
 			lottery();
-		} else if(player.getPosition() == 3) {
+		} else if(currentPosition == 3) {
 			cityProperty();
-		} else if(player.getPosition() == 4) {
+		} else if(currentPosition == 4) {
 			tax();
-		} else if(player.getPosition() == 5) {
+		} else if(currentPosition == 5) {
 			airport();
-		} else if(player.getPosition() == 6) {
+		} else if(currentPosition == 6) {
 			cityProperty();
-		} else if(player.getPosition() == 7) {
+		} else if(currentPosition == 7) {
 			casino();
-		} else if(player.getPosition() == 8) {
+		} else if(currentPosition == 8) {
 			cityProperty();
-		} else if(player.getPosition() == 9) {
+		} else if(currentPosition == 9) {
 			cityProperty();
-		} else if(player.getPosition() == 10) {
+		} else if(currentPosition == 10) {
 			utilities();
-		} else if(player.getPosition() == 11) {
+		} else if(currentPosition == 11) {
 			cityProperty();
-		} else if(player.getPosition() == 12) {
+		} else if(currentPosition == 12) {
 			jail();
-		} else if(player.getPosition() == 13) {
+		} else if(currentPosition == 13) {
 			cityProperty();
-		} else if(player.getPosition() == 14) {
+		} else if(currentPosition == 14) {
 			cityProperty();
-		} else if(player.getPosition() == 15) {
+		} else if(currentPosition == 15) {
 			airport();
-		} else if(player.getPosition() == 16) {
+		} else if(currentPosition == 16) {
 			cityProperty();
-		} else if(player.getPosition() == 17) {
+		} else if(currentPosition == 17) {
 			lottery();
-		} else if(player.getPosition() == 18) {
+		} else if(currentPosition == 18) {
 			cityProperty();
-		} else if(player.getPosition() == 19) {
+		} else if(currentPosition == 19) {
 			cityProperty();
-		} else if(player.getPosition() == 20) {
+		} else if(currentPosition == 20) {
 			vacation();
-		} else if(player.getPosition() == 21) {
+		} else if(currentPosition == 21) {
 			cityProperty();
-		} else if(player.getPosition() == 22) {
+		} else if(currentPosition == 22) {
 			casino();
-		} else if(player.getPosition() == 23) {
+		} else if(currentPosition == 23) {
 			cityProperty();
-		} else if(player.getPosition() == 24) {
+		} else if(currentPosition == 24) {
 			cityProperty();
-		} else if(player.getPosition() == 25) {
+		} else if(currentPosition == 25) {
 			airport();
-		} else if(player.getPosition() == 26) {
+		} else if(currentPosition == 26) {
 			cityProperty();
-		} else if(player.getPosition() == 27) {
+		} else if(currentPosition == 27) {
 			cityProperty();
-		} else if(player.getPosition() == 28) {
+		} else if(currentPosition == 28) {
 			utilities();
-		} else if(player.getPosition() == 29) {
+		} else if(currentPosition == 29) {
 			cityProperty();
-		} else if(player.getPosition() == 30) {
+		} else if(currentPosition == 30) {
 			lottery();
-		} else if(player.getPosition() == 31) {
+		} else if(currentPosition == 31) {
 			cityProperty();
-		} else if(player.getPosition() == 32) {
+		} else if(currentPosition == 32) {
 			goToJail();
-		}  else if(player.getPosition() == 33) {
+		}  else if(currentPosition == 33) {
 			cityProperty();
-		} else if(player.getPosition() == 34) {
+		} else if(currentPosition == 34) {
 			cityProperty();
-		} else if(player.getPosition() == 35) {
+		} else if(currentPosition == 35) {
 			airport();
-		} else if(player.getPosition() == 36) {
+		} else if(currentPosition == 36) {
 			casino();
-		} else if(player.getPosition() == 37) {
+		} else if(currentPosition == 37) {
 			cityProperty();
-		} else if(player.getPosition() == 38) {
+		} else if(currentPosition == 38) {
 			tax();
-		} else if(player.getPosition() == 39) {
+		} else if(currentPosition == 39) {
 			cityProperty();
 		}
 
-		System.out.println("Player: " + player.getName() + "\n" +
-				"Cash: " + player.getMoney() + "\n" +
-				"Position: " + player.getPosition() + "\n");
+		System.out.println("Player: " + players.get(currentPlayer).getName() + "\n" +
+				"Cash: " + players.get(currentPlayer).getMoney() + "\n" +
+				"Position: " + currentPosition + "\n");
 	}
 	
 	public int getPreviousPosition() {
 		return previousPosition;
 	}
 
+	public int getCurrentPosition() {
+		return currentPosition;
+	}
+	
 	public boolean isAirport() {
 		return isAirport;
 	}
@@ -145,22 +154,22 @@ public class GameData{
 	}
 	
 	public void buyCityProperty() {
-		CityProperty city = board.getCityProperty(player.getPosition());
-		city.buyAsset(player);
+		CityProperty city = board.getCityProperty(currentPosition);
+		city.buyAsset(players.get(currentPlayer));
 	}
 	
 	public void buyAirport() {
-		Airport airport = board.getAirport(player.getPosition());
-		airport.buyAsset(player);
+		Airport airport = board.getAirport(currentPosition);
+		airport.buyAsset(players.get(currentPlayer));
 	}
 	
 	public void buyUtilitites() {
-		Utilities util = board.getUtilities(player.getPosition());
-		util.buyAsset(player);
+		Utilities util = board.getUtilities(currentPosition);
+		util.buyAsset(players.get(currentPlayer));
 	}
 	
-	public Player getPlayer() {
-		return player;
+	public ArrayList<Player> getPlayer() {
+		return players;
 	}
 	
 	public Dice getDice1() {
@@ -172,19 +181,19 @@ public class GameData{
 	}
 
 	private void passedStart() {
-		board.getStart(player.getPosition()).action(player);
+		board.getStart(currentPosition).action(players.get(currentPlayer));
 		
 		System.out.println("You passed the Start square! Here is $200\n" );
 	}
 	
 	private void cityProperty() {
-		CityProperty city = board.getCityProperty(player.getPosition());
+		CityProperty city = board.getCityProperty(currentPosition);
 		
 		if(city.getOwner() == null) {
 			canBuy = true;
 		} else {
 			canBuy = false;
-			city.action(player);
+			city.action(players.get(currentPlayer));
 		}
 		
 		setCurrentAsset(false, true, false);
@@ -196,59 +205,59 @@ public class GameData{
 	}
 	
 	private void tax() {
-		board.getTax(player.getPosition()).action(player);
+		board.getTax(currentPosition).action(players.get(currentPlayer));
 		
-		System.out.println("You are in taxed by " + board.getTax(player.getPosition()).getName() + "\n");
+		System.out.println("You are in taxed by " + board.getTax(currentPosition).getName() + "\n");
 	}
 	
 	private void airport() {
-		Airport airport = board.getAirport(player.getPosition());
+		Airport airport = board.getAirport(currentPosition);
 		
 		if(airport.getOwner() == null) {
 			canBuy = true;
 		} else {
 			canBuy = false;
-			airport.action(player);
+			airport.action(players.get(currentPlayer));
 		}
 		
 		setCurrentAsset(true, false, false);
 	}
 	
 	private void utilities() {
-		Utilities util = board.getUtilities(player.getPosition());
+		Utilities util = board.getUtilities(currentPosition);
 		
 		if(util.getOwner() == null) {
 			canBuy = true;
 		} else {
 			canBuy = false;
-			util.action(player);
+			util.action(players.get(currentPlayer));
 		}
 		
 		setCurrentAsset(false, false, true);
 	}
 	
 	private void vacation() {
-		board.getVacation(player.getPosition()).action(player);
+		board.getVacation(currentPosition).action(players.get(currentPlayer));
 		System.out.println("You are on vacation!!" + "\n");
 	}
 	
 	private void goToJail() {
-		board.getGoToJail(player.getPosition()).action(player);
+		board.getGoToJail(currentPosition).action(players.get(currentPlayer));
 		System.out.println("You are arrested, and now are in jail!!" + "\n");
 	}
 	
 	private void lottery() {
-		board.getLottery(player.getPosition()).action(player);
+		board.getLottery(currentPosition).action(players.get(currentPlayer));
 		System.out.println("Here is a lottery ticket" + "\n");
 	}
 	
 	private void casino() {
-		board.getCasino(player.getPosition()).action(player);
+		board.getCasino(currentPosition).action(players.get(currentPlayer));
 		System.out.println("Don't lose your money in the casino" + "\n");
 	}
 	
 	private void jail() {
-		board.getJail(player.getPosition()).action(player);
+		board.getJail(currentPosition).action(players.get(currentPlayer));
 		System.out.println("Thanks for visiting the Euro's jail "  + "\n");
 	}
 	

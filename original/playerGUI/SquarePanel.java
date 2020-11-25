@@ -21,7 +21,14 @@ public class SquarePanel extends JPanel{
 	private ImageIcon catPieceTempImage;
 	private Image catPieceImage;
 	
+	private String image;
+	private int width;
+	private int height;
+	
 	public SquarePanel(String image, int width, int height) {
+		this.image = image;
+		this.height = height;
+		this.width = width;
 		createSquare(image, width, height);
 		createPlayer();
 	}

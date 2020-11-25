@@ -14,6 +14,10 @@ public class Tax extends Square{
 		this.tax = tax;
 	}
 	
+	public int getTax() {
+		return tax;
+	}
+	
 	public void action(Player player) {
 		int currentMoney = player.getMoney() - tax;
 		player.setMoney(currentMoney);

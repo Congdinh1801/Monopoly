@@ -1,5 +1,6 @@
 package playerGUI;
 
+import java.awt.Color;
 import java.awt.Image;
 
 //import game.dice.Dice;
@@ -11,18 +12,23 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import serverBackend.board.Airport;
+import serverBackend.board.CityProperty;
+import serverBackend.board.MonopolyBoard;
+import serverBackend.board.Utilities;
 import serverBackend.dice.Dice;
+import serverBackend.player.Player;
 
 public class GamePanelControl implements ActionListener {
 
 	private JPanel container;
 	private ChatClient client;
-	private GameData gameData;
 	
 	private JLabel label1;
 	private ImageIcon tempImage1;
@@ -31,22 +37,15 @@ public class GamePanelControl implements ActionListener {
 	private JLabel label2;
 	private ImageIcon tempImage2;
 	private Image image2;
+
+	private ArrayList<SquarePanel> squareCollections;
 	private ExecutorService pool = Executors.newFixedThreadPool(1);	//2
 	
-	private ArrayList<SquarePanel> squareCollections;
-	
-	private ClientGameData clientGameData = new ClientGameData();
-
 	public GamePanelControl(JPanel container, ChatClient client) {
 		this.container = container;
 		this.client = client;
-		this.gameData = new GameData();
 	}
 	
-	public void setSquareCollections(ArrayList<SquarePanel> squareCollections) {
-		this.squareCollections = squareCollections;
-	}
-
 	public void setLabel1(JLabel label1) {
 		this.label1 = label1;
 	}
@@ -55,43 +54,66 @@ public class GamePanelControl implements ActionListener {
 		this.label2 = label2;
 	}
 	
+	public void setSquareCollections(ArrayList<SquarePanel> squareCollections) {
+		this.squareCollections = squareCollections;
+	}
+	
 	public void actionPerformed(ActionEvent ae) {
 		String command = ae.getActionCommand();
 		if (command == "Roll Dice") {
-			gameData.play();
-			
-			int previousPosition = gameData.getPreviousPosition();
-			Runnable r1 = new Animator(squareCollections, previousPosition, gameData.getPlayer().getPosition());
-			if(gameData.canBuy()) {
-				if(gameData.isAirport()) {
-					System.out.println("You are in an Airplane Square");
-				} else if(gameData.isCityProperty()) {
-					System.out.println("You are in City Property Square");
-				} else if(gameData.isUtilities()) {
-					System.out.println("You are in an Utility Square");
-				}
-			}
-			pool.execute(r1);
-			
-			int dice1 = gameData.getDice1().getDiceNumber();
-			int dice2 = gameData.getDice2().getDiceNumber();
-			
-			diceLabel(dice1, dice2);
-			
-			clientGameData.setDice1(dice1);
-			clientGameData.setDice2(dice2);
-			
 			try {
-				client.sendToServer(clientGameData);
-			} catch (IOException e1) {
-				e1.printStackTrace();
+				client.sendToServer("Roll Dice");
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-
+		}
+		if(command == "Buy") {
+			try {
+				client.sendToServer("Buy");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if(command == "No Buy") {
+			try {
+				client.sendToServer("No Buy");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void updatePlayer(int previousPosition, int currentPosition) {
+		Runnable r1 = new Animator(squareCollections, previousPosition, currentPosition);
+		pool.execute(r1);
+	}
+	
+	public void turnOffBuyButtons() {
+		GamePanel gamePanel = (GamePanel) container.getComponent(3);
+		gamePanel.setBuyBttn(false);
+		gamePanel.setCancelBttn(false);
+	}
+	
+	public void buyPropSuccess(int currentPosition, int currentPlayer) {
+		if(currentPlayer == 0) {
+			squareCollections.get(currentPosition).setBorder(BorderFactory.createLineBorder(Color.RED,1));
+		} else if(currentPlayer == 1){
+			squareCollections.get(currentPosition).setBorder(BorderFactory.createLineBorder(Color.BLUE,1));
 		}
 	}
 	
 	public void updateRollDice(int dice1, int dice2) {
 		diceLabel(dice1, dice2);
+	}
+	
+	public void turnOnRollDiceButton() {
+		 GamePanel gamepanel = (GamePanel)container.getComponent(3);
+		 gamepanel.turnOnRollDiceButton();
+	}
+	
+	public void turnOffRollDiceButton() {
+		GamePanel gamepanel = (GamePanel)container.getComponent(3);
+		gamepanel.turnOffRollDiceButton();
 	}
 	
 	public void diceLabel(int dice1, int dice2) {
@@ -162,15 +184,46 @@ public class GamePanelControl implements ActionListener {
 		}
 	}
 	
-	// After dice has been rolled, update gui
-	public void RollDiceSuccess() {
-			//ClientGUI clientGUI = (ClientGUI) SwingUtilities.getWindowAncestor(rollDicePanel);
-			// clientGUI.setUser(new User(createAccountPanel.getUsername(),
-			// createAccountPanel.getPassword()));
-			//CardLayout cardLayout = (CardLayout) container.getLayout();
-			//cardLayout.show(container, "4");
-		}
+	public void RollDiceSuccess(boolean canBuy, int pos, MonopolyBoard board) {
 		
+		GamePanel gamePanel = (GamePanel) container.getComponent(3);		
+		String rent = "";
+		String price = "";
+		String tax = "";
+		
+		//name label
+		gamePanel.setPropertyName(board.getName(pos));
+		
+		//price labels if player can buy land
+		if(canBuy) {
+			rent = "Rent: " + Integer.toString(board.getRent(pos)) + " €";
+			gamePanel.setRentPrice(rent);
+			price = "Price: " + Integer.toString(board.getPurchase(pos)) + " €";
+			gamePanel.setPurchasePrice(price);
+			gamePanel.setBuyBttn(true);
+			gamePanel.setCancelBttn(true);
+			gamePanel.setRentPrice(rent);
+			gamePanel.setPurchasePrice(price);
+			gamePanel.setBuyBttn(true);
+			gamePanel.setCancelBttn(true);
+		}
+		else if(pos == 4 || pos == 38){
+
+			tax = "Tax: " + Integer.toString((board.getTax(pos)).getTax()) + " €";
+			gamePanel.setRentPrice(tax);
+			gamePanel.setPurchasePrice("");
+			gamePanel.setBuyBttn(false);
+			gamePanel.setCancelBttn(false);
+		}
+		else {
+			gamePanel.setRentPrice("Property Not For Sale");
+			gamePanel.setPurchasePrice("");
+			gamePanel.setBuyBttn(false);
+			gamePanel.setCancelBttn(false);
+		}
+			
+	}
+	
 	// Method that displays a message in the error label.
 	  public void displayError(String error)
 	  {

@@ -11,8 +11,7 @@ public class Testing {
 
 	public static void main(String[] args) {
 		GameData game = new GameData();
-		
-		game.play();
+	
 		
 		System.out.println("Welcome developer! You made it through github");
 		System.out.println("Success!");

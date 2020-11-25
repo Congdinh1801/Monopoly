@@ -1,6 +1,8 @@
 package serverBackend.board;
 
-public abstract class Square {
+import java.io.Serializable;
+
+public abstract class Square implements Serializable{
 	private String name;
 	final private int position;
 	

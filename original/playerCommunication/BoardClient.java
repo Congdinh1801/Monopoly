@@ -47,7 +47,7 @@ public class BoardClient extends AbstractClient {
 			//
 			else if (message.equals("RollDiceSuccess"))
 			{
-				gamePanelControl.RollDiceSuccess();
+				
 			}
 			else if (message.equals("BuyPropertiesSuccess"))
 			{

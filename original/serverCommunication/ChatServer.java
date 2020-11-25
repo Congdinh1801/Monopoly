@@ -4,14 +4,19 @@ import java.awt.*;
 import javax.swing.*;
 
 import database.Database;
+import serverBackend.board.MonopolyBoard;
 import serverBackend.dice.*;
+import serverBackend.player.Player;
 
 import java.io.IOException;
+
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import playerCommunication.Error;
+import playerGUI.AllClientGameData;
 import playerGUI.ClientGameData;
 import playerGUI.CreateAccountData;
+import playerGUI.GameData;
 //import playerGUI.GameData;
 import playerGUI.LoginData;
 
@@ -21,13 +26,19 @@ public class ChatServer extends AbstractServer {
 	private JLabel status;
 	private boolean running = false;
 	private Database database = new Database();
+	private int playerCount = 0;
+	private int playerTurn;
+	private MonopolyBoard board;
+	private GameData gameData;
 
 	// Constructor for initializing the server with default settings.
 	public ChatServer() {
 		super(12345);
 		this.setTimeout(500);
+		gameData = new GameData();
+		board = new MonopolyBoard();
 	}
-
+	
 	// Getter that returns whether the server is currently running.
 	public boolean isRunning() {
 		return running;
@@ -80,6 +91,20 @@ public class ChatServer extends AbstractServer {
 			if (database.verifyAccount(data.getUsername(), data.getPassword())) {
 				result = "LoginSuccessful";
 				log.append("Client " + arg1.getId() + " successfully logged in as " + data.getUsername() + "\n");
+				Player player = new Player(data.getUsername()); 
+				
+				if(this.getNumberOfClients() == 1) {
+					ClientGameData clientGameData = new ClientGameData();
+					clientGameData.setFirstPlayer(true);
+					try {
+						arg1.sendToClient(clientGameData);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				playerCount++;
+				gameData.getPlayer().add(player);
 			} else {
 				result = new Error("The username and password are incorrect.", "Login");
 				log.append("Client " + arg1.getId() + " failed to log in\n");
@@ -112,46 +137,54 @@ public class ChatServer extends AbstractServer {
 			} catch (IOException e) {
 				return;
 			}
-		} else if (arg0 instanceof ClientGameData) {
-			ClientGameData data = (ClientGameData) arg0;
-			this.sendToAllClients(data);
+		} else if (arg0 instanceof String) {
+			if(arg0.equals("Roll Dice")) {
+				playGame();
+				AllClientGameData allClientGameData = new AllClientGameData();
+				allClientGameData.setDice1(gameData.getDice1().getDiceNumber());
+				allClientGameData.setDice2(gameData.getDice2().getDiceNumber());
+				allClientGameData.setPreviousPosition(gameData.getPreviousPosition());
+				allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
+				sendToAllClients(allClientGameData);
+				
+				ClientGameData clientGameData = new ClientGameData();
+				clientGameData.setRoll(true);
+				clientGameData.setBoard(board);
+				clientGameData.setCanBuy(gameData.canBuy());
+				clientGameData.setPos(gameData.getCurrentPosition());
+				try {
+					arg1.sendToClient(clientGameData);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else if (arg0.equals("Buy")) {
+				if(gameData.isAirport()) {
+					gameData.buyAirport();
+				} else if(gameData.isCityProperty()) {
+					gameData.buyCityProperty();
+				} else if(gameData.isUtilities()) {
+					gameData.buyUtilitites();
+				}
+				AllClientGameData allClientGameData = new AllClientGameData();
+				allClientGameData.setBuyOrNot("Buy");
+				allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
+				allClientGameData.setCurrentPlayer(playerTurn);
+				playerTurn = (playerTurn + 1) % playerCount;
+				sendToAllClients(allClientGameData);
+			} else if(arg0.equals("No Buy")) {
+				AllClientGameData allClientGameData = new AllClientGameData();
+				allClientGameData.setBuyOrNot("No Buy");
+				sendToAllClients(allClientGameData);
+			}
 		}
 		
-//		else if (arg0 instanceof Dice) {
-//			Dice data = (Dice) arg0;
-//			GameData gamedata = new GameData();
-//			Object result;
-//			if (gamedata.getdiceRoll()) {
-//				result = "RollDiceSuccess";
-//			} else {
-//				result = new Error("Not your turn.", "RollDice");
-//			}
-//
-//			// Send the result to the client.
-//			try {
-//				arg1.sendToClient(result);
-//			} catch (IOException e) {
-//				return;
-//			}
-//		}
-		//BuyPropertiesData doesnt exist anymore
-		/*else if (arg0 instanceof BuyPropertiesData) {
-			BuyPropertiesData data = (BuyPropertieseData) arg0;
-			Object result;
-			if (player.getMoney() < property.getPrice()) {
-				result = "BuyPropertiesSuccess";
-			} else {
-				result = new Error("Not enough money.", "BuyProperties");
-			}
 
-			// Send the result to the client.
-			try {
-				arg1.sendToClient(result);
-			} catch (IOException e) {
-				return;
-			}*/
 	}
 
+	private void playGame() {
+		gameData.play(playerTurn);
+	}
+	
 	// Method that handles listening exceptions by displaying exception information.
 	public void listeningException(Throwable exception) {
 		running = false;

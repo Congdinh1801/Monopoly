@@ -48,7 +48,7 @@ public class ChatClient extends AbstractClient {
 			//
 			else if (message.equals("RollDiceSuccess"))
 			{
-				gamePanelControl.RollDiceSuccess();
+				
 			}
 			else if (message.equals("BuyPropertiesSuccess"))
 			{
@@ -76,12 +76,33 @@ public class ChatClient extends AbstractClient {
 			else if (error.getType().equals("BuyProperties")) {
 				gamePanelControl.displayError(error.getMessage());
 			}
+		} else if(arg0 instanceof AllClientGameData) {
+			
+			AllClientGameData allClientGameData = (AllClientGameData) arg0;
+			if(allClientGameData.getBuyOrNot().equals("Buy")) {
+				gamePanelControl.turnOffBuyButtons();
+				int currentPosition = allClientGameData.getCurrentPosition();
+				int currentPlayer = allClientGameData.getCurrentPlayer();
+				gamePanelControl.buyPropSuccess(currentPosition, currentPlayer);
+			} else if(allClientGameData.getBuyOrNot().equals("No Buy")) {
+				gamePanelControl.turnOffBuyButtons();
+			} else {
+				int dice1 = allClientGameData.getDice1();
+				int dice2 = allClientGameData.getDice2();
+				int previousPosition = allClientGameData.getPreviousPosition();
+				int currentPosition = allClientGameData.getCurrentPosition();
+				gamePanelControl.updateRollDice(dice1, dice2);
+				gamePanelControl.updatePlayer(previousPosition, currentPosition);
+				gamePanelControl.turnOnRollDiceButton();
+			}
 		} else if(arg0 instanceof ClientGameData) {
 			ClientGameData clientGameData = (ClientGameData) arg0;
-			int dice1 = clientGameData.getDice1();
-			int dice2 = clientGameData.getDice2();
-			
-			gamePanelControl.updateRollDice(dice1, dice2);
+			if(clientGameData.isFirstPlayer()) {
+				gamePanelControl.turnOnRollDiceButton();
+			} else {
+				gamePanelControl.turnOffRollDiceButton();
+				gamePanelControl.RollDiceSuccess(clientGameData.isCanBuy(), clientGameData.getPos(), clientGameData.getBoard());
+			}
 		}
 	}
 }
