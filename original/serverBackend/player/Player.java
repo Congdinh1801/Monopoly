@@ -1,11 +1,19 @@
 package serverBackend.player;
 
-public class Player extends Participant{
+public class Player{
 	private int money;
+	private String name;
 	private boolean isJail;
 	private int position;
 	private int id; //are you player1 or player2, 0 for player1, 1 for player2
 
+	public Player(String name) {
+		this.name = name;
+		setMoney(40000);
+		setJail(false);
+		setPosition(0);
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -13,12 +21,13 @@ public class Player extends Participant{
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public Player(String name) {
-		super(name);
-		setMoney(40000);
-		setJail(false);
-		setPosition(0);
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getMoney() {

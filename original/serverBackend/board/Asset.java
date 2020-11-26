@@ -1,12 +1,11 @@
 package serverBackend.board;
 
-import serverBackend.player.Participant;
 import serverBackend.player.Player;
 
 public abstract class Asset extends Square {
 	private int purchasePrice;
 	private int rentPrice;
-	private Participant owner;
+	private Player owner;
 	
 	public Asset(int position) {
 		super(position);
@@ -28,18 +27,18 @@ public abstract class Asset extends Square {
 		this.rentPrice = rentPrice;
 	}
 	
-	public Participant getOwner() {
+	public Player getOwner() {
 		return owner;
 	}
 
-	public void setOwner(Participant owner) {
+	public void setOwner(Player owner) {
 		this.owner = owner;
 	}
 	
 	public void action(Player player) {
 		int currentMoney = player.getMoney() - getRentPrice();;
 		player.setMoney(currentMoney);
-		System.out.println("you bought something");
+		getOwner().setMoney(getOwner().getMoney() + getRentPrice());
 	}
 	
 	public void buyAsset(Player player) {

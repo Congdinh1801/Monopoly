@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -84,9 +85,11 @@ public class GamePanelControl implements ActionListener {
 		}
 	}
 	
-	public void updatePlayer(int previousPosition, int currentPosition, int playerid, int opponent_position) {
-		Runnable r1 = new Animator(squareCollections, previousPosition, currentPosition, playerid, opponent_position);
+	public void updatePlayer(int previousPosition, int currentPosition, int playerid, int opponent_position) throws InterruptedException {
+		CountDownLatch latch = new CountDownLatch(1);
+		Runnable r1 = new Animator(squareCollections, previousPosition, currentPosition, playerid, opponent_position, latch);
 		pool.execute(r1);
+		latch.await();
 	}
 	
 	public void turnOffBuyButtons() {

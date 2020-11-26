@@ -1,6 +1,7 @@
 package playerGUI;
 
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 public class Animator implements Runnable {
 
@@ -9,13 +10,16 @@ public class Animator implements Runnable {
 	private int nextPosition = 0;
 	private int playerid = -1;
 	private int opponent_position;
+	private CountDownLatch latch = new CountDownLatch(1);
 
-	public Animator(ArrayList<SquarePanel> squareCollections, int currentPosition, int nextPosition, int playerid, int opponent_position) {
+	public Animator(ArrayList<SquarePanel> squareCollections, int currentPosition, int nextPosition,
+					int playerid, int opponent_position, CountDownLatch latch) {
 		this.squareCollections = squareCollections;
 		this.currentPosition = currentPosition % 40;
 		this.nextPosition = nextPosition % 40;
 		this.playerid = playerid;
 		this.opponent_position = opponent_position;
+		this.latch = latch;
 	}
 
 	@Override
@@ -24,9 +28,7 @@ public class Animator implements Runnable {
 		while (currentPosition != nextPosition) {
 			if (playerid == 0) {
 				squareCollections.get(currentPosition).addCatPiece();
-			}
-
-			else {
+			} else {
 				squareCollections.get(currentPosition).addDogPiece();
 			}
 
@@ -38,8 +40,7 @@ public class Animator implements Runnable {
 			
 			if(currentPosition == opponent_position) {
 				same_position = true;
-			}
-			else {
+			} else {
 				same_position = false;
 			}
 			squareCollections.get(currentPosition).removeImage(playerid, same_position);	
@@ -48,10 +49,10 @@ public class Animator implements Runnable {
 			
 		if (playerid == 0) {
 			squareCollections.get(currentPosition).addCatPiece();
-		}
-
-		else {
+		}else {
 			squareCollections.get(currentPosition).addDogPiece();
 		}
+		
+		latch.countDown();
 	}
 }
