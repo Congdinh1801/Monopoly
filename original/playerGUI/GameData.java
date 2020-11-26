@@ -36,7 +36,8 @@ public class GameData{
 		int dice1 = 0;
 		int dice2 = 0;
 		this.currentPlayer = currentPlayer;
-		setCurrentAsset(false, false, false);
+		canBuy = false;
+		setCurrentAsset(false, false, false); //Reset assets incase the square a player land is not an asset
 		dice1 = this.dice1.rollDice();
 		dice2 = this.dice2.rollDice();
 		previousPosition = players.get(currentPlayer).getPosition();
