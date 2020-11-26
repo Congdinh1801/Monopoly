@@ -12,7 +12,7 @@ public class ClientGUI extends JFrame
   public ClientGUI()
   {
     // Set up the chat client.
-   ChatClient client = new ChatClient();
+   GameClient client = new GameClient();
     client.setHost("localhost");
     client.setPort(8300);
     try
@@ -27,7 +27,7 @@ public class ClientGUI extends JFrame
     
     
     // Set the title and default close operation.
-    this.setTitle("Chat Client");
+    this.setTitle("Game Client");
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
     // Create the card layout container.

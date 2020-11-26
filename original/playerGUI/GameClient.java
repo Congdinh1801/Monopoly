@@ -5,7 +5,7 @@ import playerCommunication.Error;
 import serverBackend.dice.Dice;
 import serverBackend.player.Player;
 
-public class ChatClient extends AbstractClient {
+public class GameClient extends AbstractClient {
 	// Private data fields for storing the GUI controllers.
 	private LoginControl loginControl;
 	private CreateAccountControl createAccountControl;
@@ -27,7 +27,7 @@ public class ChatClient extends AbstractClient {
 	}
 
 	// Constructor for initializing the client with default settings.
-	public ChatClient() {
+	public GameClient() {
 		super("localhost", 8300);
 	}
 

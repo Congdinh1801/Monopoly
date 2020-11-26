@@ -48,7 +48,7 @@ public class GamePanel extends JPanel {
 	
 	private ArrayList<SquarePanel> squareCollections;
 	private double resize = 1.5;// 1.2
-	private ChatClient client;
+	private GameClient client;
 	private JButton roll;
 	
 	private JLabel errorLabel;
@@ -68,7 +68,7 @@ public class GamePanel extends JPanel {
 		roll.setVisible(false);
 	}
 
-	public void setClient(ChatClient client) {
+	public void setClient(GameClient client) {
 		this.client = client;
 	}
 

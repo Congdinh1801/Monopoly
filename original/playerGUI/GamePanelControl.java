@@ -29,7 +29,7 @@ import serverBackend.player.Player;
 public class GamePanelControl implements ActionListener {
 
 	private JPanel container;
-	private ChatClient client;
+	private GameClient client;
 
 	private JLabel label1;
 	private ImageIcon tempImage1;
@@ -42,7 +42,7 @@ public class GamePanelControl implements ActionListener {
 	private ArrayList<SquarePanel> squareCollections;
 	private ExecutorService pool = Executors.newFixedThreadPool(1);	//2
 	
-	public GamePanelControl(JPanel container, ChatClient client) {
+	public GamePanelControl(JPanel container, GameClient client) {
 		this.container = container;
 		this.client = client;
 	}
@@ -89,6 +89,7 @@ public class GamePanelControl implements ActionListener {
 		CountDownLatch latch = new CountDownLatch(1);
 		Runnable r1 = new Animator(squareCollections, previousPosition, currentPosition, playerid, opponent_position, latch);
 		pool.execute(r1);
+		turnOffRollDiceButton();
 		latch.await();
 	}
 	

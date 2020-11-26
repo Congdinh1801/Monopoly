@@ -11,7 +11,7 @@ public class LoginPanel extends JPanel
   private JPasswordField passwordField;
   private JLabel errorLabel;
   private JPanel container = new JPanel();
-  private ChatClient client = new ChatClient();
+  private GameClient client = new GameClient();
   
   // Getter for the text in the username field.
   public String getUsername()
@@ -30,7 +30,7 @@ public class LoginPanel extends JPanel
     this.container = container;
   }
   
-  public void setClient(ChatClient client)
+  public void setClient(GameClient client)
   {
     this.client = client;
   }
