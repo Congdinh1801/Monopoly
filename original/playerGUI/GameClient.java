@@ -99,15 +99,19 @@ public class GameClient extends AbstractClient {
 				try {
 					gamePanelControl.updatePlayer(previousPosition, currentPosition, allClientGameData.getCurrentPlayer(), allClientGameData.getOpponentPosition());
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				gamePanelControl.turnOnRollDiceButton();
+				
+				if(allClientGameData.isEndTurn()) {
+					gamePanelControl.turnOnRollDiceButton();
+				}
 			}
 		} else if(arg0 instanceof ClientGameData) {
 			ClientGameData clientGameData = (ClientGameData) arg0;
 			if(clientGameData.isFirstPlayer()) {
 				gamePanelControl.turnOnRollDiceButton();
+			} else if(clientGameData.isEndTurn()) {
+				gamePanelControl.turnOffRollDiceButton();
 			} else {
 				gamePanelControl.turnOffRollDiceButton();
 				gamePanelControl.RollDiceSuccess(clientGameData.isCanBuy(), clientGameData.getPos(), clientGameData.getBoard());

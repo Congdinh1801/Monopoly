@@ -44,7 +44,11 @@ public class GameData{
 		players.get(currentPlayer).setPosition((players.get(currentPlayer).getPosition() + dice1 + dice2) % 40);
 		currentPosition = players.get(currentPlayer).getPosition();
 
-		if(currentPosition == 0) {
+		if(currentPosition < previousPosition) {
+			passedStart();
+		}
+		
+		if(currentPosition == 0 ) {
 			passedStart();
 		} else if(currentPosition == 1) {
 			cityProperty();

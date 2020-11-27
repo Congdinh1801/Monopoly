@@ -12,6 +12,7 @@ public class AllClientGameData implements Serializable  {
 	private int currentPosition = 0; //current position for current player
 	private int currentPlayer = -1;//0 for player1, 1 for player2
 	private int opponentPosition = -1; //position of opponent
+	private boolean endTurn = false;
 //	private int playerid;
 //	public int getPlayerid() {
 //		return playerid;
@@ -77,6 +78,14 @@ public class AllClientGameData implements Serializable  {
 
 	public void setCurrentPlayer(int currentPlayer) {
 		this.currentPlayer = currentPlayer;
+	}
+	
+	public void setEndTurn(boolean endTurn) {
+		this.endTurn = endTurn;
+	}
+	
+	public boolean isEndTurn() {
+		return endTurn;
 	}
 
 }

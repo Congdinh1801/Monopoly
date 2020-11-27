@@ -97,6 +97,8 @@ public class GamePanelControl implements ActionListener {
 		GamePanel gamePanel = (GamePanel) container.getComponent(3);
 		gamePanel.setBuyBttn(false);
 		gamePanel.setCancelBttn(false);
+		turnOnRollDiceButton();
+		
 	}
 	
 	public void buyPropSuccess(int currentPosition, int currentPlayer) {

@@ -8,6 +8,7 @@ public class ClientGameData implements Serializable {
 	private boolean roll;
 	private boolean firstPlayer;
 	private boolean canBuy;
+	private boolean endTurn = false;
 	private int pos;
 	private MonopolyBoard board;
 
@@ -49,5 +50,13 @@ public class ClientGameData implements Serializable {
 
 	public void setBoard(MonopolyBoard board) {
 		this.board = board;
+	}
+
+	public boolean isEndTurn() {
+		return endTurn;
+	}
+
+	public void setEndTurn(boolean endTurn) {
+		this.endTurn = endTurn;
 	}
 }
