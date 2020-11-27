@@ -62,7 +62,7 @@ public class SquarePanel extends JPanel{
 		catPieceImage = catPieceTempImage.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
 		catPieceLabel.setIcon(new ImageIcon(catPieceImage));
 		
-		dogPieceTempImage = new ImageIcon(SquarePanel.class.getResource("/berlin.PNG"));
+		dogPieceTempImage = new ImageIcon(SquarePanel.class.getResource("/dog.png"));
 		dogPieceImage = dogPieceTempImage.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
 		dogPieceLabel.setIcon(new ImageIcon(dogPieceImage));
 		

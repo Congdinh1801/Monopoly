@@ -180,7 +180,20 @@ public class GamePanel extends JPanel {
 		westouter.add(westPanel, BorderLayout.WEST);
 		westouter.add(eastPanel, BorderLayout.EAST);
 		
+		JPanel playergrid = new JPanel(new GridLayout(2,1,0,10));
+		JLabel test1 = new JLabel("Player 1");
+		JPanel paneltest1 = new JPanel(new FlowLayout());
+		paneltest1.add(test1);
+		JLabel test2 = new JLabel("Player 2");
+		JPanel paneltest2 = new JPanel(new FlowLayout());
+		paneltest2.add(test2);
+		playergrid.add(paneltest1);
+		playergrid.add(paneltest2);
+		
+		eastouter.add(playergrid);
+		
 		JPanel buffer = new JPanel(new BorderLayout());
+		
 		
 		buffer.add(westouter, BorderLayout.WEST);
 		buffer.add(eastouter,  BorderLayout.EAST);
