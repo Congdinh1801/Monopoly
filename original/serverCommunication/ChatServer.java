@@ -150,7 +150,7 @@ public class ChatServer extends AbstractServer {
 				allClientGameData.setDice1(gameData.getDice1().getDiceNumber());
 				allClientGameData.setDice2(gameData.getDice2().getDiceNumber());
 				allClientGameData.setPreviousPosition(gameData.getPreviousPosition());
-				allClientGameData.setCurrentPlayer(playerTurn);
+				allClientGameData.setcurrentPlayerID(playerTurn);
 				allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
 				
 				int opponent_position = gameData.getPlayer().get((playerTurn + 1)%2).getPosition();
@@ -190,7 +190,7 @@ public class ChatServer extends AbstractServer {
 				AllClientGameData allClientGameData = new AllClientGameData();
 				allClientGameData.setBuyOrNot("Buy");
 				allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
-				allClientGameData.setCurrentPlayer(playerTurn);
+				allClientGameData.setcurrentPlayerID(playerTurn);
 				playerTurn = (playerTurn + 1) % playerCount;
 				sendToAllClients(allClientGameData);
 			} else if(arg0.equals("No Buy")) {
@@ -199,7 +199,7 @@ public class ChatServer extends AbstractServer {
 				AllClientGameData allClientGameData = new AllClientGameData();
 				allClientGameData.setBuyOrNot("No Buy");
 				
-				allClientGameData.setCurrentPlayer(playerTurn);
+				allClientGameData.setcurrentPlayerID(playerTurn);
 				playerTurn = (playerTurn + 1) % playerCount;
 				
 				sendToAllClients(allClientGameData);

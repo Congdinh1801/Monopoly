@@ -10,7 +10,7 @@ public class AllClientGameData implements Serializable  {
 	private int dice2 = 0;
 	private int previousPosition = 0;
 	private int currentPosition = 0; //current position for current player
-	private int currentPlayer = -1;//0 for player1, 1 for player2
+	private int currentPlayerID = -1;//0 for player1, 1 for player2
 	private int opponentPosition = -1; //position of opponent
 //	private int playerid;
 //	public int getPlayerid() {
@@ -71,12 +71,12 @@ public class AllClientGameData implements Serializable  {
 		this.buyOrNot = buyOrNot;
 	}
 
-	public int getCurrentPlayer() {
-		return currentPlayer;
+	public int getcurrentPlayerID() {
+		return currentPlayerID;
 	}
 
-	public void setCurrentPlayer(int currentPlayer) {
-		this.currentPlayer = currentPlayer;
+	public void setcurrentPlayerID(int currentPlayerID) {
+		this.currentPlayerID = currentPlayerID;
 	}
 
 }
