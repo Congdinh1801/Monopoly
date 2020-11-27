@@ -20,7 +20,7 @@ import playerGUI.GameData;
 //import playerGUI.GameData;
 import playerGUI.LoginData;
 
-public class ChatServer extends AbstractServer {
+public class GameServer extends AbstractServer {
 	// Data fields for this chat server.
 	private JTextArea log;
 	private JLabel status;
@@ -33,7 +33,7 @@ public class ChatServer extends AbstractServer {
 	private int prevPlayerPosition = -1;
 
 	// Constructor for initializing the server with default settings.
-	public ChatServer() {
+	public GameServer() {
 		super(12345);
 		this.setTimeout(500);
 		gameData = new GameData();

@@ -16,7 +16,7 @@ public class ServerGUI extends JFrame
   private JButton close;
   private JButton stop;
   private JButton quit;
-  private ChatServer server;
+  private GameServer server;
 
   // Constructor for the server GUI.
 	public ServerGUI()
@@ -29,7 +29,7 @@ public class ServerGUI extends JFrame
     int i = 0;
     
     // Set the title and default close operation.
-    this.setTitle("Chat Server");
+    this.setTitle("Game Server");
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // Create the status label.
@@ -100,7 +100,7 @@ public class ServerGUI extends JFrame
     this.setVisible(true);
     
     // Set up the chat server object.
-    server = new ChatServer();
+    server = new GameServer();
     server.setLog(log);
     server.setStatus(status);
 	}

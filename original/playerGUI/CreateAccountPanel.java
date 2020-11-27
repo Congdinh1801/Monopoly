@@ -13,14 +13,14 @@ public class CreateAccountPanel extends JPanel
   private JPasswordField passwordVerifyField;
   private JLabel errorLabel;
   private JPanel container = new JPanel ();
-  private ChatClient client = new ChatClient();
+  private GameClient client = new GameClient();
   
   public void setContainer(JPanel container)
   {
     this.container = container;
   }
   
-  public void setClient(ChatClient client)
+  public void setClient(GameClient client)
   {
     this.client = client;
   }
