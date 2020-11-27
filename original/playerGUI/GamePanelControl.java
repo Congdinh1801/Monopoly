@@ -207,28 +207,31 @@ public class GamePanelControl implements ActionListener {
 			gamePanel.setRentPrice(rent);
 			price = "Price: " + Integer.toString(board.getPurchase(pos)) + " €";
 			gamePanel.setPurchasePrice(price);
-			gamePanel.setBuyBttn(true);
-			gamePanel.setCancelBttn(true);
 			gamePanel.setRentPrice(rent);
 			gamePanel.setPurchasePrice(price);
-			gamePanel.setBuyBttn(true);
-			gamePanel.setCancelBttn(true);
 		}
 		else if(pos == 4 || pos == 38){
 
 			tax = "Tax: " + Integer.toString((board.getTax(pos)).getTax()) + " €";
 			gamePanel.setRentPrice(tax);
 			gamePanel.setPurchasePrice("");
-			gamePanel.setBuyBttn(false);
-			gamePanel.setCancelBttn(false);
 		}
 		else {
 			gamePanel.setRentPrice("Property Not For Sale");
 			gamePanel.setPurchasePrice("");
+		}
+			
+	}
+	
+	public void displayBuyOrNotButton(boolean canBuy) {
+		GamePanel gamePanel = (GamePanel) container.getComponent(3);	
+		if(canBuy) {
+			gamePanel.setBuyBttn(true);
+			gamePanel.setCancelBttn(true);
+		} else{
 			gamePanel.setBuyBttn(false);
 			gamePanel.setCancelBttn(false);
 		}
-			
 	}
 	
 	// Method that displays a message in the error label.

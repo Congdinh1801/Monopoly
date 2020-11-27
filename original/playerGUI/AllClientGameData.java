@@ -2,6 +2,7 @@ package playerGUI;
 
 import java.io.Serializable;
 
+import serverBackend.board.MonopolyBoard;
 import serverBackend.dice.Dice;
 import serverBackend.player.Player;
 
@@ -12,25 +13,11 @@ public class AllClientGameData implements Serializable  {
 	private int currentPosition = 0; //current position for current player
 	private int currentPlayerID = -1;//0 for player1, 1 for player2
 	private int opponentPosition = -1; //position of opponent
+	private int pos;
 	private boolean endTurn = false;
-//	private int playerid;
-//	public int getPlayerid() {
-//		return playerid;
-//	}
-//
-//	public void setPlayerid(int playerid) {
-//		this.playerid = playerid;
-//	}
-
-	public int getOpponentPosition() {
-		return opponentPosition;
-	}
-
-	public void setOpponentPosition(int opponentPosition) {
-		this.opponentPosition = opponentPosition;
-	}
-
+	private boolean canBuy = false;
 	private String buyOrNot = "";	//buy is when you buy, no buy when you don't buy, null if no action
+	private MonopolyBoard board;
 	
 	public int getDice1() {
 		return dice1;
@@ -88,4 +75,36 @@ public class AllClientGameData implements Serializable  {
 		return endTurn;
 	}
 
+	public int getOpponentPosition() {
+		return opponentPosition;
+	}
+
+	public void setOpponentPosition(int opponentPosition) {
+		this.opponentPosition = opponentPosition;
+	}
+	
+
+	public boolean isCanBuy() {
+		return canBuy;
+	}
+
+	public void setCanBuy(boolean canBuy) {
+		this.canBuy = canBuy;
+	}
+
+	public int getPos() {
+		return pos;
+	}
+
+	public void setPos(int pos) {
+		this.pos = pos;
+	}
+
+	public MonopolyBoard getBoard() {
+		return board;
+	}
+
+	public void setBoard(MonopolyBoard board) {
+		this.board = board;
+	}
 }

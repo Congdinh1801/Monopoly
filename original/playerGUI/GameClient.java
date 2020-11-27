@@ -82,6 +82,7 @@ public class GameClient extends AbstractClient {
 		} else if(arg0 instanceof AllClientGameData) {
 			
 			AllClientGameData allClientGameData = (AllClientGameData) arg0;
+			
 			if(allClientGameData.getBuyOrNot().equals("Buy")) {
 				gamePanelControl.turnOffBuyButtons();
 				int currentPosition = allClientGameData.getCurrentPosition();
@@ -101,7 +102,7 @@ public class GameClient extends AbstractClient {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				
+				gamePanelControl.RollDiceSuccess(allClientGameData.isCanBuy(), allClientGameData.getPos(), allClientGameData.getBoard());
 				if(allClientGameData.isEndTurn()) {
 					gamePanelControl.turnOnRollDiceButton();
 				}
@@ -114,7 +115,10 @@ public class GameClient extends AbstractClient {
 				gamePanelControl.turnOffRollDiceButton();
 			} else {
 				gamePanelControl.turnOffRollDiceButton();
-				gamePanelControl.RollDiceSuccess(clientGameData.isCanBuy(), clientGameData.getPos(), clientGameData.getBoard());
+			}
+			
+			if(clientGameData.isCanBuy()) {
+				gamePanelControl.displayBuyOrNotButton(clientGameData.isCanBuy());
 			}
 		}
 	}

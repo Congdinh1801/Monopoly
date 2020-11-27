@@ -148,9 +148,14 @@ public class GameServer extends AbstractServer {
 				AllClientGameData allClientGameData = new AllClientGameData();
 				updateAllClientsAfterRollDice(allClientGameData);
 				
-				//Send data to a client that is their turn
+				//turn on or off the buyOrNot buttons
 				ClientGameData clientGameData = new ClientGameData();
-				updateCurrentClientToBuyOrNot(clientGameData, arg1);
+				clientGameData.setCanBuy(gameData.canBuy());
+				try {
+					arg1.sendToClient(clientGameData);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			} else if (arg0.equals("Buy")) {
 				
 				//see what kind of an asset to buy
@@ -183,19 +188,6 @@ public class GameServer extends AbstractServer {
 	
 	}
 	
-	private void updateCurrentClientToBuyOrNot(ClientGameData clientGameData, ConnectionToClient arg1) {
-		clientGameData.setRoll(true);
-		clientGameData.setBoard(board);
-		clientGameData.setCanBuy(gameData.canBuy());
-		clientGameData.setPos(gameData.getCurrentPosition());
-		
-		try {
-			arg1.sendToClient(clientGameData);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	private void updateAllClientsAfterRollDice(AllClientGameData allClientGameData) {
 		allClientGameData.setDice1(gameData.getDice1().getDiceNumber());
 		allClientGameData.setDice2(gameData.getDice2().getDiceNumber());
@@ -203,6 +195,9 @@ public class GameServer extends AbstractServer {
 		allClientGameData.setcurrentPlayerID(playerTurn);
 		allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
 		allClientGameData.setOpponentPosition(gameData.getPlayer().get((playerTurn + 1) % playerCount).getPosition());
+		allClientGameData.setBoard(board);
+		allClientGameData.setCanBuy(gameData.canBuy());
+		allClientGameData.setPos(gameData.getCurrentPosition());
 		
 		if(!gameData.canBuy()) {
 			playerTurn = (playerTurn + 1) % playerCount;
