@@ -89,6 +89,10 @@ public class GamePanel extends JPanel {
 		southPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
 		westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
 		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
+//		northPanel.setLayout(new FlowLayout());
+//		southPanel.setLayout(new FlowLayout());
+//		westPanel.setLayout(new FlowLayout());
+//		eastPanel.setLayout(new FlowLayout());
 		
 		centerPanel.setLayout(new FlowLayout());
 		
@@ -163,16 +167,37 @@ public class GamePanel extends JPanel {
 		centerPanel.add(centerwest, BorderLayout.WEST);
 		centerPanel.add(centereast, BorderLayout.EAST);
 		
-		this.setPreferredSize(new Dimension((int)(558 * resize), (int)(390 * resize)));
+		this.setPreferredSize(new Dimension((int)(900 * resize), (int)(600 * resize)));
 
 		addSquares();
 		
 		//add(roll, BorderLayout.CENTER);
-		add(centerPanel, BorderLayout.CENTER);
-		add(southPanel, BorderLayout.SOUTH);
-		add(northPanel, BorderLayout.NORTH);
-		add(westPanel, BorderLayout.WEST);
-		add(eastPanel, BorderLayout.EAST);
+		JPanel westouter = new JPanel(new BorderLayout());
+		JPanel eastouter = new JPanel(new BorderLayout());
+		westouter.add(centerPanel, BorderLayout.CENTER);
+		westouter.add(southPanel, BorderLayout.SOUTH);
+		westouter.add(northPanel, BorderLayout.NORTH);
+		westouter.add(westPanel, BorderLayout.WEST);
+		westouter.add(eastPanel, BorderLayout.EAST);
+		
+		JPanel playergrid = new JPanel(new GridLayout(2,1,0,10));
+		JLabel test1 = new JLabel("Player 1");
+		JPanel paneltest1 = new JPanel(new FlowLayout());
+		paneltest1.add(test1);
+		JLabel test2 = new JLabel("Player 2");
+		JPanel paneltest2 = new JPanel(new FlowLayout());
+		paneltest2.add(test2);
+		playergrid.add(paneltest1);
+		playergrid.add(paneltest2);
+		
+		eastouter.add(playergrid);
+		
+		JPanel buffer = new JPanel(new BorderLayout());
+		
+		
+		buffer.add(westouter, BorderLayout.WEST);
+		buffer.add(eastouter,  BorderLayout.EAST);
+		add(buffer);
 	}
 
 	private void addSquares() {

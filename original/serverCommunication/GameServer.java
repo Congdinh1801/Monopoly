@@ -16,7 +16,6 @@ import playerCommunication.Error;
 import playerGUI.AllClientGameData;
 import playerGUI.ClientGameData;
 import playerGUI.CreateAccountData;
-import playerGUI.GameData;
 //import playerGUI.GameData;
 import playerGUI.LoginData;
 
@@ -167,12 +166,14 @@ public class GameServer extends AbstractServer {
 				AllClientGameData allClientGameData = new AllClientGameData();
 				ClientGameData clientGameData = new ClientGameData();
 				allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
+				
 				buyOrNot(allClientGameData, clientGameData,"Buy", arg1);
 				
 			} else if(arg0.equals("No Buy")) {
 				
 				//update all the clients that the player did not buy
 				AllClientGameData allClientGameData = new AllClientGameData();
+
 				ClientGameData clientGameData = new ClientGameData();
 				buyOrNot(allClientGameData, clientGameData,"No Buy", arg1);
 			}

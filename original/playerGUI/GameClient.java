@@ -85,7 +85,7 @@ public class GameClient extends AbstractClient {
 			if(allClientGameData.getBuyOrNot().equals("Buy")) {
 				gamePanelControl.turnOffBuyButtons();
 				int currentPosition = allClientGameData.getCurrentPosition();
-				int currentPlayer = allClientGameData.getCurrentPlayer();
+				int currentPlayer = allClientGameData.getcurrentPlayerID();
 				gamePanelControl.buyPropSuccess(currentPosition, currentPlayer);
 			} else if(allClientGameData.getBuyOrNot().equals("No Buy")) {
 				gamePanelControl.turnOffBuyButtons();
@@ -97,7 +97,7 @@ public class GameClient extends AbstractClient {
 				int currentPosition = allClientGameData.getCurrentPosition();
 				gamePanelControl.updateRollDice(dice1, dice2);
 				try {
-					gamePanelControl.updatePlayer(previousPosition, currentPosition, allClientGameData.getCurrentPlayer(), allClientGameData.getOpponentPosition());
+					gamePanelControl.updatePlayer(previousPosition, currentPosition, allClientGameData.getcurrentPlayerID(), allClientGameData.getOpponentPosition());
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

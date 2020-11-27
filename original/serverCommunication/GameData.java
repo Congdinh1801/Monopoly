@@ -1,4 +1,4 @@
-package playerGUI;
+package serverCommunication;
 
 
 import java.util.ArrayList;
