@@ -200,7 +200,7 @@ public class GameServer extends AbstractServer {
 		allClientGameData.setDice1(gameData.getDice1().getDiceNumber());
 		allClientGameData.setDice2(gameData.getDice2().getDiceNumber());
 		allClientGameData.setPreviousPosition(gameData.getPreviousPosition());
-		allClientGameData.setCurrentPlayer(playerTurn);
+		allClientGameData.setcurrentPlayerID(playerTurn);
 		allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
 		allClientGameData.setOpponentPosition(gameData.getPlayer().get((playerTurn + 1) % playerCount).getPosition());
 		
@@ -215,7 +215,7 @@ public class GameServer extends AbstractServer {
 	private void buyOrNot(AllClientGameData allClientGameData, ClientGameData clientGameData,String buyOrNot, ConnectionToClient arg1) {
 		allClientGameData.setBuyOrNot(buyOrNot);
 		allClientGameData.setEndTurn(true);
-		allClientGameData.setCurrentPlayer(playerTurn);
+		allClientGameData.setcurrentPlayerID(playerTurn);
 		playerTurn = (playerTurn + 1) % playerCount;
 		sendToAllClients(allClientGameData);
 		clientGameData.setEndTurn(true);

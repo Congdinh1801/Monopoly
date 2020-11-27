@@ -44,7 +44,7 @@ public class GameData{
 		players.get(currentPlayer).setPosition((players.get(currentPlayer).getPosition() + dice1 + dice2) % 40);
 		currentPosition = players.get(currentPlayer).getPosition();
 
-		if(currentPosition < previousPosition) {
+		if(currentPosition < previousPosition && currentPosition != 0) {
 			passedStart();
 		}
 		
@@ -188,7 +188,11 @@ public class GameData{
 	}
 
 	private void passedStart() {
-		board.getStart(currentPosition).action(players.get(currentPlayer));
+		if(currentPosition < previousPosition && currentPosition != 0) {
+			board.getStart(0).action(players.get(currentPlayer));
+		} else {
+			board.getStart(currentPosition).action(players.get(currentPlayer));
+		}
 		
 		System.out.println("You passed the Start square! Here is $200\n" );
 	}
