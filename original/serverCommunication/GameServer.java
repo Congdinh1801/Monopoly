@@ -16,7 +16,6 @@ import playerCommunication.Error;
 import playerGUI.AllClientGameData;
 import playerGUI.ClientGameData;
 import playerGUI.CreateAccountData;
-import playerGUI.GameData;
 //import playerGUI.GameData;
 import playerGUI.LoginData;
 
