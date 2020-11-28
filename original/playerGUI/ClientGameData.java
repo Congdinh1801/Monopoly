@@ -41,4 +41,5 @@ public class ClientGameData implements Serializable {
 	public void setCanBuy(boolean canBuy) {
 		this.canBuy = canBuy;
 	}
+
 }

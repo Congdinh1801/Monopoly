@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -121,6 +122,16 @@ public class GamePanelControl implements ActionListener {
 	public void turnOffRollDiceButton() {
 		GamePanel gamepanel = (GamePanel)container.getComponent(3);
 		gamepanel.turnOffRollDiceButton();
+	}
+	
+	public void setPlayerName(List<String> name) {
+		GamePanel gamepanel = (GamePanel)container.getComponent(3);
+		gamepanel.setPlayerName(name);
+	}
+	
+	public void setPlayerMoney(int money, int playerID) {
+		GamePanel gamepanel = (GamePanel)container.getComponent(3);
+		gamepanel.setPlayerMoney(money, playerID);
 	}
 	
 	public void diceLabel(int dice1, int dice2) {

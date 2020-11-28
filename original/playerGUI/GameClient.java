@@ -79,34 +79,38 @@ public class GameClient extends AbstractClient {
 			else if (error.getType().equals("BuyProperties")) {
 				gamePanelControl.displayError(error.getMessage());
 			}
-		} else if(arg0 instanceof AllClientGameData) {
+		} else if(arg0 instanceof AllClientsGameData) {
 			
-			AllClientGameData allClientGameData = (AllClientGameData) arg0;
+			AllClientsGameData allClientsGameData = (AllClientsGameData) arg0;
 			
-			if(allClientGameData.getBuyOrNot().equals("Buy")) {
+			if(allClientsGameData.getBuyOrNot().equals("Buy")) {
 				gamePanelControl.turnOffBuyButtons();
-				int currentPosition = allClientGameData.getCurrentPosition();
-				int currentPlayer = allClientGameData.getcurrentPlayerID();
+				int currentPosition = allClientsGameData.getCurrentPosition();
+				int currentPlayer = allClientsGameData.getcurrentPlayerID();
 				gamePanelControl.buyPropSuccess(currentPosition, currentPlayer);
-			} else if(allClientGameData.getBuyOrNot().equals("No Buy")) {
+			} else if(allClientsGameData.getBuyOrNot().equals("No Buy")) {
 				gamePanelControl.turnOffBuyButtons();
+			} else if (allClientsGameData.isInitilizedPlayer()) {
+				gamePanelControl.setPlayerName(allClientsGameData.getName());
 			} else {
 				//update the client's GUI
-				int dice1 = allClientGameData.getDice1();
-				int dice2 = allClientGameData.getDice2();
-				int previousPosition = allClientGameData.getPreviousPosition();
-				int currentPosition = allClientGameData.getCurrentPosition();
+				int dice1 = allClientsGameData.getDice1();
+				int dice2 = allClientsGameData.getDice2();
+				int previousPosition = allClientsGameData.getPreviousPosition();
+				int currentPosition = allClientsGameData.getCurrentPosition();
 				gamePanelControl.updateRollDice(dice1, dice2);
 				try {
-					gamePanelControl.updatePlayer(previousPosition, currentPosition, allClientGameData.getcurrentPlayerID(), allClientGameData.getOpponentPosition());
+					gamePanelControl.updatePlayer(previousPosition, currentPosition, allClientsGameData.getcurrentPlayerID(), allClientsGameData.getOpponentPosition());
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				gamePanelControl.RollDiceSuccess(allClientGameData.isCanBuy(), allClientGameData.getPos(), allClientGameData.getBoard());
-				if(allClientGameData.isEndTurn()) {
+				gamePanelControl.RollDiceSuccess(allClientsGameData.isCanBuy(), allClientsGameData.getPos(), allClientsGameData.getBoard());
+				if(allClientsGameData.isEndTurn()) {
 					gamePanelControl.turnOnRollDiceButton();
 				}
 			}
+			
+			gamePanelControl.setPlayerMoney(allClientsGameData.getCurrentMoney(), allClientsGameData.getcurrentPlayerID());
 		} else if(arg0 instanceof ClientGameData) {
 			ClientGameData clientGameData = (ClientGameData) arg0;
 			if(clientGameData.isFirstPlayer()) {

@@ -1,12 +1,14 @@
 package playerGUI;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import serverBackend.board.MonopolyBoard;
 import serverBackend.dice.Dice;
 import serverBackend.player.Player;
 
-public class AllClientGameData implements Serializable  {
+public class AllClientsGameData implements Serializable  {
 	private int dice1 = 0;
 	private int dice2 = 0;
 	private int previousPosition = 0;
@@ -14,9 +16,12 @@ public class AllClientGameData implements Serializable  {
 	private int currentPlayerID = -1;//0 for player1, 1 for player2
 	private int opponentPosition = -1; //position of opponent
 	private int pos;
+	private int currentMoney = 40000;
 	private boolean endTurn = false;
 	private boolean canBuy = false;
+	private boolean initilizedPlayer = false;
 	private String buyOrNot = "";	//buy is when you buy, no buy when you don't buy, null if no action
+	private ArrayList<String> name = new ArrayList<>();
 	private MonopolyBoard board;
 	
 	public int getDice1() {
@@ -106,5 +111,29 @@ public class AllClientGameData implements Serializable  {
 
 	public void setBoard(MonopolyBoard board) {
 		this.board = board;
+	}
+
+	public boolean isInitilizedPlayer() {
+		return initilizedPlayer;
+	}
+
+	public void setInitilizedPlayer(boolean initilizedPlayer) {
+		this.initilizedPlayer = initilizedPlayer;
+	}
+
+	public ArrayList getName() {
+		return name;
+	}
+
+	public void setName(ArrayList name) {
+		this.name = name;
+	}
+
+	public int getCurrentMoney() {
+		return currentMoney;
+	}
+
+	public void setCurrentMoney(int currentMoney) {
+		this.currentMoney = currentMoney;
 	}
 }

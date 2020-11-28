@@ -49,9 +49,19 @@ public class Animator implements Runnable {
 			
 		if (playerid == 0) {
 			squareCollections.get(currentPosition).addCatPiece();
+			if(currentPosition == 32) {
+				squareCollections.get(currentPosition).removeImage(playerid, same_position);
+				squareCollections.get(12).addCatPiece();
+			}
 		}else {
 			squareCollections.get(currentPosition).addDogPiece();
+			if(currentPosition == 32) {
+				squareCollections.get(currentPosition).removeImage(playerid, same_position);
+				squareCollections.get(12).addDogPiece();
+			}
 		}
+		
+		
 		
 		latch.countDown();
 	}
