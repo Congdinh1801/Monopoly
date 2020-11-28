@@ -91,21 +91,9 @@ public class GameServer extends AbstractServer {
 			if (database.verifyAccount(data.getUsername(), data.getPassword())) {
 				result = data.getUsername() + ",LoginSuccessful";
 				log.append("Client " + arg1.getId() + " successfully logged in as " + data.getUsername() + "\n");
-				Player player = new Player(data.getUsername()); 
 				
 				//This checks who is the first client and enable the roll button for client
-				if(playerCount == 0) {
-					ClientGameData clientGameData = new ClientGameData();
-					clientGameData.setFirstPlayer(true);
-					try {
-						arg1.sendToClient(clientGameData);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				playerCount++;
-				gameData.getPlayer().add(player);
+				checkForFirstPlayerAndAddPlayers(data.getUsername(), arg1);
 			} else {
 				result = new Error("The username and password are incorrect.", "Login");
 				log.append("Client " + arg1.getId() + " failed to log in\n");
@@ -127,6 +115,8 @@ public class GameServer extends AbstractServer {
 			if (database.createNewAccount(data.getUsername(), data.getPassword())) {
 				result = "CreateAccountSuccessful";
 				log.append("Client " + arg1.getId() + " created a new account called " + data.getUsername() + "\n");
+				
+				checkForFirstPlayerAndAddPlayers(data.getUsername(), arg1);
 			} else {
 				result = new Error("We're sorry! The username is already in use or An error has occured.",
 						"CreateAccount");
@@ -186,6 +176,22 @@ public class GameServer extends AbstractServer {
 			
 		}
 	
+	}
+	
+	private void checkForFirstPlayerAndAddPlayers(String Username, ConnectionToClient arg1) {
+		Player player = new Player(Username); 
+		if(playerCount == 0) {
+			ClientGameData clientGameData = new ClientGameData();
+			clientGameData.setFirstPlayer(true);
+			try {
+				arg1.sendToClient(clientGameData);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		playerCount++;
+		gameData.getPlayer().add(player);
 	}
 	
 	private void updateAllClientsAfterRollDice(AllClientGameData allClientGameData) {
