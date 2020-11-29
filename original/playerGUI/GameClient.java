@@ -104,15 +104,11 @@ public class GameClient extends AbstractClient {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-<<<<<<< HEAD
 				
-				gamePanelControl.turnOnRollDiceButton();
-=======
 				gamePanelControl.RollDiceSuccess(allClientsGameData.isCanBuy(), allClientsGameData.getPos(), allClientsGameData.getBoard());
 				if(allClientsGameData.isEndTurn()) {
 					gamePanelControl.turnOnRollDiceButton();
 				}
->>>>>>> d650e15e32592c04663c9049bce417b3df37f99c
 			}
 			
 			gamePanelControl.setPlayerMoney(allClientsGameData.getCurrentMoney(), allClientsGameData.getcurrentPlayerID());
