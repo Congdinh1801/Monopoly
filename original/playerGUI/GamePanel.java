@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -58,23 +59,14 @@ public class GamePanel extends JPanel {
 	private JButton buyBttn = new JButton("Buy");
 	private JButton cancelBttn = new JButton("No Buy");
 	
+	private JLabel player1;
+	private JLabel player1Name;
+	private JLabel player1Money;
+	private JLabel player2;
+	private JLabel player2Name;
+	private JLabel player2Money;
+	
 	private GamePanelControl gpc;
-	
-	public void turnOnRollDiceButton() {
-		roll.setVisible(true);
-	}
-	
-	public void turnOffRollDiceButton() {
-		roll.setVisible(false);
-	}
-
-	public void setClient(GameClient client) {
-		this.client = client;
-	}
-
-	public void setContainer(JPanel container) {
-		this.container = container;
-	}
 
 	public GamePanel(GamePanelControl gpc) {
 		squareCollections = new ArrayList<>();
@@ -163,18 +155,126 @@ public class GamePanel extends JPanel {
 		centerPanel.add(centerwest, BorderLayout.WEST);
 		centerPanel.add(centereast, BorderLayout.EAST);
 		
-		this.setPreferredSize(new Dimension((int)(558 * resize), (int)(390 * resize)));
+		this.setPreferredSize(new Dimension((int)(900 * resize), (int)(600 * resize)));
 
 		addSquares();
 		
 		//add(roll, BorderLayout.CENTER);
-		add(centerPanel, BorderLayout.CENTER);
-		add(southPanel, BorderLayout.SOUTH);
-		add(northPanel, BorderLayout.NORTH);
-		add(westPanel, BorderLayout.WEST);
-		add(eastPanel, BorderLayout.EAST);
+		JPanel westouter = new JPanel(new BorderLayout());
+		JPanel eastouter = new JPanel(new BorderLayout());
+		westouter.add(centerPanel, BorderLayout.CENTER);
+		westouter.add(southPanel, BorderLayout.SOUTH);
+		westouter.add(northPanel, BorderLayout.NORTH);
+		westouter.add(westPanel, BorderLayout.WEST);
+		westouter.add(eastPanel, BorderLayout.EAST);
+		
+		JPanel playergrid = new JPanel();
+		playergrid.setLayout(new GridLayout(2, 1, 0, 10));
+		
+		player1 = new JLabel("Player 1");
+		player1Name = new JLabel("Player");
+		player1Money = new JLabel("40000");
+		JPanel panelPlayer1 = new JPanel(new FlowLayout());
+		panelPlayer1.setLayout(new BoxLayout(panelPlayer1, BoxLayout.Y_AXIS));
+		panelPlayer1.add(player1);
+		panelPlayer1.add(player1Name);
+		panelPlayer1.add(player1Money);
+		
+		player2 = new JLabel("Player 2");
+		player2Name = new JLabel("Player");
+		player2Money = new JLabel("40000");
+		JPanel panelPlayer2 = new JPanel(new FlowLayout());
+		panelPlayer2.setLayout(new BoxLayout(panelPlayer2, BoxLayout.Y_AXIS));
+		panelPlayer2.add(player2);
+		panelPlayer2.add(player2Name);
+		panelPlayer2.add(player2Money);
+		
+		playergrid.add(panelPlayer1);
+		playergrid.add(panelPlayer2);
+		
+		eastouter.add(playergrid);
+		
+		JPanel buffer = new JPanel(new BorderLayout());
+		
+		buffer.add(westouter, BorderLayout.WEST);
+		buffer.add(eastouter,  BorderLayout.EAST);
+		add(buffer);
 	}
 
+	public void turnOnRollDiceButton() {
+		roll.setVisible(true);
+	}
+	
+	public void setPlayerName(List<String> name) {
+		
+		for(int i = 0; i < name.size(); i++) {
+			if(i  == 0) {
+				player1Name.setText(name.get(i));
+			} else if(i == 1) {
+				player2Name.setText(name.get(i));
+			}
+		}
+		 
+	}
+	
+	public void setPlayerMoney(int money, int playerID) {
+		if(playerID == 0) {
+			player1Money.setText(Integer.toString(money));
+		} else if (playerID == 1) {
+			player2Money.setText(Integer.toString(money));
+		}
+	}
+	
+	public void turnOffRollDiceButton() {
+		roll.setVisible(false);
+	}
+
+	public void setClient(GameClient client) {
+		this.client = client;
+	}
+
+	public void setContainer(JPanel container) {
+		this.container = container;
+	}
+
+	public void setPropertyName(String name) {
+		
+		propertyNameLabel.setText(name);
+	}
+
+	public void setRentPrice(String rent) {
+
+		rentPriceLabel.setText(rent);
+	}
+
+	public void setPurchasePrice(String price) {
+		
+		purchasePriceLabel.setText(price);
+	}
+
+	public void setBuyBttn (Boolean t) {
+		buyBttn.setVisible(t);
+	}
+	
+	public void setCancelBttn (Boolean t) {
+		cancelBttn.setVisible(t);
+	}
+	// Setter for the error text.
+	public void setError(String error) {
+
+		errorLabel.setText(error);
+	}
+	
+	public void winGame() 
+	{
+		JOptionPane.showMessageDialog(this, "You won!", "Monopoly", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void loseGame() 
+	{
+		JOptionPane.showMessageDialog(this, "You lost.", "Monopoly", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
 	private void addSquares() {
 		int scaleX = (int) (40 * resize);
 		int scaleY = (int) (50 * resize);
@@ -268,44 +368,6 @@ public class GamePanel extends JPanel {
 		eastPanel.add(squareCollections.get(37));
 		eastPanel.add(squareCollections.get(38));
 		eastPanel.add(squareCollections.get(39));
-	}
-
-	public void setPropertyName(String name) {
-		
-		propertyNameLabel.setText(name);
-	}
-
-	public void setRentPrice(String rent) {
-
-		rentPriceLabel.setText(rent);
-	}
-
-	public void setPurchasePrice(String price) {
-		
-		purchasePriceLabel.setText(price);
-	}
-
-	public void setBuyBttn (Boolean t) {
-		buyBttn.setVisible(t);
-	}
-	
-	public void setCancelBttn (Boolean t) {
-		cancelBttn.setVisible(t);
-	}
-	// Setter for the error text.
-	public void setError(String error) {
-
-		errorLabel.setText(error);
-	}
-	
-	public void winGame() 
-	{
-		JOptionPane.showMessageDialog(this, "You won!", "Monopoly", JOptionPane.INFORMATION_MESSAGE);
-	}
-	
-	public void loseGame() 
-	{
-		JOptionPane.showMessageDialog(this, "You lost.", "Monopoly", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 }

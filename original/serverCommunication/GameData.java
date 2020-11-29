@@ -1,4 +1,4 @@
-package playerGUI;
+package serverCommunication;
 
 
 import java.util.ArrayList;
@@ -40,11 +40,18 @@ public class GameData{
 		setCurrentAsset(false, false, false); //Reset assets incase the square a player land is not an asset
 		dice1 = this.dice1.rollDice();
 		dice2 = this.dice2.rollDice();
+//		dice1 = 4;
+//		dice2 = 4;
 		previousPosition = players.get(currentPlayer).getPosition();
 		players.get(currentPlayer).setPosition((players.get(currentPlayer).getPosition() + dice1 + dice2) % 40);
 		currentPosition = players.get(currentPlayer).getPosition();
 
-		if(currentPosition == 0) {
+		if(currentPosition < previousPosition && currentPosition != 0) {
+			passedStart();
+			System.out.println("Here $200 since you passed start\n");
+		}
+		
+		if(currentPosition == 0 ) {
 			passedStart();
 		} else if(currentPosition == 1) {
 			cityProperty();
@@ -184,9 +191,13 @@ public class GameData{
 	}
 
 	private void passedStart() {
-		board.getStart(currentPosition).action(players.get(currentPlayer));
+		if(currentPosition < previousPosition && currentPosition != 0) {
+			board.getStart(0).action(players.get(currentPlayer));
+		} else {
+			board.getStart(currentPosition).action(players.get(currentPlayer));
+		}
 		
-		System.out.println("You passed the Start square! Here is $200\n" );
+		System.out.println("You are int the Start square! Here is $200\n" );
 	}
 	
 	private void cityProperty() {

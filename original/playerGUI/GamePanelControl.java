@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -97,6 +98,8 @@ public class GamePanelControl implements ActionListener {
 		GamePanel gamePanel = (GamePanel) container.getComponent(3);
 		gamePanel.setBuyBttn(false);
 		gamePanel.setCancelBttn(false);
+		turnOnRollDiceButton();
+		
 	}
 	
 	public void buyPropSuccess(int currentPosition, int currentPlayer) {
@@ -119,6 +122,16 @@ public class GamePanelControl implements ActionListener {
 	public void turnOffRollDiceButton() {
 		GamePanel gamepanel = (GamePanel)container.getComponent(3);
 		gamepanel.turnOffRollDiceButton();
+	}
+	
+	public void setPlayerName(List<String> name) {
+		GamePanel gamepanel = (GamePanel)container.getComponent(3);
+		gamepanel.setPlayerName(name);
+	}
+	
+	public void setPlayerMoney(int money, int playerID) {
+		GamePanel gamepanel = (GamePanel)container.getComponent(3);
+		gamepanel.setPlayerMoney(money, playerID);
 	}
 	
 	public void diceLabel(int dice1, int dice2) {
@@ -205,28 +218,31 @@ public class GamePanelControl implements ActionListener {
 			gamePanel.setRentPrice(rent);
 			price = "Price: " + Integer.toString(board.getPurchase(pos)) + " €";
 			gamePanel.setPurchasePrice(price);
-			gamePanel.setBuyBttn(true);
-			gamePanel.setCancelBttn(true);
 			gamePanel.setRentPrice(rent);
 			gamePanel.setPurchasePrice(price);
-			gamePanel.setBuyBttn(true);
-			gamePanel.setCancelBttn(true);
 		}
 		else if(pos == 4 || pos == 38){
 
 			tax = "Tax: " + Integer.toString((board.getTax(pos)).getTax()) + " €";
 			gamePanel.setRentPrice(tax);
 			gamePanel.setPurchasePrice("");
-			gamePanel.setBuyBttn(false);
-			gamePanel.setCancelBttn(false);
 		}
 		else {
 			gamePanel.setRentPrice("Property Not For Sale");
 			gamePanel.setPurchasePrice("");
+		}
+			
+	}
+	
+	public void displayBuyOrNotButton(boolean canBuy) {
+		GamePanel gamePanel = (GamePanel) container.getComponent(3);	
+		if(canBuy) {
+			gamePanel.setBuyBttn(true);
+			gamePanel.setCancelBttn(true);
+		} else{
 			gamePanel.setBuyBttn(false);
 			gamePanel.setCancelBttn(false);
 		}
-			
 	}
 	
 	// Method that displays a message in the error label.

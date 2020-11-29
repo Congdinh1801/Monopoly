@@ -9,14 +9,14 @@ import serverBackend.dice.*;
 import serverBackend.player.Player;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import playerCommunication.Error;
-import playerGUI.AllClientGameData;
+import playerGUI.AllClientsGameData;
 import playerGUI.ClientGameData;
 import playerGUI.CreateAccountData;
-import playerGUI.GameData;
 //import playerGUI.GameData;
 import playerGUI.LoginData;
 
@@ -30,6 +30,7 @@ public class GameServer extends AbstractServer {
 	private int playerTurn;
 	private MonopolyBoard board;
 	private GameData gameData;
+	private ArrayList<String> name;
 	private int prevPlayerPosition = -1;
 
 	// Constructor for initializing the server with default settings.
@@ -38,6 +39,7 @@ public class GameServer extends AbstractServer {
 		this.setTimeout(500);
 		gameData = new GameData();
 		board = new MonopolyBoard();
+		name = new ArrayList<>();
 	}
 	
 	// Getter that returns whether the server is currently running.
@@ -92,21 +94,9 @@ public class GameServer extends AbstractServer {
 			if (database.verifyAccount(data.getUsername(), data.getPassword())) {
 				result = data.getUsername() + ",LoginSuccessful";
 				log.append("Client " + arg1.getId() + " successfully logged in as " + data.getUsername() + "\n");
-				Player player = new Player(data.getUsername()); 
 				
 				//This checks who is the first client and enable the roll button for client
-				if(this.getNumberOfClients() == 1) {
-					ClientGameData clientGameData = new ClientGameData();
-					clientGameData.setFirstPlayer(true);
-					try {
-						arg1.sendToClient(clientGameData);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				playerCount++;
-				gameData.getPlayer().add(player);
+				updateNumberOfPlayers(data.getUsername(), arg1);
 			} else {
 				result = new Error("The username and password are incorrect.", "Login");
 				log.append("Client " + arg1.getId() + " failed to log in\n");
@@ -128,6 +118,8 @@ public class GameServer extends AbstractServer {
 			if (database.createNewAccount(data.getUsername(), data.getPassword())) {
 				result = "CreateAccountSuccessful";
 				log.append("Client " + arg1.getId() + " created a new account called " + data.getUsername() + "\n");
+				
+				updateNumberOfPlayers(data.getUsername(), arg1);
 			} else {
 				result = new Error("We're sorry! The username is already in use or An error has occured.",
 						"CreateAccount");
@@ -146,38 +138,20 @@ public class GameServer extends AbstractServer {
 				playGame();
 				
 				//Send data to all of the clients to update their GUI
-				AllClientGameData allClientGameData = new AllClientGameData();
-				allClientGameData.setDice1(gameData.getDice1().getDiceNumber());
-				allClientGameData.setDice2(gameData.getDice2().getDiceNumber());
-				allClientGameData.setPreviousPosition(gameData.getPreviousPosition());
-				allClientGameData.setCurrentPlayer(playerTurn);
-				allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
+				AllClientsGameData allClientGameData = new AllClientsGameData();
+				updateAllClientsAfterRollDice(allClientGameData);
 				
-				int opponent_position = gameData.getPlayer().get((playerTurn + 1)%2).getPosition();
-				
-				allClientGameData.setOpponentPosition(opponent_position);
-				
-				
-				sendToAllClients(allClientGameData);
-				
-				//Send data to a client that is their turn
+				//turn on or off the buyOrNot buttons
 				ClientGameData clientGameData = new ClientGameData();
-				clientGameData.setRoll(true);
-				clientGameData.setBoard(board);
 				clientGameData.setCanBuy(gameData.canBuy());
-				clientGameData.setPos(gameData.getCurrentPosition());
-				
-				if(!gameData.canBuy()) {
-//					allClientGameData.setCurrentPlayer(playerTurn);
-					playerTurn = (playerTurn + 1) % playerCount;
-				}
-				
 				try {
 					arg1.sendToClient(clientGameData);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} else if (arg0.equals("Buy")) {
+				
+				//see what kind of an asset to buy
 				if(gameData.isAirport()) {
 					gameData.buyAirport();
 				} else if(gameData.isCityProperty()) {
@@ -187,29 +161,95 @@ public class GameServer extends AbstractServer {
 				}
 				
 				//update all the clients that a purchase have happened
-				AllClientGameData allClientGameData = new AllClientGameData();
-				allClientGameData.setBuyOrNot("Buy");
-				allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
-				allClientGameData.setCurrentPlayer(playerTurn);
-				playerTurn = (playerTurn + 1) % playerCount;
-				sendToAllClients(allClientGameData);
+				AllClientsGameData allClientGameData = new AllClientsGameData();
+				ClientGameData clientGameData = new ClientGameData();
+
+				
+				buyOrNot(allClientGameData, clientGameData,"Buy", arg1);
+				
 			} else if(arg0.equals("No Buy")) {
 				
 				//update all the clients that the player did not buy
-				AllClientGameData allClientGameData = new AllClientGameData();
-				allClientGameData.setBuyOrNot("No Buy");
-				
-				allClientGameData.setCurrentPlayer(playerTurn);
-				playerTurn = (playerTurn + 1) % playerCount;
-				
-				sendToAllClients(allClientGameData);
+				AllClientsGameData allClientGameData = new AllClientsGameData();
+
+				ClientGameData clientGameData = new ClientGameData();
+				buyOrNot(allClientGameData, clientGameData,"No Buy", arg1);
 			}
+			
+			
 		}
 	
+	}
+	
+	private void updateNumberOfPlayers(String username, ConnectionToClient arg1) {
+		Player player = new Player(username); 
+		AllClientsGameData allClientsGameData = new AllClientsGameData();
+		
+		if(playerCount == 0) {
+			ClientGameData clientGameData = new ClientGameData();
+			clientGameData.setFirstPlayer(true);
+			try {
+				arg1.sendToClient(clientGameData);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		name.add(username);
+		allClientsGameData.setcurrentPlayerID(playerCount);
+		allClientsGameData.setName(name);
+		allClientsGameData.setInitilizedPlayer(true);
+		sendToAllClients(allClientsGameData);
+		
+		playerCount = (playerCount + 1) % (getNumberOfClients() + 1);
+		gameData.getPlayer().add(player);
+	}
+	
+	private void updateAllClientsAfterRollDice(AllClientsGameData allClientGameData) {
+		allClientGameData.setDice1(gameData.getDice1().getDiceNumber());
+		allClientGameData.setDice2(gameData.getDice2().getDiceNumber());
+		allClientGameData.setPreviousPosition(gameData.getPreviousPosition());
+		allClientGameData.setcurrentPlayerID(playerTurn);
+		allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
+		allClientGameData.setOpponentPosition(gameData.getPlayer().get((playerTurn + 1) % playerCount).getPosition());
+		allClientGameData.setCurrentMoney(gameData.getPlayer().get(playerTurn).getMoney());
+		allClientGameData.setBoard(board);
+		allClientGameData.setCanBuy(gameData.canBuy());
+		allClientGameData.setPos(gameData.getCurrentPosition());
+		
+		if(!gameData.canBuy()) {
+			playerTurn = (playerTurn + 1) % playerCount;
+			allClientGameData.setEndTurn(true);
+		}
+		
+		sendToAllClients(allClientGameData);
+	}
+	
+	private void buyOrNot(AllClientsGameData allClientGameData, ClientGameData clientGameData,
+						String buyOrNot, ConnectionToClient arg1) {
+		allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
+		allClientGameData.setBuyOrNot(buyOrNot);
+		allClientGameData.setEndTurn(true);
+		allClientGameData.setcurrentPlayerID(playerTurn);
+		allClientGameData.setCurrentMoney(gameData.getPlayer().get(playerTurn).getMoney());
+		playerTurn = (playerTurn + 1) % playerCount;
+		sendToAllClients(allClientGameData);
+		clientGameData.setEndTurn(true);
+		try {
+			arg1.sendToClient(clientGameData);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void playGame() {
 		gameData.play(playerTurn);
+	}
+	
+	public void clientDisconnected(ConnectionToClient client) {
+		playerCount--;
+		System.out.println("Disconnected: ");
 	}
 	
 	// Method that handles listening exceptions by displaying exception information.
