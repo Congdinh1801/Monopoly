@@ -102,6 +102,7 @@ public class GameClient extends AbstractClient {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 				gamePanelControl.turnOnRollDiceButton();
 			}
 		} else if(arg0 instanceof ClientGameData) {
