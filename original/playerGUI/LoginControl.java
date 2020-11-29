@@ -36,9 +36,7 @@ public class LoginControl implements ActionListener
     {
       // Get the username and password the user entered.
       LoginPanel loginPanel = (LoginPanel)container.getComponent(1);
-//      LoginData data = new LoginData(loginPanel.getUsername(), loginPanel.getPassword());
-      
-      LoginData data = new LoginData("longtin", "longtin");
+      LoginData data = new LoginData(loginPanel.getUsername(), loginPanel.getPassword());
       
       // Check the validity of the information locally first.
       if (data.getUsername().equals("") || data.getPassword().equals(""))

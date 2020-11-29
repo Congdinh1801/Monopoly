@@ -25,6 +25,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 import serverBackend.dice.Dice;
 
@@ -42,6 +45,7 @@ public class GamePanel extends JPanel {
 	private JPanel dice1 = new JPanel();
 	private JPanel dice2 = new JPanel();
 	
+	private ImagePanel imageCenterPanel;
 	private ImageIcon backgroundImage;
 	
 	private JLabel label1;
@@ -75,22 +79,28 @@ public class GamePanel extends JPanel {
 
 	public GamePanel(GamePanelControl gpc) {
 		squareCollections = new ArrayList<>();
+		this.setBackground(new Color(44, 137, 160));
 		this.gpc = gpc;
-		backgroundImage =  new ImageIcon(SquarePanel.class.getResource("/board.png"));
+		backgroundImage =  new ImageIcon(SquarePanel.class.getResource("/centerimage.PNG"));
 		BoardPanel();
 	}
 
 	private void BoardPanel() {
 		this.setLayout(new BorderLayout());
 		
-		ImagePanel imagePanel = new ImagePanel(backgroundImage.getImage());
+		imageCenterPanel = new ImagePanel(backgroundImage.getImage());
 		
 		northPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
+		northPanel.setOpaque(false);
 		southPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
+		southPanel.setOpaque(false);
 		westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
+		westPanel.setOpaque(false);
 		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
+		eastPanel.setOpaque(false);
 		
 		centerPanel.setLayout(new FlowLayout());
+		centerPanel.setOpaque(false);
 		
 		label1 = new JLabel();
 		tempImage1 = new ImageIcon(GamePanel.class.getResource("/Alea_1.png"));
@@ -110,84 +120,71 @@ public class GamePanel extends JPanel {
 		roll.addActionListener(gpc);
 		roll.setVisible(false);
 		
-		JLabel label3 = new JLabel("test");
-		JLabel label4 = new JLabel("test");
-		
-		
-		
 		JPanel dicePanel = new JPanel(new GridLayout(1,2,10,1));
 
-		
 		dice1 = new JPanel(new FlowLayout());
 		dice1.setSize(50, 50);
 		dice1.add(label1);
+		dice1.setOpaque(false);
 		
 		dice2 = new JPanel(new FlowLayout());
 		dice2.add(label2);
+		dice2.setOpaque(false);
+		
 		JPanel rollbuttonbuffer = new JPanel();
 		rollbuttonbuffer.add(roll);
+		rollbuttonbuffer.setOpaque(false);
 		
 		
 		JPanel panel3 = new JPanel (new GridLayout(2,1,1,0));
 		dicePanel.add(dice1);
 		dicePanel.add(dice2);
+		dicePanel.setOpaque(false);
 		panel3.add(dicePanel);
 		panel3.add(rollbuttonbuffer);
+		panel3.setOpaque(false);
 		
 		JPanel centerwest = new JPanel(new FlowLayout());
 		JPanel centereast = new JPanel(new FlowLayout());
-//		centerPanel.add(centerwest, BorderLayout.WEST);
-//		centerPanel.add(centereast, BorderLayout.EAST);
-//		centerPanel.add(centerwest, BorderLayout.WEST);
-//		centerPanel.add(centereast, BorderLayout.EAST);
+		centerwest.setOpaque(false);
+		centereast.setOpaque(false);
 		//centerwest.add(label3); India use centerwest, i will use centereast
 		//land information
 		JPanel labelPanel = new JPanel(new GridLayout(3,1,0,10));
+		labelPanel.setOpaque(false);
 		labelPanel.add(propertyNameLabel);
 		labelPanel.add(rentPriceLabel);
 		labelPanel.add(purchasePriceLabel);
 		
 		//button panel
 		JPanel buttonPanel = new JPanel(new GridLayout(2,1,0,5));
+		buttonPanel.setOpaque(false);
 		buyBttn.addActionListener(gpc);
 		cancelBttn.addActionListener(gpc);
-		buyBttn.setVisible(true);
-		cancelBttn.setVisible(true);
+		buyBttn.setVisible(false);
+		cancelBttn.setVisible(false);
 		buttonPanel.add(buyBttn);
 		buttonPanel.add(cancelBttn);
 		
-	    JPanel landInfoPanel = new JPanel();
+	    JPanel landInfoPanel = new JPanel(new GridLayout(2, 1, 0, 10));
+	    landInfoPanel.setOpaque(false);
 	    landInfoPanel.add(labelPanel);
 	    landInfoPanel.add(buttonPanel);
-	    landInfoPanel.setOpaque(false);
-	    landInfoPanel.setAlignmentX(RIGHT_ALIGNMENT);
-	    landInfoPanel.setAlignmentY(CENTER_ALIGNMENT);
-
-		OverlayLayout myLayout = new OverlayLayout(centerPanel);
-		centerPanel.setLayout(myLayout);
 	    
-//		centerwest.add(landInfoPanel);
-//		centereast.add(panel3);
-		centerPanel.add(landInfoPanel);
-		centerPanel.add(cancelBttn);
-//		centerPanel.add(centerwest, BorderLayout.WEST);
-//		centerPanel.add(centereast, BorderLayout.EAST);
-//		centerPanel.add(buyBttn);
-//		centerPanel.add(cancelBttn);
-		JLabel backgroundLabel = new JLabel();
-		backgroundLabel.setIcon(new ImageIcon(backgroundImage.getImage().getScaledInstance(680, 430, java.awt.Image.SCALE_SMOOTH)));
-		backgroundLabel.setAlignmentX(TOP_ALIGNMENT);
-		backgroundLabel.setAlignmentY(TOP_ALIGNMENT);
-		centerPanel.add(backgroundLabel);
-		
-		this.setPreferredSize(new Dimension((int)(900 * resize), (int)(600 * resize)));
+		centerwest.add(landInfoPanel);
+		centereast.add(panel3);
+		centerPanel.add(centerwest, BorderLayout.WEST);
+		centerPanel.add(centereast, BorderLayout.EAST);
+		imageCenterPanel.add(centerPanel);
 
 		addSquares();
 		
 		//add(roll, BorderLayout.CENTER);
 		JPanel westouter = new JPanel(new BorderLayout());
+		westouter.setOpaque(false);
 		JPanel eastouter = new JPanel(new BorderLayout());
-		westouter.add(centerPanel, BorderLayout.CENTER);
+		eastouter.setOpaque(false);
+		westouter.add(imageCenterPanel, BorderLayout.CENTER);
 		westouter.add(southPanel, BorderLayout.SOUTH);
 		westouter.add(northPanel, BorderLayout.NORTH);
 		westouter.add(westPanel, BorderLayout.WEST);
@@ -195,21 +192,53 @@ public class GamePanel extends JPanel {
 		
 		
 		JPanel playergrid = new JPanel();
-		playergrid.setLayout(new GridLayout(2, 1, 0, 10));
+		playergrid.setBackground(Color.WHITE);
+		playergrid.setLayout(new BoxLayout(playergrid, BoxLayout.Y_AXIS));
 		
 		player1 = new JLabel("Player 1");
+		player1.setForeground(Color.RED);
+		Border player1Border = player1.getBorder();
+		Border player1Margin = new EmptyBorder(5,20,0,20);
+		player1.setFont(new Font("Verdana", Font.PLAIN, 32));
+		player1.setBorder(new CompoundBorder(player1Border, player1Margin));
+		
 		player1Name = new JLabel("Player");
-		player1Money = new JLabel("40000");
+		Border player1NameBorder = player1Name.getBorder();
+		player1Name.setFont(new Font("Verdana", Font.PLAIN, 18));
+		player1Name.setBorder(new CompoundBorder(player1NameBorder, player1Margin));
+		
+		player1Money = new JLabel("Money: 40000");
+		Border player1MoneyBorder = player1Name.getBorder();
+		Border player1MoneyMargin = new EmptyBorder(5,20,50,20);
+		player1Money.setFont(new Font("Verdana", Font.PLAIN, 18));
+		player1Money.setBorder(new CompoundBorder(player1MoneyBorder, player1MoneyMargin));
+
 		JPanel panelPlayer1 = new JPanel(new FlowLayout());
+		panelPlayer1.setOpaque(false);
 		panelPlayer1.setLayout(new BoxLayout(panelPlayer1, BoxLayout.Y_AXIS));
 		panelPlayer1.add(player1);
 		panelPlayer1.add(player1Name);
 		panelPlayer1.add(player1Money);
 		
 		player2 = new JLabel("Player 2");
-		player2Name = new JLabel("Player");
-		player2Money = new JLabel("40000");
+		player2.setForeground(Color.BLUE);
+		Border player2Border = player2.getBorder();
+		Border player2Margin = new EmptyBorder(5,20,0,20);
+		player2.setFont(new Font("Verdana", Font.PLAIN, 32));
+		player2.setBorder(new CompoundBorder(player2Border, player2Margin));
+		
+		player2Name = new JLabel("Name: Player");
+		Border player2NameBorder = player2Name.getBorder();
+		player2Name.setFont(new Font("Verdana", Font.PLAIN, 18));
+		player2Name.setBorder(new CompoundBorder(player2NameBorder, player2Margin));
+		
+		player2Money = new JLabel("Money: 40000");
+		Border player2MoneyBorder = player1Name.getBorder();
+		player2Money.setFont(new Font("Verdana", Font.PLAIN, 18));
+		player2Money.setBorder(new CompoundBorder(player2MoneyBorder, player2Margin));
+		
 		JPanel panelPlayer2 = new JPanel(new FlowLayout());
+		panelPlayer2.setOpaque(false);
 		panelPlayer2.setLayout(new BoxLayout(panelPlayer2, BoxLayout.Y_AXIS));
 		panelPlayer2.add(player2);
 		panelPlayer2.add(player2Name);
@@ -221,9 +250,11 @@ public class GamePanel extends JPanel {
 		eastouter.add(playergrid);
 		
 		JPanel buffer = new JPanel(new BorderLayout());
+		buffer.setOpaque(false);
 		
 		buffer.add(westouter, BorderLayout.WEST);
 		buffer.add(eastouter,  BorderLayout.EAST);
+		this.setPreferredSize(new Dimension((int)(950 * resize), (int)(600 * resize)));
 		add(buffer);
 	}
 	
@@ -241,9 +272,9 @@ public class GamePanel extends JPanel {
 		
 		for(int i = 0; i < name.size(); i++) {
 			if(i  == 0) {
-				player1Name.setText(name.get(i));
+				player1Name.setText("Name: " + name.get(i));
 			} else if(i == 1) {
-				player2Name.setText(name.get(i));
+				player2Name.setText("Name: " + name.get(i));
 			}
 		}
 		 
@@ -253,9 +284,9 @@ public class GamePanel extends JPanel {
 		
 		for(int i = 0; i < money.size(); i++) {
 			if(i == 0) {
-				player1Money.setText(Integer.toString(money.get(i)));
+				player1Money.setText("Money: " + Integer.toString(money.get(i)));
 			} else if (i == 1) {
-				player2Money.setText(Integer.toString(money.get(i)));
+				player2Money.setText("Money: " + Integer.toString(money.get(i)));
 			}
 		}
 	}
@@ -310,6 +341,10 @@ public class GamePanel extends JPanel {
 		JOptionPane.showMessageDialog(this, "You lost.", "Monopoly", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
+	private void setPlayerTable() {
+		
+	}
+	
 	private void addSquares() {
 		int scaleX = (int) (40 * resize);
 		int scaleY = (int) (50 * resize);
@@ -357,6 +392,7 @@ public class GamePanel extends JPanel {
 
 		for(int i = 0; i < squareCollections.size(); i++) {
 			squareCollections.get(i).setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+			squareCollections.get(i).setOpaque(false);
 		}
 		
 		// display players at the start

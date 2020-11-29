@@ -67,9 +67,9 @@ public class ClientGUI extends JFrame
     // GridBagLayout makes the container stay centered in the window.
     this.setLayout(new GridBagLayout());
     this.add(container);
-
     // Show the JFrame.
-    this.setSize(950, 650);
+    this.setSize(1100, 650);
+    this.getContentPane().setBackground(new Color(44, 137, 160));
     //this.setResizable(true);
     this.setLocationRelativeTo(null);
     this.setVisible(true);
