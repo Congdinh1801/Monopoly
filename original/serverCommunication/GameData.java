@@ -23,6 +23,9 @@ public class GameData{
 	private boolean isAirport;
 	private boolean isCityProperty;
 	private boolean isUtilities;
+	private boolean buyButton = true;
+	private boolean gameover = false;
+	private ArrayList<Integer> money;
 	private String name;
 	
 	public GameData(){
@@ -30,6 +33,7 @@ public class GameData{
 		dice1 = new Dice();
 		dice2 = new Dice();
 		players = new ArrayList<>();
+		money = new ArrayList<>();
 	}
 	
 	public void play(int currentPlayer) {
@@ -37,11 +41,12 @@ public class GameData{
 		int dice2 = 0;
 		this.currentPlayer = currentPlayer;
 		canBuy = false;
+		buyButton = true;
 		setCurrentAsset(false, false, false); //Reset assets incase the square a player land is not an asset
 		dice1 = this.dice1.rollDice();
 		dice2 = this.dice2.rollDice();
-//		dice1 = 4;
-//		dice2 = 4;
+//		dice1 = 2;
+//		dice2 = 2;
 		previousPosition = players.get(currentPlayer).getPosition();
 		players.get(currentPlayer).setPosition((players.get(currentPlayer).getPosition() + dice1 + dice2) % 40);
 		currentPosition = players.get(currentPlayer).getPosition();
@@ -136,8 +141,11 @@ public class GameData{
 		System.out.println("Player: " + players.get(currentPlayer).getName() + "\n" +
 				"Cash: " + players.get(currentPlayer).getMoney() + "\n" +
 				"Position: " + currentPosition + "\n");
+		
+		updatePlayersMoney();
+		checkForLoser();
 	}
-	
+
 	public int getPreviousPosition() {
 		return previousPosition;
 	}
@@ -163,17 +171,37 @@ public class GameData{
 		return canBuy;
 	}
 	
-	public void buyCityProperty() {
+	public boolean isBuyButton() {
+		return buyButton;
+	}
+
+	public boolean isGameover() {
+		return gameover;
+	}
+
+	public void buyAsset() {
+		if(isAirport()) {
+			buyAirport();
+		} else if(isCityProperty()) {
+			buyCityProperty();
+		} else if(isUtilities()) {
+			buyUtilitites();
+		}
+		
+		updatePlayersMoney();
+	}
+	
+	private void buyCityProperty() {
 		CityProperty city = board.getCityProperty(currentPosition);
 		city.buyAsset(players.get(currentPlayer));
 	}
 	
-	public void buyAirport() {
+	private void buyAirport() {
 		Airport airport = board.getAirport(currentPosition);
 		airport.buyAsset(players.get(currentPlayer));
 	}
 	
-	public void buyUtilitites() {
+	private void buyUtilitites() {
 		Utilities util = board.getUtilities(currentPosition);
 		util.buyAsset(players.get(currentPlayer));
 	}
@@ -182,6 +210,14 @@ public class GameData{
 		return players;
 	}
 	
+	public ArrayList<Integer> getMoney() {
+		return money;
+	}
+
+	public void setMoney(ArrayList<Integer> money) {
+		this.money = money;
+	}
+
 	public Dice getDice1() {
 		return dice1;
 	}
@@ -190,6 +226,14 @@ public class GameData{
 		return dice2;
 	}
 
+	private void updatePlayersMoney() {
+		money.removeAll(money);
+		
+		for(int i = 0; i < players.size(); i++) {
+			money.add(players.get(i).getMoney());
+		}
+	}
+	
 	private void passedStart() {
 		if(currentPosition < previousPosition && currentPosition != 0) {
 			board.getStart(0).action(players.get(currentPlayer));
@@ -200,21 +244,27 @@ public class GameData{
 		System.out.println("You are int the Start square! Here is $200\n" );
 	}
 	
+	
+	private void autionProperty() {
+		
+	}
+	
 	private void cityProperty() {
 		CityProperty city = board.getCityProperty(currentPosition);
 		
 		if(city.getOwner() == null) {
-			canBuy = true;
+			if(players.get(currentPlayer).getMoney() > city.getPurchasePrice()) {
+				canBuy = true;
+			} else {
+				buyButton = false;
+			}
+			
 		} else {
 			canBuy = false;
 			city.action(players.get(currentPlayer));
 		}
 		
 		setCurrentAsset(false, true, false);
-		
-	}
-	
-	private void autionProperty() {
 		
 	}
 	
@@ -228,7 +278,11 @@ public class GameData{
 		Airport airport = board.getAirport(currentPosition);
 		
 		if(airport.getOwner() == null) {
-			canBuy = true;
+			if(players.get(currentPlayer).getMoney() > airport.getPurchasePrice()) {
+				canBuy = true;
+			} else {
+				buyButton = false;
+			}
 		} else {
 			canBuy = false;
 			airport.action(players.get(currentPlayer));
@@ -241,7 +295,11 @@ public class GameData{
 		Utilities util = board.getUtilities(currentPosition);
 		
 		if(util.getOwner() == null) {
-			canBuy = true;
+			if(players.get(currentPlayer).getMoney() > util.getPurchasePrice()) {
+				canBuy = true;
+			} else {
+				buyButton = false;
+			}
 		} else {
 			canBuy = false;
 			util.action(players.get(currentPlayer));
@@ -273,6 +331,12 @@ public class GameData{
 	private void jail() {
 		board.getJail(currentPosition).action(players.get(currentPlayer));
 		System.out.println("Thanks for visiting the Euro's jail "  + "\n");
+	}
+	
+	private void checkForLoser() {
+		if(players.get(currentPlayer).getMoney() <= 0 ) {
+			gameover = true;
+		}
 	}
 	
 	private void setCurrentAsset(boolean isAirport, boolean isCityProperty, boolean isUtilities) {

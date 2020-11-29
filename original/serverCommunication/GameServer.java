@@ -10,6 +10,7 @@ import serverBackend.player.Player;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -31,7 +32,8 @@ public class GameServer extends AbstractServer {
 	private MonopolyBoard board;
 	private GameData gameData;
 	private ArrayList<String> name;
-	private int prevPlayerPosition = -1;
+	private HashMap<Long, Integer> clientID;
+//	private int prevPlayerPosition = -1;
 
 	// Constructor for initializing the server with default settings.
 	public GameServer() {
@@ -40,6 +42,7 @@ public class GameServer extends AbstractServer {
 		gameData = new GameData();
 		board = new MonopolyBoard();
 		name = new ArrayList<>();
+		clientID = new HashMap<>();
 	}
 	
 	// Getter that returns whether the server is currently running.
@@ -97,6 +100,7 @@ public class GameServer extends AbstractServer {
 				
 				//This checks who is the first client and enable the roll button for client
 				updateNumberOfPlayers(data.getUsername(), arg1);
+				
 			} else {
 				result = new Error("The username and password are incorrect.", "Login");
 				log.append("Client " + arg1.getId() + " failed to log in\n");
@@ -140,10 +144,32 @@ public class GameServer extends AbstractServer {
 				//Send data to all of the clients to update their GUI
 				AllClientsGameData allClientGameData = new AllClientsGameData();
 				updateAllClientsAfterRollDice(allClientGameData);
+
+				if(gameData.isGameover()) {
+					ClientGameData determineWinner = new ClientGameData();
+					determineWinner.setGameover(gameData.isGameover());
+					Thread[] clients = this.getClientConnections();
+					int playerID = clientID.get(arg1.getId());
+					
+					for(Thread client : clients) {
+						if(clientID.get(client.getId()) == playerID) {
+							determineWinner.setLoser(true);
+						} else {
+							determineWinner.setLoser(false);
+						}
+						
+						try {
+							((ConnectionToClient) client).sendToClient(determineWinner);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
 				
-				//turn on or off the buyOrNot buttons
 				ClientGameData clientGameData = new ClientGameData();
 				clientGameData.setCanBuy(gameData.canBuy());
+				clientGameData.setBuyButton(gameData.isBuyButton());
+				
 				try {
 					arg1.sendToClient(clientGameData);
 				} catch (IOException e) {
@@ -152,20 +178,14 @@ public class GameServer extends AbstractServer {
 			} else if (arg0.equals("Buy")) {
 				
 				//see what kind of an asset to buy
-				if(gameData.isAirport()) {
-					gameData.buyAirport();
-				} else if(gameData.isCityProperty()) {
-					gameData.buyCityProperty();
-				} else if(gameData.isUtilities()) {
-					gameData.buyUtilitites();
-				}
+				gameData.buyAsset();
 				
 				//update all the clients that a purchase have happened
-				AllClientsGameData allClientGameData = new AllClientsGameData();
+				AllClientsGameData allClientsGameData = new AllClientsGameData();
 				ClientGameData clientGameData = new ClientGameData();
 
 				
-				buyOrNot(allClientGameData, clientGameData,"Buy", arg1);
+				buyOrNot(allClientsGameData, clientGameData,"Buy", arg1);
 				
 			} else if(arg0.equals("No Buy")) {
 				
@@ -185,7 +205,14 @@ public class GameServer extends AbstractServer {
 		Player player = new Player(username); 
 		AllClientsGameData allClientsGameData = new AllClientsGameData();
 		
+		playerCount = (playerCount + 1) % (getNumberOfClients());
+		
+		//Reinitialize the game
 		if(playerCount == 0) {
+			gameData = new GameData();
+			board = new MonopolyBoard();
+			name = new ArrayList<>();
+			clientID = new HashMap<>();
 			ClientGameData clientGameData = new ClientGameData();
 			clientGameData.setFirstPlayer(true);
 			try {
@@ -200,8 +227,8 @@ public class GameServer extends AbstractServer {
 		allClientsGameData.setName(name);
 		allClientsGameData.setInitilizedPlayer(true);
 		sendToAllClients(allClientsGameData);
+		clientID.put(arg1.getId(), playerCount);
 		
-		playerCount = (playerCount + 1) % (getNumberOfClients() + 1);
 		gameData.getPlayer().add(player);
 	}
 	
@@ -211,14 +238,14 @@ public class GameServer extends AbstractServer {
 		allClientGameData.setPreviousPosition(gameData.getPreviousPosition());
 		allClientGameData.setcurrentPlayerID(playerTurn);
 		allClientGameData.setCurrentPosition(gameData.getCurrentPosition());
-		allClientGameData.setOpponentPosition(gameData.getPlayer().get((playerTurn + 1) % playerCount).getPosition());
-		allClientGameData.setCurrentMoney(gameData.getPlayer().get(playerTurn).getMoney());
+		allClientGameData.setOpponentPosition(gameData.getPlayer().get((playerTurn + 1) % (playerCount + 1)).getPosition());
+		allClientGameData.setCurrentMoney(gameData.getMoney());
 		allClientGameData.setBoard(board);
 		allClientGameData.setCanBuy(gameData.canBuy());
 		allClientGameData.setPos(gameData.getCurrentPosition());
 		
 		if(!gameData.canBuy()) {
-			playerTurn = (playerTurn + 1) % playerCount;
+			playerTurn = (playerTurn + 1) % (playerCount + 1);
 			allClientGameData.setEndTurn(true);
 		}
 		
@@ -231,8 +258,8 @@ public class GameServer extends AbstractServer {
 		allClientGameData.setBuyOrNot(buyOrNot);
 		allClientGameData.setEndTurn(true);
 		allClientGameData.setcurrentPlayerID(playerTurn);
-		allClientGameData.setCurrentMoney(gameData.getPlayer().get(playerTurn).getMoney());
-		playerTurn = (playerTurn + 1) % playerCount;
+		allClientGameData.setCurrentMoney(gameData.getMoney());
+		playerTurn = (playerTurn + 1) % (playerCount + 1);
 		sendToAllClients(allClientGameData);
 		clientGameData.setEndTurn(true);
 		try {
