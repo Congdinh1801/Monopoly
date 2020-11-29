@@ -16,12 +16,13 @@ public class AllClientsGameData implements Serializable  {
 	private int currentPlayerID = -1;//0 for player1, 1 for player2
 	private int opponentPosition = -1; //position of opponent
 	private int pos;
-	private int currentMoney = 40000;
 	private boolean endTurn = false;
 	private boolean canBuy = false;
 	private boolean initilizedPlayer = false;
+	private boolean rollDice = false;
 	private String buyOrNot = "";	//buy is when you buy, no buy when you don't buy, null if no action
 	private ArrayList<String> name = new ArrayList<>();
+	private ArrayList<Integer> currentMoney = new ArrayList<>();
 	private MonopolyBoard board;
 	
 	public int getDice1() {
@@ -129,11 +130,19 @@ public class AllClientsGameData implements Serializable  {
 		this.name = name;
 	}
 
-	public int getCurrentMoney() {
+	public ArrayList<Integer> getCurrentMoney() {
 		return currentMoney;
 	}
 
-	public void setCurrentMoney(int currentMoney) {
+	public void setCurrentMoney(ArrayList<Integer> currentMoney) {
 		this.currentMoney = currentMoney;
+	}
+
+	public boolean isRollDice() {
+		return rollDice;
+	}
+
+	public void setRollDice(boolean rollDice) {
+		this.rollDice = rollDice;
 	}
 }

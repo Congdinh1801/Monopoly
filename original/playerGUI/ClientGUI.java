@@ -69,6 +69,7 @@ public class ClientGUI extends JFrame
     this.add(container);
     // Show the JFrame.
     this.setSize(1200, 650);
+
     this.getContentPane().setBackground(new Color(44, 137, 160));
     //this.setResizable(true);
     this.setLocationRelativeTo(null);

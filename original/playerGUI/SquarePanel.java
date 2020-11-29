@@ -52,12 +52,7 @@ public class SquarePanel extends JPanel{
 	public void createPlayers() {
 		catPieceLabel = new JLabel();
 		dogPieceLabel = new JLabel();
-		//catPieceTempImage = new ImageIcon(GameFrame.class.getResource("/cat.PNG"));
-//		if(playerid == 0)
-//			catPieceTempImage = new ImageIcon(SquarePanel.class.getResource("/cat.PNG"));
-//		else {
-//			catPieceTempImage = new ImageIcon(SquarePanel.class.getResource("/dog.PNG"));
-//		}
+		
 		catPieceTempImage = new ImageIcon(SquarePanel.class.getResource("/cat.PNG"));
 		catPieceImage = catPieceTempImage.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
 		catPieceLabel.setIcon(new ImageIcon(catPieceImage));
@@ -68,6 +63,13 @@ public class SquarePanel extends JPanel{
 		
 		dogPieceLabel.setVisible(true);
 		catPieceLabel.setVisible(true);
+		
+//		dogPieceLabel.setAlignmentX(-3f);
+		dogPieceLabel.setAlignmentY(0.0f);
+		
+//		catPieceLabel.setAlignmentX(-3f);
+		catPieceLabel.setAlignmentY(1.0f);
+		
 		this.add(dogPieceLabel);
 		this.add(catPieceLabel);
 		
@@ -75,18 +77,26 @@ public class SquarePanel extends JPanel{
 	
 	public void removeImage(int playerid, boolean same_position) {
 		this.removeAll();
-		if(playerid == 0 && same_position)
+		if(playerid == 0  && same_position)
 		{
 			this.add(dogPieceLabel);
 		}
-		if(playerid == 1 && same_position)
+		if(playerid == 1  && same_position)
 		{
 			this.add(catPieceLabel);
 		}
+
 		this.add(backgroundLabel);
 		repaint();
 	}
 
+	public void addBothPieces() {
+		this.removeAll(); 
+		this.add(catPieceLabel);
+		this.add(dogPieceLabel);
+		this.add(backgroundLabel);
+		repaint();
+	}
 	
 	public void addCatPiece() {
 		this.removeAll(); 

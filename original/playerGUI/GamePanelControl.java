@@ -129,9 +129,9 @@ public class GamePanelControl implements ActionListener {
 		gamepanel.setPlayerName(name);
 	}
 	
-	public void setPlayerMoney(int money, int playerID) {
+	public void setPlayerMoney(List<Integer> money) {
 		GamePanel gamepanel = (GamePanel)container.getComponent(3);
-		gamepanel.setPlayerMoney(money, playerID);
+		gamepanel.setPlayerMoney(money);
 	}
 	
 	public void diceLabel(int dice1, int dice2) {
@@ -234,10 +234,10 @@ public class GamePanelControl implements ActionListener {
 			
 	}
 	
-	public void displayBuyOrNotButton(boolean canBuy) {
+	public void displayBuyOrNotButton(boolean canBuy, boolean buyButton) {
 		GamePanel gamePanel = (GamePanel) container.getComponent(3);	
 		if(canBuy) {
-			gamePanel.setBuyBttn(true);
+			gamePanel.setBuyBttn(buyButton);
 			gamePanel.setCancelBttn(true);
 		} else{
 			gamePanel.setBuyBttn(false);
@@ -252,5 +252,15 @@ public class GamePanelControl implements ActionListener {
 		gamePanel.setError(error);
 	  }
 	  
+	  public void displayTheWinner(boolean loser) {
+		  GamePanel gamePanel = (GamePanel) container.getComponent(3);
+		  
+		  if(loser) {
+			  gamePanel.loseGame();
+		  } else {
+			  gamePanel.winGame();
+		  }
+		  
+	  }
 
 }

@@ -25,6 +25,11 @@ public class Animator implements Runnable {
 	@Override
 	public void run() {
 		boolean same_position = false;
+		
+		if(nextPosition == 32) {
+			nextPosition = 12;
+		}
+		
 		while (currentPosition != nextPosition) {
 			if (playerid == 0) {
 				squareCollections.get(currentPosition).addCatPiece();
@@ -32,36 +37,31 @@ public class Animator implements Runnable {
 				squareCollections.get(currentPosition).addDogPiece();
 			}
 
+			if(currentPosition == opponent_position) {
+				same_position = true;
+				squareCollections.get(currentPosition).addBothPieces();
+			} else {
+				same_position = false;
+			}
+			
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			
-			if(currentPosition == opponent_position) {
-				same_position = true;
-			} else {
-				same_position = false;
-			}
 			squareCollections.get(currentPosition).removeImage(playerid, same_position);	
 			currentPosition = (currentPosition + 1) % 40;
 		}
-			
-		if (playerid == 0) {
+		
+		// Display pieces at the final position
+		if (currentPosition == opponent_position) {
+			squareCollections.get(currentPosition).addBothPieces();
+		} else if(playerid == 0) {
 			squareCollections.get(currentPosition).addCatPiece();
-			if(currentPosition == 32) {
-				squareCollections.get(currentPosition).removeImage(playerid, same_position);
-				squareCollections.get(12).addCatPiece();
-			}
-		}else {
+		} else {
 			squareCollections.get(currentPosition).addDogPiece();
-			if(currentPosition == 32) {
-				squareCollections.get(currentPosition).removeImage(playerid, same_position);
-				squareCollections.get(12).addDogPiece();
-			}
 		}
-		
-		
 		
 		latch.countDown();
 	}
