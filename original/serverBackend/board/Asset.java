@@ -24,7 +24,7 @@ public abstract class Asset extends Square {
 	}
 
 	public void setRentPrice(int rentPrice) {
-		this.rentPrice = rentPrice;
+		this.rentPrice = rentPrice + 1000;
 	}
 	
 	public Player getOwner() {

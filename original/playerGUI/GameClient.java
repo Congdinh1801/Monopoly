@@ -82,7 +82,7 @@ public class GameClient extends AbstractClient {
 		} else if(arg0 instanceof AllClientsGameData) {
 			
 			AllClientsGameData allClientsGameData = (AllClientsGameData) arg0;
-			
+		
 			if(allClientsGameData.getBuyOrNot().equals("Buy")) {
 				gamePanelControl.turnOffBuyButtons();
 				int currentPosition = allClientsGameData.getCurrentPosition();
@@ -98,37 +98,39 @@ public class GameClient extends AbstractClient {
 				int dice2 = allClientsGameData.getDice2();
 				int previousPosition = allClientsGameData.getPreviousPosition();
 				int currentPosition = allClientsGameData.getCurrentPosition();
+
 				gamePanelControl.updateRollDice(dice1, dice2);
 				try {
 					gamePanelControl.updatePlayer(previousPosition, currentPosition, allClientsGameData.getcurrentPlayerID(), allClientsGameData.getOpponentPosition());
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				}
-<<<<<<< HEAD
-				
-				gamePanelControl.turnOnRollDiceButton();
-=======
+				}			
 				gamePanelControl.RollDiceSuccess(allClientsGameData.isCanBuy(), allClientsGameData.getPos(), allClientsGameData.getBoard());
+
 				if(allClientsGameData.isEndTurn()) {
 					gamePanelControl.turnOnRollDiceButton();
 				}
->>>>>>> d650e15e32592c04663c9049bce417b3df37f99c
 			}
-			
-			gamePanelControl.setPlayerMoney(allClientsGameData.getCurrentMoney(), allClientsGameData.getcurrentPlayerID());
+
+			gamePanelControl.setPlayerMoney(allClientsGameData.getCurrentMoney());
+
 		} else if(arg0 instanceof ClientGameData) {
 			ClientGameData clientGameData = (ClientGameData) arg0;
-			if(clientGameData.isFirstPlayer()) {
-				gamePanelControl.turnOnRollDiceButton();
-			} else if(clientGameData.isEndTurn()) {
-				gamePanelControl.turnOffRollDiceButton();
+			
+			if(clientGameData.isGameover()) {
+				gamePanelControl.displayTheWinner(clientGameData.isLoser());
 			} else {
-				gamePanelControl.turnOffRollDiceButton();
+				if(clientGameData.isFirstPlayer()) {
+					gamePanelControl.turnOnRollDiceButton();
+				} else {
+					gamePanelControl.turnOffRollDiceButton();
+				}
+				
+				if(clientGameData.isCanBuy()) {
+					gamePanelControl.displayBuyOrNotButton(clientGameData.isCanBuy(), clientGameData.isBuyButton());
+				}
 			}
 			
-			if(clientGameData.isCanBuy()) {
-				gamePanelControl.displayBuyOrNotButton(clientGameData.isCanBuy());
-			}
 		}
 	}
 }

@@ -28,7 +28,7 @@ public class ClientGUI extends JFrame
     
     // Set the title and default close operation.
     this.setTitle("Game Client");
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         
     // Create the card layout container.
     CardLayout cardLayout = new CardLayout();
@@ -46,7 +46,6 @@ public class ClientGUI extends JFrame
     client.setCreateAccountControl(cac);
     client.setGamePanelControl(gpc);
     //client.setRollDiceControl(rdc);
-   
     
     // Create the four views. (need the controller to register with the Panels
     JPanel view1 = new InitialPanel(ic);

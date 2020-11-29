@@ -6,8 +6,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -22,6 +24,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.OverlayLayout;
 
 import serverBackend.dice.Dice;
 
@@ -38,6 +41,8 @@ public class GamePanel extends JPanel {
 	private JPanel centerPanel = new JPanel();
 	private JPanel dice1 = new JPanel();
 	private JPanel dice2 = new JPanel();
+	
+	private ImageIcon backgroundImage;
 	
 	private JLabel label1;
 	private ImageIcon tempImage1;
@@ -71,11 +76,14 @@ public class GamePanel extends JPanel {
 	public GamePanel(GamePanelControl gpc) {
 		squareCollections = new ArrayList<>();
 		this.gpc = gpc;
+		backgroundImage =  new ImageIcon(SquarePanel.class.getResource("/board.png"));
 		BoardPanel();
 	}
 
 	private void BoardPanel() {
 		this.setLayout(new BorderLayout());
+		
+		ImagePanel imagePanel = new ImagePanel(backgroundImage.getImage());
 		
 		northPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
 		southPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
@@ -128,8 +136,10 @@ public class GamePanel extends JPanel {
 		
 		JPanel centerwest = new JPanel(new FlowLayout());
 		JPanel centereast = new JPanel(new FlowLayout());
-		centerPanel.add(centerwest, BorderLayout.WEST);
-		centerPanel.add(centereast, BorderLayout.EAST);
+//		centerPanel.add(centerwest, BorderLayout.WEST);
+//		centerPanel.add(centereast, BorderLayout.EAST);
+//		centerPanel.add(centerwest, BorderLayout.WEST);
+//		centerPanel.add(centereast, BorderLayout.EAST);
 		//centerwest.add(label3); India use centerwest, i will use centereast
 		//land information
 		JPanel labelPanel = new JPanel(new GridLayout(3,1,0,10));
@@ -141,19 +151,34 @@ public class GamePanel extends JPanel {
 		JPanel buttonPanel = new JPanel(new GridLayout(2,1,0,5));
 		buyBttn.addActionListener(gpc);
 		cancelBttn.addActionListener(gpc);
-		buyBttn.setVisible(false);
-		cancelBttn.setVisible(false);
+		buyBttn.setVisible(true);
+		cancelBttn.setVisible(true);
 		buttonPanel.add(buyBttn);
 		buttonPanel.add(cancelBttn);
 		
-	    JPanel landInfoPanel = new JPanel(new GridLayout(2, 1, 0, 10));
+	    JPanel landInfoPanel = new JPanel();
 	    landInfoPanel.add(labelPanel);
 	    landInfoPanel.add(buttonPanel);
+	    landInfoPanel.setOpaque(false);
+	    landInfoPanel.setAlignmentX(RIGHT_ALIGNMENT);
+	    landInfoPanel.setAlignmentY(CENTER_ALIGNMENT);
 
-		centerwest.add(landInfoPanel);
-		centereast.add(panel3);
-		centerPanel.add(centerwest, BorderLayout.WEST);
-		centerPanel.add(centereast, BorderLayout.EAST);
+		OverlayLayout myLayout = new OverlayLayout(centerPanel);
+		centerPanel.setLayout(myLayout);
+	    
+//		centerwest.add(landInfoPanel);
+//		centereast.add(panel3);
+		centerPanel.add(landInfoPanel);
+		centerPanel.add(cancelBttn);
+//		centerPanel.add(centerwest, BorderLayout.WEST);
+//		centerPanel.add(centereast, BorderLayout.EAST);
+//		centerPanel.add(buyBttn);
+//		centerPanel.add(cancelBttn);
+		JLabel backgroundLabel = new JLabel();
+		backgroundLabel.setIcon(new ImageIcon(backgroundImage.getImage().getScaledInstance(680, 430, java.awt.Image.SCALE_SMOOTH)));
+		backgroundLabel.setAlignmentX(TOP_ALIGNMENT);
+		backgroundLabel.setAlignmentY(TOP_ALIGNMENT);
+		centerPanel.add(backgroundLabel);
 		
 		this.setPreferredSize(new Dimension((int)(900 * resize), (int)(600 * resize)));
 
@@ -167,6 +192,7 @@ public class GamePanel extends JPanel {
 		westouter.add(northPanel, BorderLayout.NORTH);
 		westouter.add(westPanel, BorderLayout.WEST);
 		westouter.add(eastPanel, BorderLayout.EAST);
+		
 		
 		JPanel playergrid = new JPanel();
 		playergrid.setLayout(new GridLayout(2, 1, 0, 10));
@@ -200,7 +226,13 @@ public class GamePanel extends JPanel {
 		buffer.add(eastouter,  BorderLayout.EAST);
 		add(buffer);
 	}
-
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(backgroundImage.getImage(), 0, 0, null);
+	}
+	
 	public void turnOnRollDiceButton() {
 		roll.setVisible(true);
 	}
@@ -217,11 +249,14 @@ public class GamePanel extends JPanel {
 		 
 	}
 	
-	public void setPlayerMoney(int money, int playerID) {
-		if(playerID == 0) {
-			player1Money.setText(Integer.toString(money));
-		} else if (playerID == 1) {
-			player2Money.setText(Integer.toString(money));
+	public void setPlayerMoney(List<Integer> money) {
+		
+		for(int i = 0; i < money.size(); i++) {
+			if(i == 0) {
+				player1Money.setText(Integer.toString(money.get(i)));
+			} else if (i == 1) {
+				player2Money.setText(Integer.toString(money.get(i)));
+			}
 		}
 	}
 	
@@ -324,9 +359,8 @@ public class GamePanel extends JPanel {
 			squareCollections.get(i).setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 		}
 		
-		// display player at the start
-		squareCollections.get(0).addCatPiece();
-		squareCollections.get(0).addDogPiece();
+		// display players at the start
+		squareCollections.get(0).addBothPieces();
 
 		southPanel.add(squareCollections.get(12));
 		southPanel.add(squareCollections.get(11));
