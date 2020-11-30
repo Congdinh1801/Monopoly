@@ -6,12 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-<<<<<<< HEAD
-	<classpathentry kind="lib" path="C:/Users/admin/git/Monopoly20/mysql-connector-java-5.1.40-bin.jar"/>
-	<classpathentry kind="lib" path="C:/Users/admin/git/Monopoly20/ocsf.jar"/>
-=======
 	<classpathentry kind="lib" path="/mysql-connector-java-5.1.40-bin.jar"/>
 	<classpathentry kind="lib" path="/ocsf.jar"/>
->>>>>>> branch 'master' of https://github.com/Congdinh1801/Monopoly.git
 	<classpathentry kind="output" path="bin"/>
 </classpath>
