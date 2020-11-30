@@ -6,7 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Longtin/Desktop/General/School/UCA/Software Engineering/Monopoly/Monopoly/mysql-connector-java-5.1.40-bin.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Longtin/Desktop/General/School/UCA/Software Engineering/Monopoly/Monopoly/ocsf.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/git/Monopoly20/mysql-connector-java-5.1.40-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/git/Monopoly20/ocsf.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

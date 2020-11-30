@@ -1,1 +1,0 @@
-java -cp .;ocsf.jar playerGUI.ClientGUI Game Client
