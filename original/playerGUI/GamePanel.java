@@ -97,7 +97,6 @@ public class GamePanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		
 		imageCenterPanel = new ImagePanel(backgroundImage.getImage());
-		
 		northPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
 		northPanel.setOpaque(false);
 		southPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
@@ -262,6 +261,7 @@ public class GamePanel extends JPanel {
 		
 		playersLog = new JTextArea();
 		playersLog.setEditable(false);
+		playersLog.setBorder(BorderFactory.createLineBorder(Color.BLACK,5));
 		playersLog.setFont(new Font("Verdana", Font.PLAIN, 12));
 		caret = (DefaultCaret)playersLog.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -270,7 +270,7 @@ public class GamePanel extends JPanel {
 		playersLogPane.setPreferredSize(new Dimension(25, 25));
 
 		Border playersLogPaneBorder = playersLogPane.getBorder();
-		Border playersLogPaneMargin = new EmptyBorder(20,20,0,0);
+		Border playersLogPaneMargin = new EmptyBorder(1,14,0,0);
 		playersLogPane.setBorder(new CompoundBorder(playersLogPaneBorder, playersLogPaneMargin));
 		
 		playergrid.add(panelPlayer1);
