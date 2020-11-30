@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path=""/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-12">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/admin/git/Monopoly20/mysql-connector-java-5.1.40-bin.jar"/>
 	<classpathentry kind="lib" path="C:/Users/admin/git/Monopoly20/ocsf.jar"/>
-=======
-	<classpathentry kind="lib" path="/mysql-connector-java-5.1.40-bin.jar"/>
-	<classpathentry kind="lib" path="/ocsf.jar"/>
->>>>>>> branch 'master' of https://github.com/Congdinh1801/Monopoly.git
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path=""/>
 </classpath>
