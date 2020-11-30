@@ -9,7 +9,7 @@ public class Player{
 
 	public Player(String name) {
 		this.name = name;
-		setMoney(40000);
+		setMoney(30000);
 		setJail(false);
 		setPosition(0);
 	}

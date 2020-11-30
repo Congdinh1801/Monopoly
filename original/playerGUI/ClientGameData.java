@@ -12,6 +12,7 @@ public class ClientGameData implements Serializable {
 	private boolean endTurn = false;
 	private boolean buyButton = true;
 	private boolean gameover = false;
+	private String playersTurn = "";
 
 	public boolean isRoll() {
 		return roll;
@@ -67,6 +68,14 @@ public class ClientGameData implements Serializable {
 
 	public void setGameover(boolean gameover) {
 		this.gameover = gameover;
+	}
+
+	public String getPlayersTurn() {
+		return playersTurn;
+	}
+
+	public void setPlayersTurn(String playersTurn) {
+		this.playersTurn = playersTurn;
 	}
 
 }

@@ -32,8 +32,7 @@ public class GameServer extends AbstractServer {
 	private MonopolyBoard board;
 	private GameData gameData;
 	private ArrayList<String> name;
-	private HashMap<Long, Integer> clientID;
-//	private int prevPlayerPosition = -1;
+	private HashMap<Long, Integer> clientID;;
 
 	// Constructor for initializing the server with default settings.
 	public GameServer() {
@@ -98,9 +97,7 @@ public class GameServer extends AbstractServer {
 				result = data.getUsername() + ",LoginSuccessful";
 				log.append("Client " + arg1.getId() + " successfully logged in as " + data.getUsername() + "\n");
 				
-				//This checks who is the first client and enable the roll button for client
 				updateNumberOfPlayers(data.getUsername(), arg1);
-				
 			} else {
 				result = new Error("The username and password are incorrect.", "Login");
 				log.append("Client " + arg1.getId() + " failed to log in\n");
@@ -146,24 +143,7 @@ public class GameServer extends AbstractServer {
 				updateAllClientsAfterRollDice(allClientGameData);
 
 				if(gameData.isGameover()) {
-					ClientGameData determineWinner = new ClientGameData();
-					determineWinner.setGameover(gameData.isGameover());
-					Thread[] clients = this.getClientConnections();
-					int playerID = clientID.get(arg1.getId());
-					
-					for(Thread client : clients) {
-						if(clientID.get(client.getId()) == playerID) {
-							determineWinner.setLoser(true);
-						} else {
-							determineWinner.setLoser(false);
-						}
-						
-						try {
-							((ConnectionToClient) client).sendToClient(determineWinner);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
+					displayerTheWinner(arg1);
 				}
 				
 				ClientGameData clientGameData = new ClientGameData();
@@ -177,37 +157,53 @@ public class GameServer extends AbstractServer {
 				}
 			} else if (arg0.equals("Buy")) {
 				
-				//see what kind of an asset to buy
 				gameData.buyAsset();
 				
 				//update all the clients that a purchase have happened
 				AllClientsGameData allClientsGameData = new AllClientsGameData();
 				ClientGameData clientGameData = new ClientGameData();
-
-				
+				allClientsGameData.setPlayersLog(gameData.getPlayersLog().toString());
 				buyOrNot(allClientsGameData, clientGameData,"Buy", arg1);
 				
 			} else if(arg0.equals("No Buy")) {
 				
 				//update all the clients that the player did not buy
 				AllClientsGameData allClientGameData = new AllClientsGameData();
-
 				ClientGameData clientGameData = new ClientGameData();
 				buyOrNot(allClientGameData, clientGameData,"No Buy", arg1);
 			}
-			
-			
 		}
 	
 	}
 	
+	private void displayerTheWinner(ConnectionToClient arg1) {
+		ClientGameData determineWinner = new ClientGameData();
+		determineWinner.setGameover(gameData.isGameover());
+		Thread[] clients = this.getClientConnections();
+		int playerID = clientID.get(arg1.getId());
+		
+		for(Thread client : clients) {
+			if(clientID.get(client.getId()) == playerID) {
+				determineWinner.setLoser(true);
+			} else {
+				determineWinner.setLoser(false);
+			}
+			
+			try {
+				((ConnectionToClient) client).sendToClient(determineWinner);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	private void updateNumberOfPlayers(String username, ConnectionToClient arg1) {
 		Player player = new Player(username); 
 		AllClientsGameData allClientsGameData = new AllClientsGameData();
 		
 		playerCount = (playerCount + 1) % (getNumberOfClients());
 		
-		//Reinitialize the game
+		//Reinitialize the game if there is less than two players
 		if(playerCount == 0) {
 			gameData = new GameData();
 			board = new MonopolyBoard();
@@ -215,8 +211,17 @@ public class GameServer extends AbstractServer {
 			clientID = new HashMap<>();
 			ClientGameData clientGameData = new ClientGameData();
 			clientGameData.setFirstPlayer(true);
+			clientGameData.setPlayersTurn("Player Turn: \n" + username + "\n");
 			try {
 				arg1.sendToClient(clientGameData);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			ClientGameData initalizePlayersTurn = new ClientGameData();
+			initalizePlayersTurn.setPlayersTurn("Player Turn: \n" + name.get(0) + "\n");
+			try {
+				arg1.sendToClient(initalizePlayersTurn);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -227,6 +232,7 @@ public class GameServer extends AbstractServer {
 		allClientsGameData.setName(name);
 		allClientsGameData.setInitilizedPlayer(true);
 		sendToAllClients(allClientsGameData);
+		
 		clientID.put(arg1.getId(), playerCount);
 		
 		gameData.getPlayer().add(player);
@@ -243,10 +249,15 @@ public class GameServer extends AbstractServer {
 		allClientGameData.setBoard(board);
 		allClientGameData.setCanBuy(gameData.canBuy());
 		allClientGameData.setPos(gameData.getCurrentPosition());
+		allClientGameData.setPlayersLog(gameData.getPlayersLog().toString());
 		
 		if(!gameData.canBuy()) {
-			playerTurn = (playerTurn + 1) % (playerCount + 1);
 			allClientGameData.setEndTurn(true);
+			allClientGameData.setPlayersLog(allClientGameData.getPlayersLog() + "\n" +
+											"--------------------------------\n" +
+											"Player Turn: \n" +
+											gameData.getPlayer().get((playerTurn + 1) % (playerCount + 1)).getName() + "\n");
+			playerTurn = (playerTurn + 1) % (playerCount + 1);
 		}
 		
 		sendToAllClients(allClientGameData);
@@ -259,6 +270,18 @@ public class GameServer extends AbstractServer {
 		allClientGameData.setEndTurn(true);
 		allClientGameData.setcurrentPlayerID(playerTurn);
 		allClientGameData.setCurrentMoney(gameData.getMoney());
+		
+		if(allClientGameData.getPlayersLog() != null) {
+			allClientGameData.setPlayersLog(allClientGameData.getPlayersLog() + "\n" +
+											"--------------------------------\n" +
+											"Player Turn: \n" +
+											gameData.getPlayer().get((playerTurn + 1) % (playerCount + 1)).getName() + "\n");
+		} else {
+			allClientGameData.setPlayersLog("--------------------------------\n" +
+											"Player Turn: \n" +
+											gameData.getPlayer().get((playerTurn + 1) % (playerCount + 1)).getName() + "\n");
+		}
+		
 		playerTurn = (playerTurn + 1) % (playerCount + 1);
 		sendToAllClients(allClientGameData);
 		clientGameData.setEndTurn(true);

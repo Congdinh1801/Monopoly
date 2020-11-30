@@ -24,6 +24,7 @@ public class AllClientsGameData implements Serializable  {
 	private ArrayList<String> name = new ArrayList<>();
 	private ArrayList<Integer> currentMoney = new ArrayList<>();
 	private MonopolyBoard board;
+	private String playersLog;
 	
 	public int getDice1() {
 		return dice1;
@@ -144,5 +145,13 @@ public class AllClientsGameData implements Serializable  {
 
 	public void setRollDice(boolean rollDice) {
 		this.rollDice = rollDice;
+	}
+
+	public String getPlayersLog() {
+		return playersLog;
+	}
+
+	public void setPlayersLog(String playersLog) {
+		this.playersLog = playersLog;
 	}
 }

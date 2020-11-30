@@ -110,6 +110,11 @@ public class GamePanelControl implements ActionListener {
 		}
 	}
 	
+	public void appendPlayersLog(String toAppend) {
+		GamePanel gamePanel = (GamePanel) container.getComponent(3);
+		gamePanel.appendToPlayersLog(toAppend);
+	}
+	
 	public void updateRollDice(int dice1, int dice2) {
 		diceLabel(dice1, dice2);
 	}

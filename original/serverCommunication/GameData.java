@@ -26,7 +26,8 @@ public class GameData{
 	private boolean buyButton = true;
 	private boolean gameover = false;
 	private ArrayList<Integer> money;
-	private String name;
+	private StringBuffer playersLog;
+	private String playerMoney;
 	
 	public GameData(){
 		board = new MonopolyBoard();
@@ -34,6 +35,7 @@ public class GameData{
 		dice2 = new Dice();
 		players = new ArrayList<>();
 		money = new ArrayList<>();
+		playersLog = new StringBuffer();
 	}
 	
 	public void play(int currentPlayer) {
@@ -42,18 +44,21 @@ public class GameData{
 		this.currentPlayer = currentPlayer;
 		canBuy = false;
 		buyButton = true;
+		playersLog.delete(0, playersLog.length());
 		setCurrentAsset(false, false, false); //Reset assets incase the square a player land is not an asset
 		dice1 = this.dice1.rollDice();
 		dice2 = this.dice2.rollDice();
-//		dice1 = 2;
-//		dice2 = 2;
+		
+		playersLog.append("You Roll ");
+		playersLog.append((dice1 + dice2));
+		playersLog.append(System.lineSeparator());
+		
 		previousPosition = players.get(currentPlayer).getPosition();
 		players.get(currentPlayer).setPosition((players.get(currentPlayer).getPosition() + dice1 + dice2) % 40);
 		currentPosition = players.get(currentPlayer).getPosition();
 
 		if(currentPosition < previousPosition && currentPosition != 0) {
 			passedStart();
-			System.out.println("Here $200 since you passed start\n");
 		}
 		
 		if(currentPosition == 0 ) {
@@ -137,10 +142,6 @@ public class GameData{
 		} else if(currentPosition == 39) {
 			cityProperty();
 		}
-
-		System.out.println("Player: " + players.get(currentPlayer).getName() + "\n" +
-				"Cash: " + players.get(currentPlayer).getMoney() + "\n" +
-				"Position: " + currentPosition + "\n");
 		
 		updatePlayersMoney();
 		checkForLoser();
@@ -154,6 +155,10 @@ public class GameData{
 		return currentPosition;
 	}
 	
+	public StringBuffer getPlayersLog() {
+		return playersLog;
+	}
+
 	public boolean isAirport() {
 		return isAirport;
 	}
@@ -180,6 +185,9 @@ public class GameData{
 	}
 
 	public void buyAsset() {
+		playersLog.delete(0, playersLog.length());
+		playerMoney = "Your Money is \n" + players.get(currentPlayer).getMoney();
+		
 		if(isAirport()) {
 			buyAirport();
 		} else if(isCityProperty()) {
@@ -188,22 +196,46 @@ public class GameData{
 			buyUtilitites();
 		}
 		
+		playersLog.append(System.lineSeparator());
+		playersLog.append(playerMoney);
+		playersLog.append(System.lineSeparator());
 		updatePlayersMoney();
 	}
 	
 	private void buyCityProperty() {
 		CityProperty city = board.getCityProperty(currentPosition);
 		city.buyAsset(players.get(currentPlayer));
+		playersLog.append("purchased ");
+		playersLog.append(System.lineSeparator());
+		playersLog.append(city.getName());
+		playersLog.append(" for ");
+		playersLog.append(city.getPurchasePrice());
+		
+		playerMoney += " - " + city.getPurchasePrice() + " = " + players.get(currentPlayer).getMoney();
 	}
 	
 	private void buyAirport() {
 		Airport airport = board.getAirport(currentPosition);
 		airport.buyAsset(players.get(currentPlayer));
+		playersLog.append("purchased ");
+		playersLog.append(System.lineSeparator());
+		playersLog.append(airport.getName());
+		playersLog.append(" for ");
+		playersLog.append(airport.getPurchasePrice());
+
+		playerMoney += " - " + airport.getPurchasePrice() + " = " + players.get(currentPlayer).getMoney();
 	}
 	
 	private void buyUtilitites() {
 		Utilities util = board.getUtilities(currentPosition);
 		util.buyAsset(players.get(currentPlayer));
+		playersLog.append("purchased ");
+		playersLog.append(System.lineSeparator());
+		playersLog.append(util.getName());
+		playersLog.append(" for ");
+		playersLog.append(util.getPurchasePrice());
+		
+		playerMoney += " - " + util.getPurchasePrice() + " = " + players.get(currentPlayer).getMoney();
 	}
 	
 	public ArrayList<Player> getPlayer() {
@@ -237,11 +269,13 @@ public class GameData{
 	private void passedStart() {
 		if(currentPosition < previousPosition && currentPosition != 0) {
 			board.getStart(0).action(players.get(currentPlayer));
+			playersLog.append("Here $200 since you passed start");
+			playersLog.append(System.lineSeparator());
 		} else {
 			board.getStart(currentPosition).action(players.get(currentPlayer));
+			playersLog.append("You are in the Start square! Here is $200");
+			playersLog.append(System.lineSeparator());
 		}
-		
-		System.out.println("You are int the Start square! Here is $200\n" );
 	}
 	
 	
@@ -262,6 +296,12 @@ public class GameData{
 		} else {
 			canBuy = false;
 			city.action(players.get(currentPlayer));
+			playersLog.append("pay ");
+			playersLog.append(city.getRentPrice());
+			playersLog.append(System.lineSeparator());
+			playersLog.append("to ");
+			playersLog.append(players.get((currentPlayer + 1) % players.size()).getName());
+			playersLog.append(System.lineSeparator());
 		}
 		
 		setCurrentAsset(false, true, false);
@@ -269,9 +309,23 @@ public class GameData{
 	}
 	
 	private void tax() {
-		board.getTax(currentPosition).action(players.get(currentPlayer));
+		int money = players.get(currentPlayer).getMoney();
 		
-		System.out.println("You are in taxed by " + board.getTax(currentPosition).getName() + "\n");
+		board.getTax(currentPosition).action(players.get(currentPlayer));
+		playersLog.append("You are taxed by");
+		playersLog.append(System.lineSeparator());
+		playersLog.append(board.getTax(currentPosition).getName());
+		playersLog.append(System.lineSeparator());
+		playersLog.append("Pay ");
+		playersLog.append(board.getTax(currentPosition).getTax());
+		playersLog.append(System.lineSeparator());
+		playersLog.append("Your Money is");
+		playersLog.append(System.lineSeparator());
+		playersLog.append(money);
+		playersLog.append(" - ");
+		playersLog.append(board.getTax(currentPosition).getTax());
+		playersLog.append(" = ");
+		playersLog.append(players.get(currentPlayer).getMoney());
 	}
 	
 	private void airport() {
@@ -286,6 +340,12 @@ public class GameData{
 		} else {
 			canBuy = false;
 			airport.action(players.get(currentPlayer));
+			playersLog.append("pay ");
+			playersLog.append(airport.getRentPrice());
+			playersLog.append(System.lineSeparator());
+			playersLog.append("to ");
+			playersLog.append(players.get((currentPlayer + 1) % players.size()).getName());
+			playersLog.append(System.lineSeparator());
 		}
 		
 		setCurrentAsset(true, false, false);
@@ -303,6 +363,12 @@ public class GameData{
 		} else {
 			canBuy = false;
 			util.action(players.get(currentPlayer));
+			playersLog.append("pay ");
+			playersLog.append(util.getRentPrice());
+			playersLog.append(System.lineSeparator());
+			playersLog.append("to ");
+			playersLog.append(players.get((currentPlayer + 1) % players.size()).getName());
+			playersLog.append(System.lineSeparator());
 		}
 		
 		setCurrentAsset(false, false, true);
@@ -310,32 +376,42 @@ public class GameData{
 	
 	private void vacation() {
 		board.getVacation(currentPosition).action(players.get(currentPlayer));
-		System.out.println("You are on vacation!!" + "\n");
+		playersLog.append("are on vacation!!");
+		playersLog.append(System.lineSeparator());
 	}
 	
 	private void goToJail() {
 		board.getGoToJail(currentPosition).action(players.get(currentPlayer));
-		System.out.println("You are arrested, and now are in jail!!" + "\n");
+		playersLog.append("are arrested, and now are in jail!!");
+		playersLog.append(System.lineSeparator());
 	}
 	
 	private void lottery() {
 		board.getLottery(currentPosition).action(players.get(currentPlayer));
-		System.out.println("Here is a lottery ticket" + "\n");
+		playersLog.append("got a lottery ticket");
+		playersLog.append(System.lineSeparator());
 	}
 	
 	private void casino() {
 		board.getCasino(currentPosition).action(players.get(currentPlayer));
-		System.out.println("Don't lose your money in the casino" + "\n");
+		playersLog.append("is in the casino,");
+		playersLog.append(System.lineSeparator());
+		playersLog.append("Don't lose your money");
+		playersLog.append(System.lineSeparator());
 	}
 	
 	private void jail() {
 		board.getJail(currentPosition).action(players.get(currentPlayer));
-		System.out.println("Thanks for visiting the Euro's jail "  + "\n");
+		playersLog.append("Thanks for visiting");
+		playersLog.append(System.lineSeparator());
+		playersLog.append("the Euro's jail");
+		playersLog.append(System.lineSeparator());
 	}
 	
 	private void checkForLoser() {
 		if(players.get(currentPlayer).getMoney() <= 0 ) {
 			gameover = true;
+			players.get(currentPlayer).setMoney(0);
 		}
 	}
 	

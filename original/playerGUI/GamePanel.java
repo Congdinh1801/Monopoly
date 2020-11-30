@@ -9,9 +9,12 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +27,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.OverlayLayout;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultCaret;
 
 import serverBackend.dice.Dice;
 
@@ -74,6 +80,8 @@ public class GamePanel extends JPanel {
 	private JLabel player2;
 	private JLabel player2Name;
 	private JLabel player2Money;
+	private JTextArea playersLog;
+	private DefaultCaret caret;
 	
 	private GamePanelControl gpc;
 
@@ -81,7 +89,7 @@ public class GamePanel extends JPanel {
 		squareCollections = new ArrayList<>();
 		this.setBackground(new Color(44, 137, 160));
 		this.gpc = gpc;
-		backgroundImage =  new ImageIcon(SquarePanel.class.getResource("/centerimage.PNG"));
+		backgroundImage = new ImageIcon(SquarePanel.class.getResource("/centerimage.PNG"));
 		BoardPanel();
 	}
 
@@ -198,7 +206,7 @@ public class GamePanel extends JPanel {
 		player1 = new JLabel("Player 1");
 		player1.setForeground(Color.RED);
 		Border player1Border = player1.getBorder();
-		Border player1Margin = new EmptyBorder(5,20,0,20);
+		Border player1Margin = new EmptyBorder(5,0,0,20);
 		player1.setFont(new Font("Verdana", Font.PLAIN, 32));
 		player1.setBorder(new CompoundBorder(player1Border, player1Margin));
 		
@@ -207,15 +215,16 @@ public class GamePanel extends JPanel {
 		player1Name.setFont(new Font("Verdana", Font.PLAIN, 18));
 		player1Name.setBorder(new CompoundBorder(player1NameBorder, player1Margin));
 		
-		player1Money = new JLabel("Money: 40000");
+		player1Money = new JLabel("Money: 30000");
 		Border player1MoneyBorder = player1Name.getBorder();
-		Border player1MoneyMargin = new EmptyBorder(5,20,50,20);
+		Border player1MoneyMargin = new EmptyBorder(5,0,50,20);
 		player1Money.setFont(new Font("Verdana", Font.PLAIN, 18));
 		player1Money.setBorder(new CompoundBorder(player1MoneyBorder, player1MoneyMargin));
 
 		JPanel panelPlayer1 = new JPanel(new FlowLayout());
 		panelPlayer1.setOpaque(false);
 		panelPlayer1.setLayout(new BoxLayout(panelPlayer1, BoxLayout.Y_AXIS));
+		panelPlayer1.setPreferredSize(new Dimension(200, 150));
 		panelPlayer1.add(player1);
 		panelPlayer1.add(player1Name);
 		panelPlayer1.add(player1Money);
@@ -223,7 +232,7 @@ public class GamePanel extends JPanel {
 		player2 = new JLabel("Player 2");
 		player2.setForeground(Color.BLUE);
 		Border player2Border = player2.getBorder();
-		Border player2Margin = new EmptyBorder(5,20,0,20);
+		Border player2Margin = new EmptyBorder(5,0,0,20);
 		player2.setFont(new Font("Verdana", Font.PLAIN, 32));
 		player2.setBorder(new CompoundBorder(player2Border, player2Margin));
 		
@@ -232,10 +241,11 @@ public class GamePanel extends JPanel {
 		player2Name.setFont(new Font("Verdana", Font.PLAIN, 18));
 		player2Name.setBorder(new CompoundBorder(player2NameBorder, player2Margin));
 		
-		player2Money = new JLabel("Money: 40000");
+		player2Money = new JLabel("Money: 30000");
 		Border player2MoneyBorder = player1Name.getBorder();
+		Border player2BottomMargin = new EmptyBorder(5,0,50,20);
 		player2Money.setFont(new Font("Verdana", Font.PLAIN, 18));
-		player2Money.setBorder(new CompoundBorder(player2MoneyBorder, player2Margin));
+		player2Money.setBorder(new CompoundBorder(player2MoneyBorder, player2BottomMargin));
 		
 		JPanel panelPlayer2 = new JPanel(new FlowLayout());
 		panelPlayer2.setOpaque(false);
@@ -244,8 +254,29 @@ public class GamePanel extends JPanel {
 		panelPlayer2.add(player2Name);
 		panelPlayer2.add(player2Money);
 		
+		JLabel logTitle = new JLabel("Player's Log");
+		logTitle.setFont(new Font("Verdana", Font.PLAIN, 18));
+		Border logTitleBorder = player1Name.getBorder();
+		Border logTitleMargin = new EmptyBorder(5,30,10,20);
+		logTitle.setBorder(new CompoundBorder(logTitleBorder, logTitleMargin));
+		
+		playersLog = new JTextArea();
+		playersLog.setEditable(false);
+		playersLog.setFont(new Font("Verdana", Font.PLAIN, 12));
+		caret = (DefaultCaret)playersLog.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		JScrollPane playersLogPane = new JScrollPane(playersLog);
+		playersLogPane.setOpaque(false);
+		playersLogPane.setPreferredSize(new Dimension(25, 25));
+
+		Border playersLogPaneBorder = playersLogPane.getBorder();
+		Border playersLogPaneMargin = new EmptyBorder(20,20,0,0);
+		playersLogPane.setBorder(new CompoundBorder(playersLogPaneBorder, playersLogPaneMargin));
+		
 		playergrid.add(panelPlayer1);
 		playergrid.add(panelPlayer2);
+		playergrid.add(logTitle);
+		playergrid.add(playersLogPane);
 		
 		eastouter.add(playergrid);
 		
@@ -258,14 +289,13 @@ public class GamePanel extends JPanel {
 		add(buffer);
 	}
 	
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.drawImage(backgroundImage.getImage(), 0, 0, null);
-	}
-	
 	public void turnOnRollDiceButton() {
 		roll.setVisible(true);
+	}
+	
+	public void appendToPlayersLog(String toAppend) {
+		playersLog.append(toAppend);
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 	}
 	
 	public void setPlayerName(List<String> name) {

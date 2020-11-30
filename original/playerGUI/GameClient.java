@@ -114,7 +114,7 @@ public class GameClient extends AbstractClient {
 			}
 
 			gamePanelControl.setPlayerMoney(allClientsGameData.getCurrentMoney());
-
+			gamePanelControl.appendPlayersLog(allClientsGameData.getPlayersLog());
 		} else if(arg0 instanceof ClientGameData) {
 			ClientGameData clientGameData = (ClientGameData) arg0;
 			
@@ -132,6 +132,7 @@ public class GameClient extends AbstractClient {
 				}
 			}
 			
+			gamePanelControl.appendPlayersLog(clientGameData.getPlayersTurn());
 		}
 	}
 }
