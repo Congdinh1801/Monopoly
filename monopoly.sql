@@ -1,5 +1,5 @@
 --if your user table is referenced by other tables, drop them first
-drop table user; 
+drop table user;
 
 create table user(
 username varchar(30),

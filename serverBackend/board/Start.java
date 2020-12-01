@@ -8,7 +8,7 @@ public class Start extends Square{
 
 	public Start(int position) {
 		super(position);
-		value = 1000;
+		value = 3000;
 	}
 	
 	public void action(Player player) {
