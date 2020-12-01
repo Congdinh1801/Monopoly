@@ -269,11 +269,11 @@ public class GameData{
 	private void passedStart() {
 		if(currentPosition < previousPosition && currentPosition != 0) {
 			board.getStart(0).action(players.get(currentPlayer));
-			playersLog.append("Here $200 since you passed start");
+			playersLog.append("Here " + board.getStart(0).getFreeMoney() + " since you passed start");
 			playersLog.append(System.lineSeparator());
 		} else {
 			board.getStart(currentPosition).action(players.get(currentPlayer));
-			playersLog.append("You are in the Start square! Here is $200");
+			playersLog.append("You are in the Start square! Here is " + board.getStart(0).getFreeMoney());
 			playersLog.append(System.lineSeparator());
 		}
 	}

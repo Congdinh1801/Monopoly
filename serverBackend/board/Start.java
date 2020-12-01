@@ -4,15 +4,19 @@ import serverBackend.player.Player;
 
 public class Start extends Square{
 	
-	private final int value;
+	private final int freeMoney;
 
 	public Start(int position) {
 		super(position);
-		value = 3000;
+		freeMoney = 3000;
 	}
 	
 	public void action(Player player) {
-		int currentMoney = player.getMoney() + value;
+		int currentMoney = player.getMoney() + freeMoney;
 		player.setMoney(currentMoney);
+	}
+
+	public int getFreeMoney() {
+		return freeMoney;
 	}
 }
