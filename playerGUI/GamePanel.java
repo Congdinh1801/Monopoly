@@ -214,7 +214,7 @@ public class GamePanel extends JPanel {
 		player1Name.setFont(new Font("Verdana", Font.PLAIN, 18));
 		player1Name.setBorder(new CompoundBorder(player1NameBorder, player1Margin));
 		
-		player1Money = new JLabel("Money: 10000");
+		player1Money = new JLabel("Money: 20000");
 		Border player1MoneyBorder = player1Name.getBorder();
 		Border player1MoneyMargin = new EmptyBorder(5,0,50,20);
 		player1Money.setFont(new Font("Verdana", Font.PLAIN, 18));
@@ -240,7 +240,7 @@ public class GamePanel extends JPanel {
 		player2Name.setFont(new Font("Verdana", Font.PLAIN, 18));
 		player2Name.setBorder(new CompoundBorder(player2NameBorder, player2Margin));
 		
-		player2Money = new JLabel("Money: 10000");
+		player2Money = new JLabel("Money: 20000");
 		Border player2MoneyBorder = player1Name.getBorder();
 		Border player2BottomMargin = new EmptyBorder(5,0,50,20);
 		player2Money.setFont(new Font("Verdana", Font.PLAIN, 18));
