@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 public class Dice implements Serializable{
+	private int counter = 1; //for testing delete after done please
 	private int dice;
 	private Random num;
 	
@@ -18,8 +19,14 @@ public class Dice implements Serializable{
 	}
 	
 	public int rollDice() {
-		dice = num.nextInt(6) + 1;
-		
+		//dice = num.nextInt(6) + 1;
+		if(counter == 1 || counter == 2) {
+			dice = 5;
+			counter++;
+		}
+		else {
+			dice = 9;
+		}
 		return dice;
 	}
 	

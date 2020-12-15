@@ -9,7 +9,7 @@ public class Start extends Square{
 	public Start(int position) {
 		super(position);
 
-		freeMoney = 1000;
+		freeMoney = 5000;
 	}
 	
 	public void action(Player player) {

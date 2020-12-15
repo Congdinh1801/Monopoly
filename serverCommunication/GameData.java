@@ -229,6 +229,26 @@ public class GameData{
 	private void buyUtilitites() {
 		Utilities util = board.getUtilities(currentPosition);
 		util.buyAsset(players.get(currentPlayer));
+		//check if the player have other utility or not to set the rent accordingly
+		if(currentPosition == 10){//if the player buys Motorway utility, check to see if he has Ferry also
+			if(board.getUtilities(28).getOwner() == players.get(currentPlayer)) {
+				board.getUtilities(10).setRentPrice(2);	//2 means he owns 2 utilities
+				board.getUtilities(28).setRentPrice(2);	
+			}
+			else {
+				board.getUtilities(10).setRentPrice(1);	//1 means he owns 1 utilities
+			}
+		}
+		if(currentPosition == 28){//if the player buys Ferry utility, check to see if he has Motorway also
+			if(board.getUtilities(10).getOwner() == players.get(currentPlayer)) {
+				board.getUtilities(10).setRentPrice(2);	//2 means he owns 2 utilities
+				board.getUtilities(28).setRentPrice(2);	
+			}
+			else {
+				board.getUtilities(28).setRentPrice(1);	//1 means he owns 1 utilities
+			}
+		}
+		
 		playersLog.append("purchased ");
 		playersLog.append(System.lineSeparator());
 		playersLog.append(util.getName());
@@ -295,7 +315,7 @@ public class GameData{
 			
 		} else {
 			canBuy = false;
-			city.action(players.get(currentPlayer));
+			city.payRent(players.get(currentPlayer));
 			playersLog.append("pay ");
 			playersLog.append(city.getRentPrice());
 			playersLog.append(System.lineSeparator());
@@ -339,7 +359,7 @@ public class GameData{
 			}
 		} else {
 			canBuy = false;
-			airport.action(players.get(currentPlayer));
+			airport.payRent(players.get(currentPlayer));
 			playersLog.append("pay ");
 			playersLog.append(airport.getRentPrice());
 			playersLog.append(System.lineSeparator());
@@ -362,9 +382,11 @@ public class GameData{
 			}
 		} else {
 			canBuy = false;
-			util.action(players.get(currentPlayer));
+			Player playertoPay = players.get(currentPlayer);
+			int diceSum = dice1.getDiceNumber() + dice2.getDiceNumber();
+			util.payRent(playertoPay, diceSum);
 			playersLog.append("pay ");
-			playersLog.append(util.getRentPrice());
+			playersLog.append(util.getRentPrice(diceSum));
 			playersLog.append(System.lineSeparator());
 			playersLog.append("to ");
 			playersLog.append(players.get((currentPlayer + 1) % players.size()).getName());

@@ -35,7 +35,7 @@ public abstract class Asset extends Square {
 		this.owner = owner;
 	}
 	
-	public void action(Player player) {
+	public void payRent(Player player) {
 		int currentMoney = player.getMoney() - getRentPrice();;
 		player.setMoney(currentMoney);
 		getOwner().setMoney(getOwner().getMoney() + getRentPrice());

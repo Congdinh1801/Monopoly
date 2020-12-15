@@ -219,7 +219,12 @@ public class GamePanelControl implements ActionListener {
 		
 		//price labels if player can buy land
 		if(canBuy) {
-			rent = "Rent: " + Integer.toString(board.getRent(pos)) + " €";
+			if(pos == 10 || pos == 28) {
+				rent = "Rent: 100 € x dicesum (1 utilities) Or 300 € x dicesum (2 utilities)";
+			}
+			else {
+				rent = "Rent: " + Integer.toString(board.getRent(pos)) + " €";
+			}			
 			gamePanel.setRentPrice(rent);
 			price = "Price: " + Integer.toString(board.getPurchase(pos)) + " €";
 			gamePanel.setPurchasePrice(price);

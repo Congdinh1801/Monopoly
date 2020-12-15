@@ -7,7 +7,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/longt/Desktop/Generals/School/Software Engineering/Monopoly/mysql-connector-java-5.1.40-bin.jar"/>
-	<classpathentry kind="lib" path="C:/Users/longt/Desktop/Generals/School/Software Engineering/Monopoly/ocsf.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/git/Monopoly22/mysql-connector-java-5.1.40-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/git/Monopoly22/ocsf.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
